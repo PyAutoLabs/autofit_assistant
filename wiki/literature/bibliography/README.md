@@ -19,5 +19,4 @@ Canonical citation metadata for the literature wiki.
 - Never record local PDF paths. PDFs stay outside the repo (the gitignored `papers/`
   convention), and pages cite by public reference only.
 
-Validation (`python -m autoassistant.literature validate-citations`) lands with the
-Phase 1 tooling ([autofit_assistant#1](https://github.com/PyAutoLabs/autofit_assistant/issues/1)).
+Validate with `python -m autoassistant.literature validate-citations`.

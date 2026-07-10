@@ -158,5 +158,4 @@ than guessing.
 This wiki *is* the domain-adaptation surface. When the user's project needs a paper that
 is not here, use the `af_ingest_paper` skill. Add the verified BibTeX metadata, a compact
 source entry, relevant cross-links, and a log row; then run
-`python -m autoassistant.literature validate-citations` *(tooling lands in Phase 1 of
-[autofit_assistant#1](https://github.com/PyAutoLabs/autofit_assistant/issues/1))*.
+`python -m autoassistant.literature validate-citations`.

@@ -14,12 +14,6 @@ and composing their model. Treat domain adaptation as a first-class task, not a 
 **Interaction principle.** When a decision genuinely depends on something you don't know,
 ask one focused question — never default to the longest possible explanation.
 
-> **Build status.** This assistant is under active construction
-> ([autofit_assistant#1](https://github.com/PyAutoLabs/autofit_assistant/issues/1)). Steps
-> below that reference `autoassistant/` tooling, `af_*` skills, or `wiki/core/` pages apply
-> **once those files exist**; until then, note the gap to the user instead of improvising a
-> replacement.
-
 ## Session start — do this first, every session
 
 1. **Maintainer mode.** Check for `.maintainer`; if present, read `modes/maintainer.md`.
@@ -27,8 +21,7 @@ ask one focused question — never default to the longest possible explanation.
 2. **User profile.** Read `wiki/project/profile.md` when present and use it to calibrate depth
    and domain context. Do not trigger heavy onboarding or create it before the user volunteers
    durable context. *(Skipped in maintainer mode.)*
-3. **Environment + API drift-check** *(only in a session that will generate or run code, and
-   only once `autoassistant/` exists)*:
+3. **Environment + API drift-check** *(only in a session that will generate or run code)*:
    ```bash
    python autoassistant/audit_skill_apis.py --check-version
    ```
@@ -230,7 +223,6 @@ Load operational references on demand, not every session:
 
 - **Science projects.** `autofit_assistant` is the copilot; a science project is a separate
   repo created and managed through the `start-new-project` skill.
-- **Installation / environment** → `wiki/core/operations/` (once Phase 2 lands; until then
-  the rule of thumb is `pip install autofit` in a project venv).
+- **Installation / environment** → `wiki/core/operations/`.
 - **External resources** (HowToFit, RTD, `autofit_workspace`) + audience routing →
   [`skills/_style.md`](./skills/_style.md) "Adaptive depth".

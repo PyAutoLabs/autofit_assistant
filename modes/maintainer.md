@@ -28,10 +28,8 @@ skills, wiki schema, hooks, or infrastructure — not user inference work. `AGEN
 Use the existing skills, not new docs:
 
 - Authoring or evolving a skill → [`skills/_bootstrap_skill.md`](../skills/_bootstrap_skill.md).
-- Regenerating `wiki/core/` against pinned sources → `af_update_wiki` *(lands with the
-  core wiki — Phase 2 of [autofit_assistant#1](https://github.com/PyAutoLabs/autofit_assistant/issues/1))*.
-- API gate / version baseline → the `af_audit_skill_apis` skill *(lands with the
-  `autoassistant/` tooling — Phase 1)*.
+- Regenerating `wiki/core/` against pinned sources → `af_update_wiki`.
+- API gate / version baseline → [`skills/af_audit_skill_apis.md`](../skills/af_audit_skill_apis.md).
 
 ## Relationship to autolens_assistant (the reference implementation)
 
@@ -50,9 +48,9 @@ assistant respects. When maintaining this repo:
 
 ## Release-time wiki-currency check
 
-The currency rules (symbol audit, idiom deny-list, provenance) will live in exactly one
-place — a `wiki-currency.yml` workflow in this repo driving
-`autoassistant/audit_skill_apis.py`, invoked both by PyAutoBuild releases
-(`workflow_call`) and on every PR — mirroring the autolens_assistant contract. *(Lands in
-Phases 1/4; until then there is no automated currency gate — check manually against the
-installed stack before shipping wiki or skill edits.)*
+The currency rules (symbol audit, idiom deny-list, provenance, citation paths, version
+drift) live in exactly one place —
+[`.github/workflows/wiki-currency.yml`](../.github/workflows/wiki-currency.yml), driving
+`autoassistant/audit_skill_apis.py` — and run on every PR (plus `workflow_dispatch`, and
+`workflow_call` for PyAutoBuild releases once the release-side wiring lands). When you
+change the rules, edit them there only.
