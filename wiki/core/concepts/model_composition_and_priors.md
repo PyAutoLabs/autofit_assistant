@@ -4,7 +4,7 @@ sources:
   - project: PyAutoFit
     paths:
       - autofit/mapper/
-    pinned_commit: 31537d5f5ae865aca69d10e6901741533116ed65
+    pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
 last_updated: 2026-07-10
 content_sha256: 25b10f67608b965f4e3c814d2af9f1ed0a8591919abc4abdd54023210329a5d6
 ---

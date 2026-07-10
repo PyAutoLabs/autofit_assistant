@@ -4,7 +4,7 @@ sources:
   - project: PyAutoFit
     paths:
       - autofit/non_linear/search/mle/
-    pinned_commit: 31537d5f5ae865aca69d10e6901741533116ed65
+    pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
 last_updated: 2026-07-10
 content_sha256: c20b058b14e898416726a326cd3034bc5cf43bd1b296af14ca72983272e951f1
 ---

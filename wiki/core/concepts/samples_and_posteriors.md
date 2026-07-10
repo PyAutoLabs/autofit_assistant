@@ -5,7 +5,7 @@ sources:
     paths:
       - autofit/non_linear/samples/
       - autofit/aggregator/
-    pinned_commit: 31537d5f5ae865aca69d10e6901741533116ed65
+    pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
 last_updated: 2026-07-10
 content_sha256: a33d80418aaa6d7218f6d9fb105f90b3aadf724c11779935f80de2fa3f18847d
 ---

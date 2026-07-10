@@ -4,7 +4,7 @@ sources:
   - project: PyAutoFit
     paths:
       - pyproject.toml
-    pinned_commit: 31537d5f5ae865aca69d10e6901741533116ed65
+    pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
 last_updated: 2026-07-10
 content_sha256: 20af1b79664d3bfc1a6f9fe46c5f1038a7bf5e932cbecd6ba4bdb7498a3ad789
 ---

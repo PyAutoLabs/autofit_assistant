@@ -4,9 +4,9 @@ sources:
   - project: PyAutoFit
     paths:
       - autofit/non_linear/search/abstract_search.py
-    pinned_commit: 31537d5f5ae865aca69d10e6901741533116ed65
+    pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
 last_updated: 2026-07-10
-content_sha256: 576d47ac519cb6d982d4b3dbc5af35f8383cc766402d1efdf5b3b603ab22091a
+content_sha256: d0f060a5ae9c2a941f7ec14bbca725461d1ff3503b46bb4b446495cf020c3eb8
 ---
 
 # HPC — running fits on a cluster
@@ -29,7 +29,10 @@ laptop, the analysis moves to a cluster. The concepts that transfer:
 - **Secrets discipline**: cluster hostnames/aliases are constraints recorded in
   `wiki/project/profile.md` ("HPC access"); credentials never enter the repo.
 
-> 🚧 Shipped batch templates and a sync CLI (`hpc/`) land in Phase 4 of
-> [autofit_assistant#1](https://github.com/PyAutoLabs/autofit_assistant/issues/1);
-> until then the assistant writes SLURM scripts per the user's cluster docs, in
-> prepare-only posture by default.
+The shipped infrastructure lives in `hpc/`: SLURM batch templates
+(`hpc/batch_cpu/template`, `hpc/batch_gpu/template` — one dataset per array task,
+thread pinning, `--use_cpu` wiring), the `hpc/sync` push/pull CLI
+(`hpc/sync.conf.example` documents the gitignored per-machine config), and
+`hpc/template.py`, the fit-script template whose `parse_fit_args`/`__main__` interface
+the batch templates depend on. Default posture stays prepare-only: the assistant writes
+and configures; the user submits.

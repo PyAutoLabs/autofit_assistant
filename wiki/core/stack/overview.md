@@ -4,11 +4,11 @@ sources:
   - project: PyAutoFit
     paths:
       - autofit/__init__.py
-    pinned_commit: 31537d5f5ae865aca69d10e6901741533116ed65
+    pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
   - project: PyAutoConf
     paths:
       - autoconf/__init__.py
-    pinned_commit: 5e784ca9291a0057e82ddf810912cd39e7665775
+    pinned_commit: 89c4714449797b0c049e8a95d16d499c863f4811
 last_updated: 2026-07-10
 content_sha256: 37c8d4947e08d3285aace1874b93fd42a7617f9e564135128f3c536a25112cdd
 ---

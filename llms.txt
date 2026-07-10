@@ -1,0 +1,37 @@
+# PyAutoFit Assistant
+
+> The PyAutoFit Assistant is an AI assistant for statistical inference in your own scientific domain — agent instructions, task skills, and a reference wiki in one cloned repo you drive by conversation. This file is the front door: it routes you by intent — start a chat session, see what the assistant can do, read the reference, or jump to runnable examples.
+
+## Using it in chat (start here)
+
+Point a coding agent or browser chat (ChatGPT, Claude) at this repo and open with:
+
+```text
+I'd like to use the PyAutoFit Assistant for this conversation:
+https://github.com/PyAutoLabs/autofit_assistant
+
+Please familiarize yourself with the project and use its guidance and statistical
+reference material when answering my questions. I'll provide any local files or results you need.
+```
+
+Read order: [AGENTS.md](./AGENTS.md) → [skills/README.md](./skills/README.md) → the relevant skill → [wiki/](./wiki). If the chat can't browse GitHub, paste this file and `AGENTS.md`. The assistant can route to examples, explain Bayesian inference, review pasted scripts/errors/figures, and draft code; it cannot run code, inspect your files, or guarantee drafts against your installed PyAutoFit version. For repeated edits, live execution, or multi-session project state, switch to a local coding agent.
+
+## Agent instructions (canonical)
+
+- [AGENTS.md](./AGENTS.md): safety rules, modes, domain adaptation, and repository conventions — the source of truth.
+
+## What it can do
+
+- [skills/README.md](./skills/README.md): one-line index of every task skill. The
+  defining ones: wrap your likelihood code, ingest your field's papers, adapt to your
+  domain.
+
+## Reference
+
+- [wiki/core/index.md](./wiki/core/index.md): curated PyAutoFit + statistics reference — stack, inference concepts (priors, samplers, evidence, EP), operations.
+- [wiki/literature/index.md](./wiki/literature/index.md): *your* domain's science wiki — ships near-empty by design and grows as you ingest your field's papers.
+
+## Runnable examples & tutorials (elsewhere)
+
+- [autofit_workspace](https://github.com/PyAutoLabs/autofit_workspace): end-to-end example scripts, cookbooks and notebooks.
+- [HowToFit](https://github.com/PyAutoLabs/HowToFit): from-first-principles model-fitting lecture series.

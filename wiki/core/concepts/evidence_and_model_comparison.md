@@ -4,7 +4,7 @@ sources:
   - project: PyAutoFit
     paths:
       - autofit/non_linear/samples/
-    pinned_commit: 31537d5f5ae865aca69d10e6901741533116ed65
+    pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
 last_updated: 2026-07-10
 content_sha256: db249673c7745d4892ba1cc369ae9e6ddfd2286445c3ffe66a98de5c2f2682bb
 ---
