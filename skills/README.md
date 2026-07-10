@@ -25,8 +25,6 @@ configured) via symlinks; the canonical files live here.
 
 ## Index
 
-> A follow-up tranche (`af_chain_searches`, `af_custom_analysis`, `af_simulate_dataset`,
-> `af_plot_fit`, `af_debug_fit_failure`) is planned; everything below is complete.
 
 ### Meta
 
@@ -57,6 +55,16 @@ configured) via symlinks; the canonical files live here.
   inspection of the Result; runtime triage.
 - [`af_load_results.md`](./af_load_results.md) — posterior summaries, errors, evidence,
   and bulk result loading via the aggregator.
+- [`af_chain_searches.md`](./af_chain_searches.md) — pass one fit's result into the
+  next fit's priors or start points; staged pipelines.
+- [`af_custom_analysis.md`](./af_custom_analysis.md) — extra Analysis inputs, custom
+  Visualizer (live fit figures), custom Result.
+- [`af_simulate_dataset.md`](./af_simulate_dataset.md) — simulate from a composed model
+  with recorded truth; the recovery check.
+- [`af_plot_fit.md`](./af_plot_fit.md) — corner/diagnostic plots via `autofit.plot`,
+  model-vs-data + residuals via matplotlib over instances.
+- [`af_debug_fit_failure.md`](./af_debug_fit_failure.md) — the strict-order triage:
+  likelihood → priors → data → sampler.
 
 ### Domain adaptation
 
