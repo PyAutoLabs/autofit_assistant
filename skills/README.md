@@ -60,6 +60,22 @@ configured) via symlinks; the canonical files live here.
 - [`af_load_results.md`](./af_load_results.md) — posterior summaries, errors, evidence,
   and bulk result loading via the aggregator.
 
+### Domain adaptation
+
+- [`af_adapt_to_domain.md`](./af_adapt_to_domain.md) — the orchestrator: interview,
+  drive the three adaptation channels, record everything durable in the profile.
+- [`af_ingest_paper.md`](./af_ingest_paper.md) — add a verified paper from the user's
+  field to the literature record (project-local or this clone's wiki).
+- [`af_wrap_likelihood.md`](./af_wrap_likelihood.md) — wrap the user's existing
+  likelihood code into an `Analysis` class, validated before any fit.
+
+### Project workflow
+
+- [`start-new-project.md`](./start-new-project.md) — the bridge to a standalone science
+  project and its Create → Work → Collaborate → Publish lifecycle.
+- [`contribute-upstream.md`](./contribute-upstream.md) — propose a scoped change back
+  to `PyAutoLabs/autofit_assistant` as a draft PR.
+
 ### Utilities
 
 - [`af_to_notebook.md`](./af_to_notebook.md) — convert a narrative-docstring script to

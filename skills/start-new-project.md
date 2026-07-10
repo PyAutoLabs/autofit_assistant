@@ -1,0 +1,400 @@
+---
+name: start-new-project
+description: The single bridge from the assistant to a standalone science project, and the project's full lifecycle. Use when the user says "start a new project", "create a project", "set up a science project", "set up a paper repo", "share this analysis with collaborators", "continue a collaborator's project" (they forked/cloned one), "open-source the repo that goes with my paper", or "prepare this project for public release". Creates a separate, self-contained git repo for one analysis/paper that refers back to this assistant for skills and wiki, then carries it through Create → Work → Collaborate → Publish.
+user-invocable: true
+---
+
+# Start New Project
+
+The single bridge between the assistant and a **science project**, and the skill that owns that
+project's whole lifecycle. There is no second science-project skill — this is it.
+
+## Assistant vs science project
+
+> **`autofit_assistant` is the copilot; a science project is a separate repo.** This repo is
+> the assistant you clone once — its skills, wiki, and tooling. Your actual science lives in a
+> **science project**: a separate, self-contained git repo for one analysis or paper, created
+> by `start-new-project`. The project holds your data, config, scripts, results, and a
+> `wiki/project/` journal; for the assistant's *skills and reference wiki* it **refers back to
+> this `autofit_assistant` clone** (cloning it on demand if absent), so there's one source of
+> truth and no drift. Quick exploration can happen inside this clone; a real analysis headed
+> for a paper gets its own project.
+
+The project copies only what's needed to **reproduce the science** (`config/`, `activate.sh`,
+`scripts/`, the user's likelihood/model code, `data/`, `results/`) — not the copilot's brain
+(`skills/`, `wiki/core/`, `wiki/literature/`, `autoassistant/`, `modes/`), which it refers
+back to. This keeps the published paper repo clean: a reviewer cloning it sees the analysis,
+not the whole assistant.
+
+**The autofit-specific extra:** a project usually embeds the **user's own likelihood/model
+code**. If it lives in a separate package of theirs, the project depends on it via
+`environment.yml`/pip and records the version in every run manifest; if it is analysis-local,
+it lives in the project's `scripts/` (or a small package dir) and is versioned with the
+project. Never vendor a copy that can drift from their upstream.
+
+## Lifecycle
+
+**Create → Work → Collaborate → Publish.** Create runs now; the later phases are invoked on
+demand as the project matures. Match the user's intent to a phase and do only that phase.
+
+---
+
+## Phase 1 — Create
+
+### 0. Environment discovery — run before asking setup questions
+
+Any step that needs identity or infrastructure values (name/ORCID for `project.yaml` +
+`CITATION.cff`, GitHub owner at step 6 / Collaborate, HPC alias) **discovers before it
+asks**. Precedence: the user's current instruction → project configuration (`project.yaml`,
+`wiki/project/profile.md`) → detected standard-tool state → ask one focused question.
+
+Detect from standard tools (read-only; never store, echo, or copy credentials):
+
+- Git identity: `git config user.name` / `git config user.email`.
+- GitHub account + auth: `gh auth status`; default owner via `gh api user --jq .login`.
+- SSH host aliases (candidate HPC targets): `grep -E '^Host ' ~/.ssh/config` (skip quietly
+  if absent or unreadable).
+- The assistant profile (`wiki/project/profile.md`) and, inside a project, its `project.yaml`.
+
+When a detected value is used, say so in one line ("using GitHub owner `X` from `gh auth` —
+correct?") so the user can override; when nothing is detected, ask. State where an accepted
+value will be recorded. Standard tools stay authoritative for authentication and account
+selection: with multiple accounts, clusters, or SSH aliases detected, ask which to use —
+never assume one global default. This is a lightweight preflight, not an onboarding form:
+detect, state, confirm, move on.
+
+### 1. Name
+> **What should this project be called?** (folder name, created at `<NEW_PROJECT>/` *outside*
+> this assistant clone; short and descriptive, e.g. `toi1234_transits`, `kinetics_rates`.)
+
+Store as `PROJECT_NAME`.
+
+### 2. Description
+> **One or two sentences on the project's scientific goal.** Written into the project's
+> `AGENTS.md` and `project.yaml`.
+
+Store as `PROJECT_DESCRIPTION`.
+
+### 3. Data and likelihood code
+> **Datasets to include?** In a project they live under `data/<sample>/<dataset_name>/`
+> with a README per dataset describing format, units and provenance. Point me at paths to
+> copy, or skip and add later.
+>
+> **Likelihood/model code?** Your own package (recorded as a dependency) or analysis-local
+> modules (copied into the project). This is what `af_wrap_likelihood` wraps.
+
+### 4. Analysis scripts
+> **Analysis scripts?** They live in `scripts/`, normally produced by the assistant's
+> skills (`af_compose_model` → `af_run_search`) or adapted from `autofit_workspace`.
+> Point me at files, describe the science case, or skip and add later.
+
+### 5. Scaffold the project (thin, refer-back)
+
+Create `<NEW_PROJECT>/` and populate it. **Do not `rsync` the assistant.** Copy only the
+reproducible-science subset; generate the thin assistant layer; refer back for everything
+else.
+
+**Copy from the assistant into the project** (the science needs these to run):
+- `config/` (PyAutoConf YAML — search defaults, priors, output policy)
+- `activate.sh` (sourced locally and by HPC batch scripts)
+- `scripts/` (the chosen analysis scripts, or empty)
+- datasets (Step 3) into `data/<sample>/...`
+- the user's analysis-local likelihood/model modules (Step 3), if not an external package
+
+**Generate the lean project tree:**
+```
+<NEW_PROJECT>/
+  README.md                 # front door: reproduce + continue-this-work (template below)
+  AGENTS.md                 # thin: project context + refer-back + locate rule (below)
+  CLAUDE.md                 # one-line `@AGENTS.md` stub
+  .gemini/settings.json     # context.fileName -> AGENTS.md
+  .claude/settings.json     # PyAuto* API code-gate via refer-back (below)
+  project.yaml              # minimal manifest incl. assistant_ref (below)
+  config/  activate.sh  scripts/        # copied above
+  data/  (datasets)
+  results/{manifests,figures,tables}/.gitkeep   # manifests/figures/tables TRACKED
+  paper/{figures,tables}/.gitkeep
+  wiki/project/             # journal — copy _profile_template.md + _template.md + README;
+                            #   generate bibliography.md (below)
+  environment.yml  CITATION.cff  .gitignore  .gitattributes
+```
+
+**Never copy** `skills/`, `wiki/core/`, `wiki/literature/`, `autoassistant/`, `modes/`,
+`.maintainer`, `version.txt` — the project refers back for those.
+
+**Thin `AGENTS.md`** (generate; `CLAUDE.md` = `@AGENTS.md` stub so all tools inherit it):
+```markdown
+# <PROJECT_NAME> — science project
+
+<PROJECT_DESCRIPTION>
+
+This is a science project created with autofit_assistant. The assistant is the copilot; this
+repo is the science. It copies what's needed to reproduce the analysis and **refers back** to
+the assistant for skills and reference wiki.
+
+## The assistant (skills + wiki)
+Resolve the assistant clone, in order: `$AUTOFIT_ASSISTANT` → sibling `../autofit_assistant`
+→ else clone `https://github.com/PyAutoLabs/autofit_assistant` into `sources/autofit_assistant/`
+(gitignored). Read its `AGENTS.md` and follow its constitution (safety invariants, conventions,
+modes); use its `skills/` and `wiki/` as the how-to and reference.
+After resolving, compare the clone's commit to `project.yaml`'s `assistant_ref.commit`; if they
+differ, mention the provenance drift and offer to re-pin — never block on it and never check
+out the pinned commit.
+
+## Code gate
+This project ships the assistant's PyAuto* **API code-gate** (`.claude/settings.json`): before
+Bash runs generated PyAuto* code, a hook resolves the assistant (same order as above) and
+validates the symbols against the installed stack, denying code written from memory. It fails
+open if no assistant clone is found. Only Claude Code runs `.claude/` hooks — on any other
+harness (Codex, Gemini, chat), self-enforce it: run
+`python <resolved-assistant>/autoassistant/audit_skill_apis.py --code "<snippet>"` (or
+`--file <script.py>`) on generated PyAuto* code before executing it; never guess symbols.
+
+## This project
+- Context / decisions / results: `wiki/project/` (dated journal + `profile.md`).
+- Literature: general inference concepts → the assistant's shared `wiki/literature/`
+  (refer-back); papers specific to this analysis → `wiki/project/bibliography.md`.
+  Promotion upstream is deliberate, via `af_ingest_paper` from the assistant clone.
+- Likelihood/model code: <where it lives + how it is versioned>.
+- Toolchain provenance: `project.yaml` (`assistant_ref`) + per-run `results/manifests/`.
+- Reproducibility: every meaningful run writes `results/manifests/<run_id>.json`.
+```
+
+**Project `README.md`** (generate — the front door a collaborator, referee or reader sees
+first on GitHub; keep it this short, the detail lives in `AGENTS.md` and the journal):
+```markdown
+# <PROJECT_NAME>
+
+<PROJECT_DESCRIPTION>
+
+A science project built with
+[autofit_assistant](https://github.com/PyAutoLabs/autofit_assistant), the PyAutoFit AI
+assistant. This repo is self-contained: everything needed to reproduce the analysis is here.
+
+## Reproduce this analysis
+
+Set up the environment with `source activate.sh` (packages: `environment.yml`). The analysis
+scripts are in `scripts/`; every meaningful run is recorded in `results/manifests/` (exact
+command, seed, package versions, input/output checksums), so any result can be traced and
+re-run.
+
+## Continue this work
+
+Fork or clone this repo and drive it with your own AI assistant: point `$AUTOFIT_ASSISTANT`
+at a local `autofit_assistant` clone — or just start your agent here and let it clone the
+assistant on demand (see `AGENTS.md`). You inherit the same skills, reference wiki and safety
+rules this project was built with, plus the full decision journal in `wiki/project/`.
+
+## Data availability
+
+<!-- Filled in at Publish: where each dataset lives, and its access terms. -->
+
+## Citation
+
+See `CITATION.cff`.
+```
+
+**`project.yaml`** (minimal; records intent + the provenance pin):
+```yaml
+schema_version: 1
+project: { slug: <slug>, title: <title>, owner: <name/ORCID> }
+visibility_stage: private          # private | github_private | public
+assistant_ref:                     # provenance, not an enforced checkout
+  repo: PyAutoLabs/autofit_assistant
+  commit: <assistant HEAD sha at creation>
+data: { classification: restricted, publish_raw: false, dataset_ids: [] }
+likelihood_code: { location: <scripts/ | external package name>, version: <pin or 'project'> }
+reproducibility: { environment_file: environment.yml, seed_policy: required, default_seed: 42 }
+release: { citation_cff: true, license: null, zenodo: planned }
+source_boundary: { edit_pyauto_source: false }
+```
+
+**`.claude/settings.json`** (generate — the PyAuto* API code-gate via refer-back; **on by
+default and fail-open**: if no assistant clone resolves, the hook silently allows):
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh -c 'P=\"${CLAUDE_PROJECT_DIR:-.}\"; for d in \"$AUTOFIT_ASSISTANT\" \"$P/../autofit_assistant\" \"$P/sources/autofit_assistant\"; do [ -n \"$d\" ] && [ -f \"$d/.claude/hooks/validate_pyauto_code.py\" ] && exec python3 \"$d/.claude/hooks/validate_pyauto_code.py\"; done; exit 0'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+The validator stays in the assistant — `validate_pyauto_code.py` resolves
+`audit_skill_apis.py` relative to itself — so the project vendors nothing and bakes in no
+absolute paths.
+
+**`wiki/project/bibliography.md`** (generate — the project-local literature home; the hybrid
+rule stated once in its header):
+```markdown
+# Bibliography — papers specific to this analysis
+
+Papers that belong to this project's reference list live here, one `##` section per paper in
+the same shape as the assistant's `wiki/literature/sources/*.md` (canonical BibTeX key,
+reference, concepts, supported claims — public arXiv/DOI references only, never local PDF
+paths). Domain concepts already ingested into the assistant's `wiki/literature/` are NOT
+duplicated here. A paper that proves generally useful can be promoted upstream by running
+`af_ingest_paper` from the assistant clone — promotion is deliberate, never the default.
+```
+
+**`.gitattributes`**: `* text=auto eol=lf` (+ `*.fits *.png *.npy *.pkl *.hdf5 binary`).
+
+**`.gitignore`** (exclude data/output/secrets/cloned-assistant; **keep** manifests/figures/journal):
+```
+data/raw/*
+data/reduced/*
+data/external/*
+!data/**/README.md
+!data/**/.gitkeep
+output/
+results/runs/
+scripts/scratch/*
+!scripts/scratch/.gitkeep
+sources/                 # cloned-on-demand assistant / source repos
+.env
+*.key
+__pycache__/
+*.pyc
+```
+
+**Optional HPC step — ask once:** *"Set up an HPC folder for this project?"* (Offer step 0's
+detected SSH host aliases as candidate clusters instead of asking cold.) If HPC is in play,
+capture the user's HPC access **constraints** in `wiki/project/profile.md` ("HPC access") —
+ask once, lightly; these set the assistant's HPC posture. Secrets stay in `~/.ssh/config`,
+never in the profile. *(Shipped batch templates land with the assistant's `hpc/` in Phase 4
+of [autofit_assistant#1](https://github.com/PyAutoLabs/autofit_assistant/issues/1); until
+then write SLURM scripts per the user's cluster docs.)*
+
+**Finish Create:** normalise line endings on `*.py`/`*.sh`; `git init`; stage by name;
+`git commit -m "Scaffold science project <slug>"`.
+
+### 6. GitHub (private) — optional now, or at Collaborate
+Offer a **private** repo for backup/collaborators:
+`gh repo create <owner>/<slug> --private --source=. --push` — `<owner>` from step 0's
+discovery (confirm in one line), asking only if multiple accounts/orgs are plausible.
+Public comes only at Publish.
+
+---
+
+## Phase 2 — Work
+
+Normal analysis, using the assistant's skills resolved via refer-back. Reproducibility rests
+on two things only — **no transcript/hash machinery**:
+
+1. **Per-run manifest** → write `results/manifests/<run_id>.json` after each meaningful run:
+```json
+{
+  "run_id": "2026-07-12_transit_toi1234",
+  "script": "scripts/fit_transit.py",
+  "command": "python scripts/fit_transit.py --dataset toi1234 --seed 42",
+  "git_commit": "<project sha>", "git_dirty": false,
+  "assistant": { "repo": "PyAutoLabs/autofit_assistant", "commit": "<assistant sha>", "dirty": false },
+  "environment_file": "environment.yml", "python_version": "3.11.x",
+  "package_versions": { "autofit": "<v>", "numpy": "<v>", "<user-likelihood-pkg>": "<v>" },
+  "seed": 42,
+  "inputs":  [{ "path": "data/reduced/toi1234/lightcurve.csv", "sha256": "<hash>" }],
+  "outputs": [{ "path": "results/figures/fit.png", "sha256": "<hash>" }],
+  "started": "<iso8601>", "finished": "<iso8601>", "notes": "baseline one-planet fit"
+}
+```
+   Record the seed **and** package versions (including the user's own likelihood package)
+   **and** the `assistant` commit — the manifest records what was actually used.
+
+2. **Dated journal** → `wiki/project/YYYY-MM-DD-<slug>.md` (use the existing `_template.md`
+   shape: Context / What I did / Outcome), each entry referencing its `run_id`. This is the
+   same `wiki/project/` mechanism the assistant already uses — do not invent a parallel log.
+
+---
+
+## Phase 3 — Collaborate
+
+A science project is **built to be shared** — the repo itself is the collaboration surface.
+Encourage sharing as soon as a second person appears in the conversation.
+
+- Push to a **private** GitHub repo if not already; optionally add branch protection / PRs /
+  light CI for coauthors.
+- **A collaborator continues the work by forking or cloning the project** and starting their
+  own assistant session inside it: the thin `AGENTS.md` resolves an `autofit_assistant` clone
+  via refer-back, so they inherit the same skills, reference wiki, and safety rules — plus
+  the domain adaptation recorded in the project's journal and profile. Point an arriving
+  collaborator at the README's "Continue this work" section; that is the whole onboarding.
+- **Collaborator updates are built from the `wiki/project/` journal** — synthesise the latest
+  best model, key figures (paths), open concerns, and recommended next run into a short,
+  skimmable summary. Don't keep a second log.
+
+---
+
+## Phase 4 — Publish (paper-companion hardening)
+
+Publishing turns the project into the **open-source companion to the paper**: the data (or
+its availability statement), the results, and every python script that produced them, in one
+citable repo a reader can reproduce — and fork to build on.
+
+Gate — confirm **every** item before the repo goes public (`visibility_stage: public`):
+
+- [ ] **No raw/restricted data tracked** (`git ls-files data/` shows only READMEs/`.gitkeep`);
+      `data.publish_raw` still `false` unless the user explicitly cleared it.
+- [ ] **No scratch / secrets** in history (`.env`, keys, `scripts/scratch/`).
+- [ ] **Likelihood-code licensing settled** — if the user's code is embedded, they own the
+      license choice; if external, the dependency + version is recorded and public.
+- [ ] **LICENSE** chosen and added (e.g. MIT code; CC-BY-4.0 for shared figures/data); set
+      `release.license`.
+- [ ] **CITATION.cff** correct (authors + ORCID, title, version).
+- [ ] **Data availability** section in `README.md` filled in.
+- [ ] **Reproducible**: `scripts/` + `results/manifests/` + `environment.yml` present and the
+      manifests reference the committed commit.
+
+Then release and (optionally) mint a DOI:
+```bash
+git tag -a v1.0.0 -m "Paper release"
+gh release create v1.0.0 --title "<paper> data & code" --notes-file wiki/project/results_summary.md
+```
+Enable the **Zenodo–GitHub integration before tagging** so the release auto-archives → DOI;
+record the DOI in `release.zenodo` and `CITATION.cff`.
+
+**Caveats:**
+- **Do not make the repo a GitHub *template* repo if you want Git LFS** — LFS is incompatible
+  with template repositories.
+- **GitHub release assets are < 2 GiB each** — large data goes to **Zenodo / an external
+  archive**, never release assets. The repo holds code + manifests + figures, not bulk data.
+
+---
+
+## Locating the assistant from a project
+
+A project is self-describing: its `AGENTS.md` and `project.yaml` record the assistant repo
+URL and creation commit. When the copilot is invoked inside a project, resolve the assistant
+in order — `$AUTOFIT_ASSISTANT` → `../autofit_assistant` → clone the recorded URL on demand
+into the gitignored `sources/autofit_assistant/` — then read `skills/` and `wiki/` from
+there. The project depends on no vendored copy of the assistant.
+
+**Provenance-drift check (non-blocking).** After resolving, compare the clone's commit
+(`git -C <resolved> rev-parse HEAD`) to `project.yaml`'s `assistant_ref.commit`. If they
+differ, tell the user once per session — both commits, and what the drift means — and offer
+to **re-pin**: update `assistant_ref.commit` to the resolved HEAD and note the re-pin in the
+day's `wiki/project/` journal entry. Never hard-block on drift and never check the clone out
+to the pinned commit — day-to-day operation always uses the resolved current clone, and the
+per-run manifest's `assistant.commit` remains the record of what was actually used.
+
+## Example projects (registry)
+
+Real science projects built with this skill — clone-and-adapt one as the Create scaffold
+source instead of generating from scratch, once a good exemplar exists. Add a repo here
+(URL + one-line description) when it does. Empty for now:
+
+- _none yet — generate the standard scaffold above until the first exemplar is added._
+
+## Further reading
+
+- `wiki/project/_template.md` — the journal-entry shape (Work / Collaborate reuse it).
+- `wiki/core/operations/hpc.md` — cluster concepts.
+- CITATION.cff: https://citation-file-format.github.io/ · Zenodo–GitHub archiving:
+  https://docs.github.com/repositories/archiving-a-github-repository/referencing-and-citing-content
