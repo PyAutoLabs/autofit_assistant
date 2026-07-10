@@ -1,0 +1,1 @@
+../../skills/af_configure_search.md

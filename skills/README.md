@@ -27,8 +27,8 @@ configured) via symlinks; the canonical files live here.
 
 > 🚧 The `af_*` skill set is being built
 > ([roadmap: issue #1](https://github.com/PyAutoLabs/autofit_assistant/issues/1)).
-> This index lists what exists now; the planned set (workspace pairing, domain
-> adaptation, results analysis) lands phase by phase.
+> This index lists what exists now; the planned set (domain adaptation, search
+> chaining, simulation, debugging) lands phase by phase.
 
 ### Meta
 
@@ -36,3 +36,31 @@ configured) via symlinks; the canonical files live here.
   before adding or editing any skill.
 - [`_bootstrap_skill.md`](./_bootstrap_skill.md) — protocol for authoring a new skill on
   demand when a user requests a capability not yet covered.
+
+### Setup & maintenance
+
+- [`af_setup_environment.md`](./af_setup_environment.md) — detect absent or broken
+  PyAuto\* installs; pip-in-venv or editable-clone setup; sandbox cache env vars.
+- [`af_audit_skill_apis.md`](./af_audit_skill_apis.md) — audit every cited PyAuto\*
+  symbol against the installed stack; owns the version baseline, idiom deny-list,
+  provenance and citation-path checks.
+- [`af_refresh_api_docs.md`](./af_refresh_api_docs.md) — the maintenance umbrella:
+  symbol audit + wiki refresh + skill-recipe sweep in one pass.
+- [`af_update_wiki.md`](./af_update_wiki.md) — refresh `wiki/core/` pages whose pinned
+  source commits moved.
+
+### Core inference
+
+- [`af_compose_model.md`](./af_compose_model.md) — turn Python classes into
+  `af.Model`/`af.Collection` with deliberate priors, fixing, linking and assertions.
+- [`af_configure_search.md`](./af_configure_search.md) — choose and configure the
+  non-linear search (nested / MCMC / MLE) for the problem at hand.
+- [`af_run_search.md`](./af_run_search.md) — execute the fit, monitor output, first
+  inspection of the Result; runtime triage.
+- [`af_load_results.md`](./af_load_results.md) — posterior summaries, errors, evidence,
+  and bulk result loading via the aggregator.
+
+### Utilities
+
+- [`af_to_notebook.md`](./af_to_notebook.md) — convert a narrative-docstring script to
+  a Jupyter notebook.
