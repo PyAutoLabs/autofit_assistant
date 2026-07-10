@@ -97,16 +97,16 @@ mode to manage: just say how hands-on you want to be.
 ## Example Prompt 1 using Teacher Mode: learn the inference workflow end-to-end
 
 A good first session if you're new to PyAutoFit (or to Bayesian model fitting) and want to
-learn the workflow on data you generate yourself. Working from a simulation keeps things
-simple — the data is clean and you know the true answer — so the focus stays on
-understanding each step.
+learn the workflow on clean data with a known answer, so the focus stays on understanding
+each step. The bundled dataset at `dataset/gaussian_x1/` is simulated from a single
+Gaussian (its README records the truth to check against).
 
 ```
 Teacher mode.
 
-I'm new to PyAutoFit and want to learn the basic workflow end-to-end. Can you
-walk me through it on a simple simulated example: simulate noisy 1D data from a
-Gaussian, then fit it and recover the input parameters.
+I'm new to PyAutoFit and want to learn the basic workflow end-to-end. Fit the
+bundled 1D Gaussian dataset in dataset/gaussian_x1/ and recover its input
+parameters.
 
 Explain what each step is doing and why as we go: composing the model, choosing
 the priors, picking the non-linear search, and how to read the posterior. So I
@@ -128,20 +128,44 @@ priors (ask me about each parameter), run a first fit with a nested sampler, and
 show me the posterior and the evidence.
 ```
 
-## Example Prompt 3 asking Assistant Mode for Autonomy: adapt the assistant to your field
+## Example Prompt 3 asking Assistant Mode for Autonomy: a real cosmology analysis
 
-For users who want the assistant to become a long-term collaborator in their domain.
+For users who want to see how far the assistant can be pushed when **asked to run
+autonomously**, on real data. The bundled dataset at `dataset/sne_cosmology/` holds the
+Pantheon+ Type Ia supernova distance compilation (1701 SNe; see its README for
+provenance, citations, and the deliberate diagonal-errors simplification).
 
 ```
 Assistant mode.
 
-I work on [your field — e.g. supernova cosmology / exoplanet radial velocities /
-chemical kinetics]. I want you to become my inference assistant for this domain.
+Fit flat LambdaCDM to the Pantheon+ supernova distances bundled at
+dataset/sne_cosmology/: select the Hubble-flow sample, write the
+distance-modulus likelihood, compose the model with sensible priors on
+Omega_m and H0, run a nested sampler, and report the posterior constraints
+and the evidence. Then compare against a model with a free dark-energy
+equation of state w, and tell me whether the evidence justifies the extra
+parameter.
+
+Plan the whole analysis first, execute it end-to-end, and record your
+decisions in the project journal as you go.
+```
+
+## Example Prompt 4: adapt the assistant to your field
+
+The assistant's defining workflow — for users who want it to become a long-term
+collaborator in their own domain.
+
+```
+Assistant mode.
+
+I work on [your field — e.g. exoplanet radial velocities / chemical kinetics /
+epidemiology]. I want you to become my inference assistant for this domain.
 
 Here are the three papers that define the analyses I run: [arXiv IDs or PDFs].
 Ingest them into your literature wiki. Then interview me about my data formats,
 my standard model parametrisations, and my priors, and record what you learn so
-future sessions start from it. Finish by proposing the first analysis we should
+future sessions start from it. I also have existing likelihood code — wrap it
+so we can fit my real data. Finish by proposing the first analysis we should
 set up together.
 ```
 
