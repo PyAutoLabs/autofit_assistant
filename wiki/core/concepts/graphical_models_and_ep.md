@@ -5,7 +5,7 @@ sources:
     paths:
       - autofit/graphical/
       - autofit/messages/
-    pinned_commit: 31537d5f5ae865aca69d10e6901741533116ed65
+    pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
 last_updated: 2026-07-10
 content_sha256: e354936533e079415896523a8c592f2133d562548feb4f951d510f379828ccc5
 ---

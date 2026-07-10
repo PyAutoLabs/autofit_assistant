@@ -4,7 +4,7 @@ sources:
   - project: PyAutoConf
     paths:
       - autoconf/
-    pinned_commit: 5e784ca9291a0057e82ddf810912cd39e7665775
+    pinned_commit: 89c4714449797b0c049e8a95d16d499c863f4811
 last_updated: 2026-07-10
 content_sha256: 0696bbee076d6e484e290c345ec017479c7a69477a387a300f790a4eda9afa63
 ---

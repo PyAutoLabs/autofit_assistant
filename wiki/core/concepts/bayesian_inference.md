@@ -5,7 +5,7 @@ sources:
     paths:
       - autofit/non_linear/
       - autofit/mapper/
-    pinned_commit: 31537d5f5ae865aca69d10e6901741533116ed65
+    pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
 last_updated: 2026-07-10
 content_sha256: abc98d1818b521cba5170dea8e907d4432e236c917537aee4e1cd85e6fa7601d
 ---

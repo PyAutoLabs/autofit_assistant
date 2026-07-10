@@ -5,7 +5,7 @@ sources:
     paths:
       - autofit/non_linear/search/mcmc/
       - autofit/non_linear/initializer.py
-    pinned_commit: 31537d5f5ae865aca69d10e6901741533116ed65
+    pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
 last_updated: 2026-07-10
 content_sha256: 35ff70e66527c76cac69e33dae8cc33348818528e42c3767a19e35988dadf7f0
 ---

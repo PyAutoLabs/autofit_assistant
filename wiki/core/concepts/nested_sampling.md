@@ -4,7 +4,7 @@ sources:
   - project: PyAutoFit
     paths:
       - autofit/non_linear/search/nest/
-    pinned_commit: 31537d5f5ae865aca69d10e6901741533116ed65
+    pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
 last_updated: 2026-07-10
 content_sha256: 7b45b6b49438804dc8f4072e6e3952b330ca7737c40c65f4fcf84d6aea618358
 ---

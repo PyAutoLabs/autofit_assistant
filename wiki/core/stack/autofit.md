@@ -7,7 +7,7 @@ sources:
       - autofit/non_linear/
       - autofit/graphical/
       - autofit/aggregator/
-    pinned_commit: 31537d5f5ae865aca69d10e6901741533116ed65
+    pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
 last_updated: 2026-07-10
 content_sha256: 99e686c659bb02433afe526c2fb26c24f1840f64a147148fb9761fdd349e4f3a
 ---
