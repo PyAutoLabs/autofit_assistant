@@ -774,7 +774,26 @@ def compute_baseline() -> dict:
     }
 
 
-def write_baseline(root: Path) -> Path:
+def write_baseline(root: Path, *, allow_dev_stack: bool = False) -> Path:
+    # The committed baseline is the contract "these docs were validated against this
+    # released stack". Nightly releases are wheels/tags-only, so a source checkout /
+    # PYTHONPATH / editable stack reports the *last-committed* version string, not the
+    # latest release — a baseline snapshotted from one silently pins a version PyPI has
+    # moved past (this exact incident shipped once and was caught by the wiki-currency
+    # CI). Refuse unless the caller explicitly owns the risk.
+    if not allow_dev_stack:
+        check = inspect_installation()
+        if check.install_kind not in (
+            "packaged install (pip/conda provenance not distinguishable)",
+        ):
+            sys.exit(
+                f"[baseline] refusing to write: the active stack is a dev install "
+                f"({check.install_kind}), whose version string can trail the latest "
+                f"release (wheels/tags-only nightlies never bump source `main`). "
+                f"Write the baseline from a clean venv with the released wheel "
+                f"(`env -u PYTHONPATH <venv>/bin/python ... --write-baseline`), or "
+                f"pass --allow-dev-stack to snapshot this stack deliberately."
+            )
     baseline = compute_baseline()
     path = root / BASELINE_REL_PATH
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -1378,7 +1397,14 @@ def main() -> int:
         "--write-baseline",
         action="store_true",
         help="Snapshot the installed stack (versions + API-surface hash) to "
-        "wiki/core/api_audit_baseline.json and exit. Re-pin after a deliberate upgrade.",
+        "wiki/core/api_audit_baseline.json and exit. Re-pin after a deliberate upgrade. "
+        "Refuses a dev-source stack unless --allow-dev-stack is passed.",
+    )
+    parser.add_argument(
+        "--allow-dev-stack",
+        action="store_true",
+        help="Permit --write-baseline against a source-checkout/PYTHONPATH/editable "
+        "stack, whose version string can trail the latest PyPI release.",
     )
     parser.add_argument(
         "--check-version",
@@ -1472,7 +1498,7 @@ def main() -> int:
             return install_status
         return check_version(root)
     if args.write_baseline:
-        path = write_baseline(root)
+        path = write_baseline(root, allow_dev_stack=args.allow_dev_stack)
         print(f"[baseline] wrote {path}", file=sys.stderr)
         return 0
 
