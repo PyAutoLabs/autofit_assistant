@@ -92,6 +92,13 @@ python autoassistant/audit_skill_apis.py --check-version
 python autoassistant/audit_skill_apis.py --write-baseline
 ```
 
+`--write-baseline` **refuses a dev-source stack** (source checkout / PYTHONPATH /
+editable): nightly releases are wheels/tags-only, so a dev stack's version string can
+trail the latest PyPI release and would bake a stale pin into the baseline. Write the
+baseline from a clean venv holding the released wheel
+(`env -u PYTHONPATH <venv>/bin/python autoassistant/audit_skill_apis.py --write-baseline`);
+`--allow-dev-stack` overrides deliberately.
+
 The workflow is: `--check-version` flags that the installed autofit moved → run the full
 `--scope all` audit to find what broke → fix the references (per the Branch section below)
 → `--write-baseline` to re-pin once the audit is clean. **Only re-pin after fixing**, never
