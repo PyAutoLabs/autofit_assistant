@@ -25,10 +25,8 @@ configured) via symlinks; the canonical files live here.
 
 ## Index
 
-> 🚧 The `af_*` skill set is being built
-> ([roadmap: issue #1](https://github.com/PyAutoLabs/autofit_assistant/issues/1)).
-> This index lists what exists now; the planned set (domain adaptation, search
-> chaining, simulation, debugging) lands phase by phase.
+> A follow-up tranche (`af_chain_searches`, `af_custom_analysis`, `af_simulate_dataset`,
+> `af_plot_fit`, `af_debug_fit_failure`) is planned; everything below is complete.
 
 ### Meta
 

@@ -7,13 +7,6 @@ two siblings — [`../literature/`](../literature/) and [`../project/`](../proje
 the user's domain papers and a per-clone journal respectively (see
 [`../README.md`](../README.md) for the overview).
 
-> 🚧 The reference pages land in Phase 2 of
-> [autofit_assistant#1](https://github.com/PyAutoLabs/autofit_assistant/issues/1):
-> priors and model composition, one page per shipped sampler, nested sampling, MCMC/HMC,
-> initialization and chaining, graphical models and expectation propagation, evidence
-> and model comparison, and posterior/aggregator analysis. Until then, derive API truth
-> from the installed source (`AGENTS.md` "Source-of-truth resolution").
-
 ## Organisation
 
 - [`index.md`](./index.md) — top-level map; the entry point for an agent or human

@@ -11,12 +11,6 @@ data and your model, hand it your likelihood code, or discuss inference theory â
 assistant explains the statistics as it goes and writes runnable PyAutoFit Python
 workflows that stay in your repo.
 
-> ðŸš§ **Under construction.** The assistant is being built in public
-> ([roadmap: issue #1](https://github.com/PyAutoLabs/autofit_assistant/issues/1)).
-> Landed so far: the constitution (`AGENTS.md`), modes, the skills framework, and the wiki
-> scaffolding. Coming next: the workspace-paired `af_*` skills, the core statistics wiki,
-> the domain-adaptation flow, worked demos, and benchmarks.
-
 ## What makes this assistant different
 
 Domain assistants like [`autolens_assistant`](https://github.com/PyAutoLabs/autolens_assistant)
