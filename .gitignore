@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# PyAutoFit output — generated, typically too large to commit
+output/
+failed/
+
+# Agent scratch — throwaway plots and data dumps from exploration. Committed
+# user/agent Python lives in scripts/ (notebook-convertible); only this scratch
+# area is ignored. Persistent fit results go to output/ (above).
+scripts/scratch/
+
+# Assistant internals (autoassistant/) — generated API-audit reports.
+autoassistant/audit/
+
+# Sandbox caches
+.numba_cache/
+.matplotlib/
+
+# Cloned source repos (when set up in dev mode). Users may keep these
+# elsewhere; if cloned as siblings, they live outside this repo. If cloned
+# inside, ignore them.
+/sources/
+
+# Literature wiki PDFs — keep locally, never commit. `papers/` is the in-repo
+# convention used by `af_ingest_paper`, but PDFs can live anywhere.
+papers/
+
+# Maintainer-mode sentinel — when present at the repo root, the agent treats
+# the session as template maintenance work (no profile capture, no auto-commit,
+# no newcomer-mode defaults). See AGENTS.md and modes/maintainer.md.
+.maintainer
+
+# Interaction-mode override — optional per-clone file containing `teacher` or
+# `assistant`. See AGENTS.md "Modes". `.maintainer` outranks it.
+.mode
+
+# Claude Code agent worktrees — ephemeral, machine-local.
+.claude/worktrees/
+
+# Per-clone science journal (wiki/project/). This is each user's own running
+# record — created on demand from the templates, never shipped with the
+# template repo. The templates and README themselves are tracked; the live
+# profile and dated entries are not. See AGENTS.md "First-interaction
+# protocol" and wiki/project/README.md.
+wiki/project/profile.md
+wiki/project/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md
+
+# Per-clone HPC sync config — machine-specific, contains personal paths
+# (arrives with the Phase 4 hpc/ tooling).
+hpc/sync.conf
+hpc/sync_jump.conf
