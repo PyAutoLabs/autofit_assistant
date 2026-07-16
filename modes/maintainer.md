@@ -46,6 +46,42 @@ assistant respects. When maintaining this repo:
   `wiki/literature/` ships **near-empty by design** — it is the *user's* domain wiki,
   grown through domain adaptation, not a shipped corpus.
 
+## Assistant-as-template
+
+This assistant can itself be a **reference** the Clone (Mitosis) Agent seeds a new
+domain assistant from (e.g. `ic50_assistant`) — `autofit_assistant` is the natural base
+for *any* new science domain, since it already treats domain adaptation as first-class.
+The Clone Agent reads the generic-vs-domain seam below (`pyauto-brain clone … --reference
+autofit_assistant`) and copies the generic set verbatim while regenerating the
+domain set for the newborn's field. Keep the three sets complete: a tracked file no set
+names is reported `unclassified` and blocks a birth until the boundary is fixed here.
+
+- **Generic assistant infrastructure** — copied verbatim (name substitutions only): the
+  constitution skeleton (`AGENTS.md`, `CLAUDE.md`, `Makefile`, `activate.sh`,
+  `version.txt`), `modes/`, the skills framework (`skills/_*`, `skills/README.md`,
+  `skills/start-new-project*`, `skills/contribute-upstream*`) **and the `af_*` generic
+  inference skills**, the `autoassistant/` tooling (API gate, wiki-currency, benchmark
+  runner), `sources.yaml`, `.github/` workflows, the harness mirrors (`.claude/`,
+  `.gemini/`), `wiki/README.md`, `wiki/project/*`, **`wiki/core/`** — because here
+  `wiki/core/` teaches *statistics and inference*, not a specific science, so it is
+  generic reference every domain keeps — **and `wiki/literature/`**, which ships
+  near-empty *by design*: its schema files and empty index are the generic scaffold
+  every domain assistant starts from (a domain *reference* like `autolens_assistant`
+  instead ships a filled corpus here, so there it is domain — the seam differs).
+- **Domain-specific content** — regenerated or stubbed per clone, never copied blind:
+  `dataset/*` (the example datasets), `README.md` (science framing + example prompts),
+  `hpc/*` (the example batch recipes), and `benchmarks/prompts/*` + `benchmarks/runs/*`
+  + `benchmarks/RESULTS.md` (each domain writes its own prompt cards and regenerates the
+  report from empty runs).
+- **Mixed** — copied then adapted (named substitutions, then domain tuning): `config/*`,
+  `llms.txt` / `llms-full.txt`, and `benchmarks/README.md` (generic protocol, domain
+  table).
+
+The contrast with `autolens_assistant` (above) is the point: there `al_*` skills and a
+lensing-API `wiki/core/` are *domain*; here `af_*` skills and a statistics `wiki/core/`
+are *generic*. Each reference owns its own seam; the Clone Agent carries one profile per
+reference (`REFERENCE_PROFILES` in the agent's `_clone.py`).
+
 ## Release-time wiki-currency check
 
 The currency rules (symbol audit, idiom deny-list, provenance, citation paths, version
