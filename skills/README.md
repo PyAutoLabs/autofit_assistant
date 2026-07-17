@@ -55,6 +55,9 @@ configured) via symlinks; the canonical files live here.
   inspection of the Result; runtime triage.
 - [`af_load_results.md`](./af_load_results.md) — posterior summaries, errors, evidence,
   and bulk result loading via the aggregator.
+- [`af_inspect_results_mcp.md`](./af_inspect_results_mcp.md) — the read-only
+  results-inspector MCP server: browse fits, summaries and result images from chat
+  harnesses without code execution (Claude Desktop first).
 - [`af_chain_searches.md`](./af_chain_searches.md) — pass one fit's result into the
   next fit's priors or start points; staged pipelines.
 - [`af_custom_analysis.md`](./af_custom_analysis.md) — extra Analysis inputs, custom
