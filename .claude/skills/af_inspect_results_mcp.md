@@ -1,0 +1,1 @@
+../../skills/af_inspect_results_mcp.md

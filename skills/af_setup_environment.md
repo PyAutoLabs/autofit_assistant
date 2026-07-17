@@ -72,7 +72,9 @@ pip install autofit
 Python ≥ 3.9 works in principle (the repos declare `requires-python = ">=3.9"`); 3.11 is
 the recommended baseline — it's what the workspace tooling targets. If the user's
 likelihood is JAX-able and they want gradient-based tooling, `pip install "autofit[jax]"`
-adds the JAX extra.
+adds the JAX extra. If they want the results-inspector MCP server
+([`af_inspect_results_mcp`](./af_inspect_results_mcp.md)), `pip install mcp` adds the
+protocol SDK (assistant-environment only — never a library requirement).
 
 Verify:
 
