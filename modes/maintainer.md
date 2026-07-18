@@ -88,5 +88,5 @@ The currency rules (symbol audit, idiom deny-list, provenance, citation paths, v
 drift) live in exactly one place —
 [`.github/workflows/wiki-currency.yml`](../.github/workflows/wiki-currency.yml), driving
 `autoassistant/audit_skill_apis.py` — and run on every PR (plus `workflow_dispatch`, and
-`workflow_call` for PyAutoBuild releases once the release-side wiring lands). When you
+`workflow_call` for PyAutoHands releases once the release-side wiring lands). When you
 change the rules, edit them there only.
