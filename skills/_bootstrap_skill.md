@@ -47,7 +47,7 @@ touch. Common patterns:
 
 - Model composition, priors, searches, samples, aggregator, graphical models →
   `PyAutoFit`.
-- Configuration option → `PyAutoConf` + the config you're touching.
+- Configuration option → `PyAutoNerves` + the config you're touching.
 - Construction idioms and worked examples → `autofit_workspace` (read-only reference).
 
 If the new skill needs a repo not in `sources.yaml`, add it there first (with a `name`,

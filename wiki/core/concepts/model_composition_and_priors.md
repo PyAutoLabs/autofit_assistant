@@ -6,7 +6,7 @@ sources:
       - autofit/mapper/
     pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
 last_updated: 2026-07-10
-content_sha256: 25b10f67608b965f4e3c814d2af9f1ed0a8591919abc4abdd54023210329a5d6
+content_sha256: 17c0db29d642cd841aad4a4f91026be19cbdef490d0afee521140ef26590a9d8
 ---
 
 # Model composition and priors
@@ -34,7 +34,7 @@ Rules of thumb:
   reasoning in the project journal; never rely on defaults for a production analysis.
 - Priors can also live in `config/priors/*.yaml`, keyed by class — the right home for
   a *project's standard* parametrisation, so scripts stay clean and the choice is
-  centralised (`PyAutoConf:autoconf/`).
+  centralised (`PyAutoNerves:autonerves/`).
 
 ## Customization
 

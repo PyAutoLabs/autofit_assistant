@@ -18,7 +18,7 @@ elif [ -n "${PYAUTO_HPC_BASE:-}" ] && [ -f "$PYAUTO_HPC_BASE/PyAuto/bin/activate
     BASE="$PYAUTO_HPC_BASE"
     source "$BASE/PyAuto/bin/activate"
     export PYTHONPATH=$BASE:\
-$BASE/PyAutoConf:\
+$BASE/PyAutoNerves:\
 $BASE/PyAutoFit
 else
     echo "No local .venv found (set PYAUTO_HPC_BASE for a shared/HPC PyAuto checkout)." >&2
@@ -30,5 +30,5 @@ fi
 #
 #   SRC=~/Code/PyAutoLabs
 #   export PYTHONPATH=$SRC:\
-#   $SRC/PyAutoConf:\
+#   $SRC/PyAutoNerves:\
 #   $SRC/PyAutoFit

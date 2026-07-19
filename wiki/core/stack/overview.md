@@ -5,12 +5,12 @@ sources:
     paths:
       - autofit/__init__.py
     pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
-  - project: PyAutoConf
+  - project: PyAutoNerves
     paths:
-      - autoconf/__init__.py
+      - autonerves/__init__.py
     pinned_commit: 89c4714449797b0c049e8a95d16d499c863f4811
 last_updated: 2026-07-10
-content_sha256: 37c8d4947e08d3285aace1874b93fd42a7617f9e564135128f3c536a25112cdd
+content_sha256: 0d5cfe36dcf548f81a00ddf0c3d2e7727cd48dd2e0ce85a59fae2cf5420c8057
 ---
 
 # The stack
@@ -18,7 +18,7 @@ content_sha256: 37c8d4947e08d3285aace1874b93fd42a7617f9e564135128f3c536a25112cdd
 Two libraries, one dependency edge:
 
 ```
-PyAutoConf (autoconf)   — configuration: YAML config trees, prior resolution
+PyAutoNerves (autonerves)   — configuration: YAML config trees, prior resolution
       ▲
 PyAutoFit  (autofit)    — the inference engine: models, priors, searches,
                           samples, aggregator, graphical models
@@ -28,7 +28,7 @@ PyAutoFit  (autofit)    — the inference engine: models, priors, searches,
 become models ([[../concepts/model_composition_and_priors]]), their likelihood becomes
 an `Analysis`, and PyAutoFit supplies everything either side of that seam.
 
-- What each library is: [[autofit]] · [[autoconf]].
+- What each library is: [[autofit]] · [[autonerves]].
 - Domain layers (PyAutoGalaxy, PyAutoLens, …) are separate PyAutoLabs projects built
   on this same engine; this assistant deliberately targets the engine itself.
 

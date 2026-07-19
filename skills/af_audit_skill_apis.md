@@ -42,8 +42,8 @@ one with the PyAuto\* stack — source the project's `activate.sh` first.
 
 ```bash
 source activate.sh
-python -c "import autoconf, autofit; \
-print({m.__name__: getattr(m, '__version__', '?') for m in [autoconf, autofit]})"
+python -c "import autonerves, autofit; \
+print({m.__name__: getattr(m, '__version__', '?') for m in [autonerves, autofit]})"
 ```
 
 If those imports fail, stop and route the user to
@@ -226,7 +226,7 @@ A complete audit may surface ten or more misses. Don't try to fix all of them in
 push. Ask the user how they want to slice the work:
 
 - *"Fix the skill that triggered this audit first, then sweep the rest?"*
-- *"Group fixes by library — the autoconf drift in one pass, the PyAutoFit drift in
+- *"Group fixes by library — the autonerves drift in one pass, the PyAutoFit drift in
   another?"*
 - *"One file per commit, or batch?"*
 
@@ -323,7 +323,7 @@ complete.
 ## Agent procedural checklist
 
 1. Confirm scope (skills / wiki / scripts / all) and whether to apply fixes now.
-2. `source activate.sh`; verify autoconf + autofit import.
+2. `source activate.sh`; verify autonerves + autofit import.
 3. `python autoassistant/audit_skill_apis.py --check-version` — is the installed stack
    still on the pinned baseline? If it drifted, that's likely *why* you're here.
 4. `python autoassistant/audit_skill_apis.py --scope <scope>`.

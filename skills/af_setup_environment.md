@@ -5,7 +5,7 @@ description: Detect, install, and configure a Python environment for the PyAutoF
 
 # Setting up an environment for the PyAuto\* stack
 
-This skill installs the libraries the workspace targets — PyAutoConf and PyAutoFit —
+This skill installs the libraries the workspace targets — PyAutoNerves and PyAutoFit —
 and prepares the sandbox so the rest of the skills will run. The user picks one of two
 install modes only if the active environment is not already usable: pip (fastest path to
 "import autofit works") or editable-clone (source-level access, slower but lets you read
@@ -57,7 +57,7 @@ For background on what each library does, point at `wiki/core/stack/overview.md`
 
 ## Branch — Pip install
 
-The simplest path. PyAutoFit declares autoconf as a transitive dep, so a single
+The simplest path. PyAutoFit declares autonerves as a transitive dep, so a single
 `pip install` pulls everything in.
 
 ```bash
@@ -79,7 +79,7 @@ protocol SDK (assistant-environment only — never a library requirement).
 Verify:
 
 ```bash
-python -c "import autofit, autoconf; print(autofit.__version__)"
+python -c "import autofit, autonerves; print(autofit.__version__)"
 ```
 
 If that prints a version (no traceback), the install is good.
@@ -96,7 +96,7 @@ mkdir -p sources && cd sources
 
 # Order matters — install from the bottom of the dependency chain up.
 # URLs come from ../sources.yaml.
-git clone https://github.com/PyAutoLabs/PyAutoConf.git
+git clone https://github.com/PyAutoLabs/PyAutoNerves.git
 git clone https://github.com/PyAutoLabs/PyAutoFit.git
 
 cd ..
@@ -105,7 +105,7 @@ python3.11 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
 
-for repo in PyAutoConf PyAutoFit; do
+for repo in PyAutoNerves PyAutoFit; do
     pip install -e "sources/$repo"
 done
 ```
@@ -117,7 +117,7 @@ than hand-editing this skill.
 Verify the same way as for pip:
 
 ```bash
-python -c "import autofit, autoconf; print(autofit.__version__)"
+python -c "import autofit, autonerves; print(autofit.__version__)"
 ```
 
 ## Sandbox / restricted-filesystem environments
@@ -139,10 +139,10 @@ real inference.
 Save this to `scripts/verify_environment.py` and run it:
 
 ```python
-import autoconf
+import autonerves
 import autofit as af
 
-print("autoconf :", autoconf.__version__)
+print("autonerves :", autonerves.__version__)
 print("autofit  :", af.__version__)
 
 # A minimal model composition — proves the inference stack is wired up.

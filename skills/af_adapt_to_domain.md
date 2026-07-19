@@ -73,7 +73,7 @@ later.
 Run [`af_compose_model`](./af_compose_model.md) for their standard model(s). If a
 parametrisation is truly standard for them, offer to write its priors into
 `config/priors/` as project defaults (see
-[[../wiki/core/stack/autoconf]]) and to serialise the composed model to JSON — both make
+[[../wiki/core/stack/autonerves]]) and to serialise the composed model to JSON — both make
 "the usual model" a one-liner in every future script.
 
 ## Combine — proving and closing the loop

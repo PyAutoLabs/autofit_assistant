@@ -36,8 +36,8 @@ Start from an environment where the PyAuto* stack imports cleanly:
 
 ```bash
 source activate.sh
-python -c "import autoconf, autofit; \
-print({m.__name__: getattr(m, '__version__', '?') for m in [autoconf, autofit]})"
+python -c "import autonerves, autofit; \
+print({m.__name__: getattr(m, '__version__', '?') for m in [autonerves, autofit]})"
 ```
 
 If those imports fail, stop and route the user to
@@ -152,7 +152,7 @@ Then commit on the cadence they chose.
 ## Agent procedural checklist
 
 1. Confirm scope, reference point, and whether this is report-only or fix-and-commit.
-2. `source activate.sh`; verify autoconf + autofit import.
+2. `source activate.sh`; verify autonerves + autofit import.
 3. Run `python autoassistant/refresh_api_docs.py --scope <scope>` to do preflight and launch the audit.
 4. Read the audit report and fix symbol drift first.
 5. For wiki pages in scope, diff each page's pinned sources against the target repo HEAD and rewrite only changed sections.

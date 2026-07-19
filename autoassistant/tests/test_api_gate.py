@@ -30,7 +30,7 @@ HOOK = ROOT / ".claude" / "hooks" / "validate_pyauto_code.py"
 
 GOOD = "import autofit.plot as aplt; aplt.corner_cornerpy(samples=samples)"
 GOOD_SUBMODULE = "import autofit.jax.pytrees as pytrees"
-GOOD_AUTOCONF_SUBMODULE = "import autoconf.dictable"
+GOOD_AUTOCONF_SUBMODULE = "import autonerves.dictable"
 STALE_MODEL = "import autofit as af; af.PriorModel(SomeClass)"
 STALE_NEST = "from autofit.non_linear.nest.multi_nest import MultiNest"
 
@@ -91,7 +91,7 @@ def test_validator_passes_current_submodule_import():
     assert _run_validator("--code", GOOD_SUBMODULE).returncode == 0
 
 
-def test_validator_passes_autoconf_submodule_import():
+def test_validator_passes_autonerves_submodule_import():
     assert _run_validator("--code", GOOD_AUTOCONF_SUBMODULE).returncode == 0
 
 
@@ -275,14 +275,14 @@ def test_render_installation_check_groups_identical_errors():
     check = mod.InstallationCheck(
         status="import_failed", python="py", prefix="env",
         versions={}, locations={}, missing=[],
-        errors={name: "Boom: identical wall" for name in ("autoconf", "autofit")},
+        errors={name: "Boom: identical wall" for name in ("autonerves", "autofit")},
         install_kind="unknown", cache_defaults={},
     )
 
     text = mod.render_installation_check(check)
 
     assert text.count("Boom: identical wall") == 1
-    assert "autoconf, autofit import failed" in text
+    assert "autonerves, autofit import failed" in text
 
 
 if __name__ == "__main__":
