@@ -42,7 +42,7 @@ from typing import Iterable, Optional
 
 try:
     import yaml
-except ImportError:  # pragma: no cover - yaml ships with the stack (autoconf dep)
+except ImportError:  # pragma: no cover - yaml ships with the stack (autonerves dep)
     yaml = None
 
 # ---------------------------------------------------------------------------
@@ -59,12 +59,12 @@ BASELINE_REL_PATH = Path("wiki") / "core" / "api_audit_baseline.json"
 # `__version__`; `autofit.plot` is hashed too (it is where the plot API lives)
 # but inherits the autofit version.
 BASELINE_MODULES: tuple[str, ...] = (
-    "autoconf",
+    "autonerves",
     "autofit",
     "autofit.plot",
 )
 VERSIONED_MODULES: tuple[str, ...] = (
-    "autoconf",
+    "autonerves",
     "autofit",
 )
 
@@ -79,7 +79,7 @@ INSTALL_IMPORT_FAILED = 3
 ALIAS_TO_MODULE: dict[str, str] = {
     "af": "autofit",
     "aplt": "autofit.plot",
-    "autoconf": "autoconf",
+    "autonerves": "autonerves",
     "autofit": "autofit",
 }
 
@@ -376,7 +376,7 @@ def _cross_module_candidates(leaf: str) -> list[str]:
     if leaf in _cross_cache:
         return _cross_cache[leaf]
     hits: list[str] = []
-    for mod_name in ("autoconf", "autofit"):
+    for mod_name in ("autonerves", "autofit"):
         root = _module_cache.get(mod_name)
         if root is None:
             try:
@@ -582,7 +582,7 @@ def render_report(
 # ---------------------------------------------------------------------------
 def gather_versions() -> dict[str, str]:
     out: dict[str, str] = {}
-    for name in ("autoconf", "autofit"):
+    for name in ("autonerves", "autofit"):
         try:
             mod = importlib.import_module(name)
         except Exception as e:  # noqa: BLE001
@@ -695,7 +695,7 @@ def render_installation_check(check: InstallationCheck) -> str:
         lines.append(f"  install type: {check.install_kind}")
     if check.missing:
         lines.append(f"  missing from this interpreter: {', '.join(check.missing)}")
-    # Group identical errors: with e.g. a workspace-version mismatch, autoconf
+    # Group identical errors: with e.g. a workspace-version mismatch, autonerves
     # and autofit fail with the same multi-paragraph message — print it once,
     # naming every module it applies to.
     grouped: dict[str, list[str]] = {}
@@ -890,7 +890,7 @@ def check_version(root: Path) -> int:
 # `main`-pinned pages that predate the discipline.
 # ---------------------------------------------------------------------------
 PROJECT_IMPORT: dict[str, str] = {
-    "PyAutoNerves": "autoconf",
+    "PyAutoNerves": "autonerves",
     "PyAutoFit": "autofit",
 }
 _SHA_RE = re.compile(r"[0-9a-f]{7,40}\Z")

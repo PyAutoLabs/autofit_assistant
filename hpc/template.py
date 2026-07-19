@@ -51,11 +51,11 @@ __Configuration__
 
 Anchor config and output to the project root (the directory holding this script's
 parent), so the script behaves identically from a local shell and from a SLURM batch
-working directory (`PyAutoNerves:autoconf/conf.py`).
+working directory (`PyAutoNerves:autonerves/conf.py`).
 """
 PROJECT_PATH = Path(__file__).resolve().parents[1]
 
-from autoconf import conf
+from autonerves import conf
 
 conf.instance.push(
     new_path=str(PROJECT_PATH / "config"),

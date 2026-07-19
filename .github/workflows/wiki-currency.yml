@@ -69,7 +69,7 @@ jobs:
           python -m pip install --upgrade pip
           VER="${{ inputs.stack_version }}"
           if [ -n "$VER" ]; then
-            echo "Installing autofit==$VER (pulls the pinned autoconf)."
+            echo "Installing autofit==$VER (pulls the pinned autonerves)."
             pip install "autofit==$VER"
           else
             echo "Installing the latest released autofit."

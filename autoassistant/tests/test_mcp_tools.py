@@ -15,7 +15,7 @@ import pytest
 from PIL import Image
 
 import autofit as af
-from autoconf import conf
+from autonerves import conf
 
 from autoassistant.mcp import tools
 
