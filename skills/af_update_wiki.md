@@ -18,7 +18,7 @@ dumps go in the libraries' own docs/ folders — that's not what this wiki is fo
 
 Before starting, confirm with the user:
 
-- Which source repos to update against — both (PyAutoConf + PyAutoFit), or one?
+- Which source repos to update against — both (PyAutoNerves + PyAutoFit), or one?
 - Whether to update against `main` of each repo, or a tagged release.
 - Whether to commit changes incrementally per-page or in one batch at the end.
 

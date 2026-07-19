@@ -102,7 +102,7 @@ telling the user before they wonder why a second run finishes instantly.
 
 Per-sampler defaults live in `config/non_linear/` — a project can retune a sampler
 globally there instead of repeating kwargs in every script
-(`PyAutoConf:autoconf/conf.py`).
+(`PyAutoNerves:autoconf/conf.py`).
 
 ## Combine
 

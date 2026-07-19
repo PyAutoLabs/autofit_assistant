@@ -95,7 +95,7 @@ reproducible-science subset; generate the thin assistant layer; refer back for e
 else.
 
 **Copy from the assistant into the project** (the science needs these to run):
-- `config/` (PyAutoConf YAML — search defaults, priors, output policy)
+- `config/` (PyAutoNerves YAML — search defaults, priors, output policy)
 - `activate.sh` (sourced locally and by HPC batch scripts)
 - `scripts/` (the chosen analysis scripts, or empty)
 - datasets (Step 3) into `data/<sample>/...`

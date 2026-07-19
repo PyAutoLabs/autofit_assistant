@@ -890,7 +890,7 @@ def check_version(root: Path) -> int:
 # `main`-pinned pages that predate the discipline.
 # ---------------------------------------------------------------------------
 PROJECT_IMPORT: dict[str, str] = {
-    "PyAutoConf": "autoconf",
+    "PyAutoNerves": "autoconf",
     "PyAutoFit": "autofit",
 }
 _SHA_RE = re.compile(r"[0-9a-f]{7,40}\Z")

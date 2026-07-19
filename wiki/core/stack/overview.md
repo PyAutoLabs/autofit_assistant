@@ -5,7 +5,7 @@ sources:
     paths:
       - autofit/__init__.py
     pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
-  - project: PyAutoConf
+  - project: PyAutoNerves
     paths:
       - autoconf/__init__.py
     pinned_commit: 89c4714449797b0c049e8a95d16d499c863f4811
@@ -18,7 +18,7 @@ content_sha256: 37c8d4947e08d3285aace1874b93fd42a7617f9e564135128f3c536a25112cdd
 Two libraries, one dependency edge:
 
 ```
-PyAutoConf (autoconf)   — configuration: YAML config trees, prior resolution
+PyAutoNerves (autoconf)   — configuration: YAML config trees, prior resolution
       ▲
 PyAutoFit  (autofit)    — the inference engine: models, priors, searches,
                           samples, aggregator, graphical models

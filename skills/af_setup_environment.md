@@ -5,7 +5,7 @@ description: Detect, install, and configure a Python environment for the PyAutoF
 
 # Setting up an environment for the PyAuto\* stack
 
-This skill installs the libraries the workspace targets — PyAutoConf and PyAutoFit —
+This skill installs the libraries the workspace targets — PyAutoNerves and PyAutoFit —
 and prepares the sandbox so the rest of the skills will run. The user picks one of two
 install modes only if the active environment is not already usable: pip (fastest path to
 "import autofit works") or editable-clone (source-level access, slower but lets you read
@@ -96,7 +96,7 @@ mkdir -p sources && cd sources
 
 # Order matters — install from the bottom of the dependency chain up.
 # URLs come from ../sources.yaml.
-git clone https://github.com/PyAutoLabs/PyAutoConf.git
+git clone https://github.com/PyAutoLabs/PyAutoNerves.git
 git clone https://github.com/PyAutoLabs/PyAutoFit.git
 
 cd ..
@@ -105,7 +105,7 @@ python3.11 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
 
-for repo in PyAutoConf PyAutoFit; do
+for repo in PyAutoNerves PyAutoFit; do
     pip install -e "sources/$repo"
 done
 ```

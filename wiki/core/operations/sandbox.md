@@ -1,7 +1,7 @@
 ---
 title: Sandbox and environment variables
 sources:
-  - project: PyAutoConf
+  - project: PyAutoNerves
     paths:
       - autoconf/
     pinned_commit: 89c4714449797b0c049e8a95d16d499c863f4811

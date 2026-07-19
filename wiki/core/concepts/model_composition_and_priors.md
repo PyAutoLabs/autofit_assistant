@@ -34,7 +34,7 @@ Rules of thumb:
   reasoning in the project journal; never rely on defaults for a production analysis.
 - Priors can also live in `config/priors/*.yaml`, keyed by class — the right home for
   a *project's standard* parametrisation, so scripts stay clean and the choice is
-  centralised (`PyAutoConf:autoconf/`).
+  centralised (`PyAutoNerves:autoconf/`).
 
 ## Customization
 
