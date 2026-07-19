@@ -6,9 +6,9 @@ committed API baseline is `api_audit_baseline.json`.
 
 ## The stack
 
-- [stack/overview.md](./stack/overview.md) — how `autoconf` and `autofit` fit together.
+- [stack/overview.md](./stack/overview.md) — how `autonerves` and `autofit` fit together.
 - [stack/autofit.md](./stack/autofit.md) — the inference engine, sub-system by sub-system.
-- [stack/autoconf.md](./stack/autoconf.md) — configuration and prior resolution.
+- [stack/autonerves.md](./stack/autonerves.md) — configuration and prior resolution.
 
 ## Concepts (the statistics the assistant uses on your behalf)
 

@@ -57,7 +57,7 @@ For background on what each library does, point at `wiki/core/stack/overview.md`
 
 ## Branch — Pip install
 
-The simplest path. PyAutoFit declares autoconf as a transitive dep, so a single
+The simplest path. PyAutoFit declares autonerves as a transitive dep, so a single
 `pip install` pulls everything in.
 
 ```bash
@@ -79,7 +79,7 @@ protocol SDK (assistant-environment only — never a library requirement).
 Verify:
 
 ```bash
-python -c "import autofit, autoconf; print(autofit.__version__)"
+python -c "import autofit, autonerves; print(autofit.__version__)"
 ```
 
 If that prints a version (no traceback), the install is good.
@@ -117,7 +117,7 @@ than hand-editing this skill.
 Verify the same way as for pip:
 
 ```bash
-python -c "import autofit, autoconf; print(autofit.__version__)"
+python -c "import autofit, autonerves; print(autofit.__version__)"
 ```
 
 ## Sandbox / restricted-filesystem environments
@@ -139,10 +139,10 @@ real inference.
 Save this to `scripts/verify_environment.py` and run it:
 
 ```python
-import autoconf
+import autonerves
 import autofit as af
 
-print("autoconf :", autoconf.__version__)
+print("autonerves :", autonerves.__version__)
 print("autofit  :", af.__version__)
 
 # A minimal model composition — proves the inference stack is wired up.

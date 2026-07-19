@@ -11,7 +11,7 @@ the user's domain papers and a per-clone journal respectively (see
 
 - [`index.md`](./index.md) — top-level map; the entry point for an agent or human
   reader.
-- `stack/` — one page per source library (`autoconf`, `autofit`), plus an overview of
+- `stack/` — one page per source library (`autonerves`, `autofit`), plus an overview of
   how they fit together.
 - `concepts/` — statistics + framework explanations: priors, model composition,
   searches, samples, graphical models, evidence.
