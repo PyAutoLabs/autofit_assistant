@@ -19,7 +19,7 @@ schema flattens the compositional API and is out of scope by design.
 
 - Server: `autoassistant/mcp/server.py`, run as `python -m autoassistant.mcp` from the
   repo root (stdio; nothing listens on a port).
-- Requires the `mcp` package in the PyAutoFit environment: `pip install mcp`
+- The tool core ships as an optional PyAutoFit extra: `pip install autofit[mcp]`
   (assistant-environment dependency only — never add it to library requirements).
 - All tools are read-only; exceptions surface as MCP tool errors, nothing is written.
 
