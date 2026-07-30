@@ -336,6 +336,34 @@ The full convention — committed Python lives in `scripts/`; throwaway plots an
 dumps go to the gitignored `scripts/scratch/` — is in `AGENTS.md` "Conventions". Skills
 here are the application of that rule.
 
+## Output folder announcement
+
+A running fit is not a black box. `search.fit(...)` writes to
+`output/<path_prefix>/<name>/<unique_id>/` **on the fly**, using the best model found so
+far, so the folder is worth opening the moment the search starts — not when it terminates
+hours later. Users new to the stack rarely know this and sit watching a silent terminal.
+Three rules:
+
+1. **Announce the folder at launch, not at the end.** Quote the absolute path once the
+   fit is running, and say `model.results` and `search.summary` refresh as the search
+   goes — there is nothing to wait for.
+2. **Point at the workspace's own layout prose; don't restate it.** The breakdown of the
+   unique-identifier folder, the info files (`model.info`, `search.summary`) and the
+   `files/` directory (`model.json`, the samples) is in
+   [`autofit_workspace/scripts/overview/overview_2_scientific_workflow.py`](https://github.com/PyAutoLabs/autofit_workspace/blob/main/scripts/overview/overview_2_scientific_workflow.py),
+   under "output folder". Link it once per fit; never copy the layout into a skill, where
+   it would rot.
+3. **Name what to open first.** `model.results` for the human-readable parameter summary
+   and `model.info` for the model composition that produced it — then
+   [`af_load_results`](./af_load_results.md) for the programmatic read. Figures under
+   `image/` appear only if the `Analysis` defines an `af.Visualizer` (see
+   `af_custom_analysis`); say so rather than promising plots that were never wired up.
+
+Depth follows "Adaptive depth" above. For either **newcomer** audience, and whenever
+[`modes/teacher.md`](../modes/teacher.md) is active, walk all three rules — reading the
+output folder *is* part of the workflow being taught. For a returning user, rule 1 alone
+(one line quoting the path) is enough.
+
 ## External resource citation
 
 Every `af_*` skill ends with a single `## Further reading` block above the agent

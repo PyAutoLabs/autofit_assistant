@@ -76,6 +76,10 @@ print("max-likelihood centre:", best.centre)
 - The output folder updates live: `output/<path_prefix>/<name>/` gains a
   `model.info`, sampler-specific progress files, and (for samplers that support it)
   intermediate visualization. Quote the absolute path so the user can watch.
+- For a newcomer, or in teacher mode, tour the folder rather than just naming it —
+  `_style.md` "Output folder announcement": `model.results` first, then the
+  output-folder breakdown in
+  [`autofit_workspace/scripts/overview/overview_2_scientific_workflow.py`](https://github.com/PyAutoLabs/autofit_workspace/blob/main/scripts/overview/overview_2_scientific_workflow.py).
 - A **completed** search re-loads instead of re-running when the script is executed
   again with the same `path_prefix`/`name`/`unique_tag` — say this out loud the first
   time; it surprises everyone once.
