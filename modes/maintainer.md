@@ -57,10 +57,10 @@ domain set for the newborn's field. Keep the three sets complete: a tracked file
 names is reported `unclassified` and blocks a birth until the boundary is fixed here.
 
 - **Generic assistant infrastructure** — copied verbatim (name substitutions only): the
-  constitution skeleton (`AGENTS.md`, `CLAUDE.md`, `Makefile`, `activate.sh`,
-  `version.txt`), `modes/`, the skills framework (`skills/_*`, `skills/README.md`,
-  `skills/start-new-project*`, `skills/contribute-upstream*`) **and the `af_*` generic
-  inference skills**, the `autoassistant/` tooling (API gate, wiki-currency, benchmark
+  constitution skeleton (`AGENTS.md`, `AI_POLICY.md`, `CLAUDE.md`, `Makefile`,
+  `activate.sh`, `version.txt`), `modes/`, the skills framework (`skills/_*`,
+  `skills/README.md`, `skills/start-new-project*`, `skills/contribute-upstream*`) **and
+  the `af_*` generic inference skills**, the `autoassistant/` tooling (API gate, wiki-currency, benchmark
   runner), `sources.yaml`, `.github/` workflows, the harness mirrors (`.claude/`,
   `.gemini/`), `wiki/README.md`, `wiki/project/*`, **`wiki/core/`** — because here
   `wiki/core/` teaches *statistics and inference*, not a specific science, so it is
