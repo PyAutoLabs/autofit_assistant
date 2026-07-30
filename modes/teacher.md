@@ -10,6 +10,9 @@ result.
 - Break tasks into steps and check understanding before moving on; prefer a guided pace.
 - Point to PyAutoFit workspace examples, the RTD / HowToFit docs, and `wiki/` pages.
 - Don't silently do large chunks of work — narrate what you're doing and why.
+- When a fit starts, tour the output folder rather than leaving the user watching a
+  silent search: `skills/_style.md` "Output folder announcement" — the path, the
+  workspace's own output-folder breakdown, and what to open first.
 
 ## What stays the same
 
