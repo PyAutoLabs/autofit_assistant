@@ -1,7 +1,5 @@
 # PyAutoFit Assistant
 
-<sub><i>if you don't know, don't worry</i></sub>
-
 **PyAutoFit** is a probabilistic programming language for model fitting: you bring a model,
 a dataset, and a likelihood function, and it delivers the full machinery of modern Bayesian
 inference — non-linear searches, priors, posteriors, evidence, model comparison, and
