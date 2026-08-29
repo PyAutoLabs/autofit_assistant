@@ -28,9 +28,9 @@ not the whole assistant.
 
 **The autofit-specific extra:** a project usually embeds the **user's own likelihood/model
 code**. If it lives in a separate package of theirs, the project depends on it via
-`environment.yml`/pip and records the version in every run manifest; if it is analysis-local,
-it lives in the project's `scripts/` (or a small package dir) and is versioned with the
-project. Never vendor a copy that can drift from their upstream.
+`environment.yml`/pip and records the version in every run's journal row; if it is
+analysis-local, it lives in the project's `scripts/` (or a small package dir) and is
+versioned with the project. Never vendor a copy that can drift from their upstream.
 
 ## Lifecycle
 
@@ -71,7 +71,7 @@ Store as `PROJECT_NAME`.
 
 ### 2. Description
 > **One or two sentences on the project's scientific goal.** Written into the project's
-> `AGENTS.md` and `project.yaml`.
+> `AGENTS.md`, `project.yaml`, and the "Science goal" section of `wiki/project/state.md`.
 
 Store as `PROJECT_DESCRIPTION`.
 
@@ -112,17 +112,19 @@ else.
   project.yaml              # minimal manifest incl. assistant_ref (below)
   config/  activate.sh  scripts/        # copied above
   data/  (datasets)
-  results/{manifests,figures,tables}/.gitkeep   # manifests/figures/tables TRACKED
+  results/{figures,tables}/.gitkeep             # figures/tables TRACKED
   paper/{figures,tables}/.gitkeep
-  wiki/project/             # journal — copy _profile_template.md + _template.md + README;
-                            #   generate bibliography.md (below)
+  wiki/project/             # memory — copy the four templates + README, then generate
+                            #   state.md, results_summary.md, profile.md, bibliography.md
+                            #   (below). state.md is what a fresh session reads first.
   environment.yml  CITATION.cff  .gitignore  .gitattributes
 ```
 
 **Never copy** `skills/`, `wiki/core/`, `wiki/literature/`, `autoassistant/`, `modes/`,
 `.maintainer`, `version.txt` — the project refers back for those.
 
-**Thin `AGENTS.md`** (generate; `CLAUDE.md` = `@AGENTS.md` stub so all tools inherit it):
+**Thin `AGENTS.md`** (generate; `CLAUDE.md` is the `@AGENTS.md` stub below, so every tool
+inherits it):
 ```markdown
 # <PROJECT_NAME> — science project
 
@@ -131,6 +133,21 @@ else.
 This is a science project created with autofit_assistant. The assistant is the copilot; this
 repo is the science. It copies what's needed to reproduce the analysis and **refers back** to
 the assistant for skills and reference wiki.
+
+## Session start — do this first, every session
+
+Before answering anything, read, in this order:
+
+1. `wiki/project/state.md` — where the project got to and what is in flight. This is the
+   head pointer; it is rewritten each session, so it is current by construction.
+2. The newest dated `wiki/project/YYYY-MM-DD-*.md` entry (`ls wiki/project/ | sort | tail -1`)
+   — what the last session actually did.
+3. `wiki/project/profile.md` — who you are working with, and their HPC access and
+   automation preferences.
+
+Then say in one line where the project stands and what the obvious next step is. Older
+journal entries are read on demand (grep for a dataset, profile or output-dir name), not
+up front.
 
 ## The assistant (skills + wiki)
 Resolve the assistant clone, in order: `$AUTOFIT_ASSISTANT` → sibling `../autofit_assistant`
@@ -156,8 +173,24 @@ harness (Codex, Gemini, chat), self-enforce it: run
   (refer-back); papers specific to this analysis → `wiki/project/bibliography.md`.
   Promotion upstream is deliberate, via `af_ingest_paper` from the assistant clone.
 - Likelihood/model code: <where it lives + how it is versioned>.
-- Toolchain provenance: `project.yaml` (`assistant_ref`) + per-run `results/manifests/`.
-- Reproducibility: every meaningful run writes `results/manifests/<run_id>.json`.
+- Toolchain provenance: `project.yaml` (`assistant_ref`); what a given run actually used is
+  recorded in that day's journal entry.
+- Reproducibility: every meaningful run gets a row in its journal entry's run table
+  (command, seed, output dir, package versions) — that table **is** the run record.
+- End of session: write the journal entry **and rewrite `wiki/project/state.md`**. The entry
+  is not finished until `state.md` describes the project after it.
+```
+
+**`CLAUDE.md`** (generate — two lines, so Claude Code loads the same constitution every
+other tool reads; the same pattern the PyAutoLabs workspace root uses):
+```markdown
+# <PROJECT_NAME> — Claude guidance
+
+The canonical, agent-agnostic instructions live in `AGENTS.md`. Claude Code loads them via
+the import below; if your tool does not process `@`-imports, open `AGENTS.md` and read it
+directly.
+
+@AGENTS.md
 ```
 
 **Project `README.md`** (generate — the front door a collaborator, referee or reader sees
@@ -174,16 +207,17 @@ assistant. This repo is self-contained: everything needed to reproduce the analy
 ## Reproduce this analysis
 
 Set up the environment with `source activate.sh` (packages: `environment.yml`). The analysis
-scripts are in `scripts/`; every meaningful run is recorded in `results/manifests/` (exact
-command, seed, package versions, input/output checksums), so any result can be traced and
-re-run.
+scripts are in `scripts/`; every meaningful run is recorded in the dated journal entries under
+`wiki/project/` (exact command, seed, package versions, output directory), so any result can be
+traced and re-run. `wiki/project/results_summary.md` is the short version.
 
 ## Continue this work
 
 Fork or clone this repo and drive it with your own AI assistant: point `$AUTOFIT_ASSISTANT`
 at a local `autofit_assistant` clone — or just start your agent here and let it clone the
 assistant on demand (see `AGENTS.md`). You inherit the same skills, reference wiki and safety
-rules this project was built with, plus the full decision journal in `wiki/project/`.
+rules this project was built with, plus the full decision journal in `wiki/project/` — start
+with `wiki/project/state.md`, which says where the work got to.
 
 ## Data availability
 
@@ -232,6 +266,22 @@ The validator stays in the assistant — `validate_pyauto_code.py` resolves
 `audit_skill_apis.py` relative to itself — so the project vendors nothing and bakes in no
 absolute paths.
 
+**`wiki/project/state.md`** (generate from `_state_template.md` — the head pointer the
+session-start block reads first): fill "Science goal" from `PROJECT_DESCRIPTION` and "Data on
+hand" from Step 3; leave the rest as the template's prompts until there is work to record.
+**Rewritten each session, never appended** — the rule lives in `wiki/project/README.md`.
+
+**`wiki/project/results_summary.md`** (generate from `_results_summary_template.md`): empty
+headings and `covers_through: <creation date>`. The Publish phase feeds this file to
+`gh release create --notes-file`, so it exists from day one rather than being invented under
+release pressure.
+
+**`wiki/project/profile.md`** (generate — the *user* half, and it is portable): if the
+assistant clone has its own `wiki/project/profile.md`, copy it, since the person starting the
+project is the person the assistant already knows (background, interaction mode, HPC access
+and authorization). Otherwise copy `_profile_template.md` and leave the fields unrecorded. The
+project's science goal and data do **not** go here — they are `state.md`'s first two sections.
+
 **`wiki/project/bibliography.md`** (generate — the project-local literature home; the hybrid
 rule stated once in its header):
 ```markdown
@@ -247,7 +297,7 @@ duplicated here. A paper that proves generally useful can be promoted upstream b
 
 **`.gitattributes`**: `* text=auto eol=lf` (+ `*.fits *.png *.npy *.pkl *.hdf5 binary`).
 
-**`.gitignore`** (exclude data/output/secrets/cloned-assistant; **keep** manifests/figures/journal):
+**`.gitignore`** (exclude data/output/secrets/cloned-assistant; **keep** figures/tables/journal):
 ```
 data/raw/*
 data/reduced/*
@@ -269,9 +319,11 @@ __pycache__/
 detected SSH host aliases as candidate clusters instead of asking cold.) If HPC is in play,
 capture the user's HPC access **constraints** in `wiki/project/profile.md` ("HPC access") —
 ask once, lightly; these set the assistant's HPC posture. Secrets stay in `~/.ssh/config`,
-never in the profile. *(Shipped batch templates land with the assistant's `hpc/` in Phase 4
-of [autofit_assistant#1](https://github.com/PyAutoLabs/autofit_assistant/issues/1); until
-then write SLURM scripts per the user's cluster docs.)*
+never in the profile. These are facts about the *user*, so they carry to their next project;
+a submitted job is a fact about *this* project and belongs in `state.md` "In flight".
+*(Shipped batch templates land with the assistant's `hpc/` in Phase 4 of
+[autofit_assistant#1](https://github.com/PyAutoLabs/autofit_assistant/issues/1); until then
+write SLURM scripts per the user's cluster docs.)*
 
 **Finish Create:** normalise line endings on `*.py`/`*.sh`; `git init`; stage by name;
 `git commit -m "Scaffold science project <slug>"`.
@@ -286,31 +338,30 @@ Public comes only at Publish.
 
 ## Phase 2 — Work
 
-Normal analysis, using the assistant's skills resolved via refer-back. Reproducibility rests
-on two things only — **no transcript/hash machinery**:
+Normal analysis, using the assistant's skills resolved via refer-back. The project's memory
+rests on two files and **no transcript/hash machinery**:
 
-1. **Per-run manifest** → write `results/manifests/<run_id>.json` after each meaningful run:
-```json
-{
-  "run_id": "2026-07-12_transit_toi1234",
-  "script": "scripts/fit_transit.py",
-  "command": "python scripts/fit_transit.py --dataset toi1234 --seed 42",
-  "git_commit": "<project sha>", "git_dirty": false,
-  "assistant": { "repo": "PyAutoLabs/autofit_assistant", "commit": "<assistant sha>", "dirty": false },
-  "environment_file": "environment.yml", "python_version": "3.11.x",
-  "package_versions": { "autofit": "<v>", "numpy": "<v>", "<user-likelihood-pkg>": "<v>" },
-  "seed": 42,
-  "inputs":  [{ "path": "data/reduced/toi1234/lightcurve.csv", "sha256": "<hash>" }],
-  "outputs": [{ "path": "results/figures/fit.png", "sha256": "<hash>" }],
-  "started": "<iso8601>", "finished": "<iso8601>", "notes": "baseline one-planet fit"
-}
-```
-   Record the seed **and** package versions (including the user's own likelihood package)
-   **and** the `assistant` commit — the manifest records what was actually used.
+1. **Dated journal** → `wiki/project/YYYY-MM-DD-<slug>.md` (the `_template.md` shape:
+   Context / What I did / Outcome). Every meaningful run gets a **row in that entry's run
+   table** — this table *is* the run record:
 
-2. **Dated journal** → `wiki/project/YYYY-MM-DD-<slug>.md` (use the existing `_template.md`
-   shape: Context / What I did / Outcome), each entry referencing its `run_id`. This is the
-   same `wiki/project/` mechanism the assistant already uses — do not invent a parallel log.
+   | run | command | seed | output dir | versions |
+   |-----|---------|------|-----------|----------|
+   | baseline one-planet fit | `python scripts/fit_transit.py --dataset toi1234 --seed 42` | 42 | `output/toi1234/one_planet/<hash>/` | autofit `<v>`, `<user-likelihood-pkg>` `<v>`, assistant `<sha>` |
+
+   Record the seed **and** the package versions (including the user's own likelihood
+   package) **and** the assistant commit: the generator bitstream isn't promised stable
+   across versions, and the assistant commit is the toolchain provenance (the entire "pin" —
+   operation uses the current clone; this row records what was actually used).
+
+2. **`wiki/project/state.md`** → the head pointer, **rewritten** at the end of the same
+   session, never appended. A journal entry is not finished until `state.md` describes the
+   project after it: what is settled, what is running (with its output dir / job ID and what
+   it unblocks), what is carried forward, the traps not to repeat, and one index line for the
+   new entry. This is the file that makes a fresh chat resume without being asked.
+
+Do not invent a parallel log, and do not write per-run manifest files — the run table and
+`state.md` are the whole record.
 
 ---
 
@@ -324,11 +375,15 @@ Encourage sharing as soon as a second person appears in the conversation.
 - **A collaborator continues the work by forking or cloning the project** and starting their
   own assistant session inside it: the thin `AGENTS.md` resolves an `autofit_assistant` clone
   via refer-back, so they inherit the same skills, reference wiki, and safety rules — plus
-  the domain adaptation recorded in the project's journal and profile. Point an arriving
-  collaborator at the README's "Continue this work" section; that is the whole onboarding.
-- **Collaborator updates are built from the `wiki/project/` journal** — synthesise the latest
-  best model, key figures (paths), open concerns, and recommended next run into a short,
-  skimmable summary. Don't keep a second log.
+  the domain adaptation recorded in the project's memory. Their first session is the generated
+  `AGENTS.md` session-start block — `state.md`, the newest journal entry, `profile.md`; then
+  they continue the analysis, and new runs write journal entries and rewrite `state.md`
+  exactly as Phase 2 describes. Point an arriving collaborator at the README's "Continue this
+  work" section; that is the whole onboarding.
+- **Collaborator updates are built from `state.md` + the journal** — `state.md` is already the
+  skimmable version, so an update is usually it plus the key figure paths. If a standalone
+  note is wanted, write `wiki/project/collaborator_update.md` from those two. Don't keep a
+  second log.
 
 ---
 
@@ -349,10 +404,13 @@ Gate — confirm **every** item before the repo goes public (`visibility_stage: 
       `release.license`.
 - [ ] **CITATION.cff** correct (authors + ORCID, title, version).
 - [ ] **Data availability** section in `README.md` filled in.
-- [ ] **Reproducible**: `scripts/` + `results/manifests/` + `environment.yml` present and the
-      manifests reference the committed commit.
+- [ ] **Reproducible**: `scripts/` + `environment.yml` present, and every headline result has
+      a journal run-table row naming its command, seed and output dir.
+- [ ] **`wiki/project/results_summary.md` current** — it is the release notes below, so its
+      `covers_through:` must not be older than the newest journal entry.
 
-Then release and (optionally) mint a DOI:
+Then rewrite `wiki/project/results_summary.md` from `state.md` and the journal (bump
+`covers_through:`), and release — optionally minting a DOI:
 ```bash
 git tag -a v1.0.0 -m "Paper release"
 gh release create v1.0.0 --title "<paper> data & code" --notes-file wiki/project/results_summary.md
@@ -364,7 +422,7 @@ record the DOI in `release.zenodo` and `CITATION.cff`.
 - **Do not make the repo a GitHub *template* repo if you want Git LFS** — LFS is incompatible
   with template repositories.
 - **GitHub release assets are < 2 GiB each** — large data goes to **Zenodo / an external
-  archive**, never release assets. The repo holds code + manifests + figures, not bulk data.
+  archive**, never release assets. The repo holds code + journal + figures, not bulk data.
 
 ---
 
@@ -382,7 +440,7 @@ differ, tell the user once per session — both commits, and what the drift mean
 to **re-pin**: update `assistant_ref.commit` to the resolved HEAD and note the re-pin in the
 day's `wiki/project/` journal entry. Never hard-block on drift and never check the clone out
 to the pinned commit — day-to-day operation always uses the resolved current clone, and the
-per-run manifest's `assistant.commit` remains the record of what was actually used.
+journal run table's assistant sha remains the record of what was actually used.
 
 ## Example projects (registry)
 
@@ -394,7 +452,9 @@ source instead of generating from scratch, once a good exemplar exists. Add a re
 
 ## Further reading
 
+- `wiki/project/_state_template.md` — the head pointer's shape (rewritten each session).
 - `wiki/project/_template.md` — the journal-entry shape (Work / Collaborate reuse it).
+- `wiki/project/_results_summary_template.md` — the Publish phase's `--notes-file` source.
 - `wiki/core/operations/hpc.md` — cluster concepts.
 - CITATION.cff: https://citation-file-format.github.io/ · Zenodo–GitHub archiving:
   https://docs.github.com/repositories/archiving-a-github-repository/referencing-and-citing-content
