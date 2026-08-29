@@ -4,15 +4,22 @@ type: profile
 last_touched: YYYY-MM-DD
 ---
 
-# Project profile
+# User profile
 
-Captures who's working on this fork and what they're doing — recorded incrementally
-over the course of conversations. Light-touch and freeform: not every field needs a
-value, and the agent updates it only when it learns something **durable** (a level,
-a domain fact, a science goal that the user has volunteered, not just guessed at).
+Captures **who** is working here — their field, background, how they want to be worked
+with, and what their compute access allows. Recorded incrementally over conversations.
+Light-touch and freeform: not every field needs a value, and the agent updates it only
+when it learns something **durable** the user has volunteered, not guessed at.
 
-To start a real profile, copy this file to `wiki/project/profile.md` and fill in
-what you know. The agent will append to it as the conversation proceeds.
+**This file is about the user, not the project.** The science goal, the data on hand and
+where the work got to belong to `state.md` (template: `_state_template.md`), which is
+rewritten each session. The split matters because these facts are *portable*: the person
+who starts a second project brings their domain, background, HPC access and automation
+preference with them, and should not be asked for them twice — a new project seeds its
+`profile.md` from the assistant clone's.
+
+To start a real profile, copy this file to `wiki/project/profile.md` and fill in what you
+know. The agent will append to it as the conversation proceeds.
 
 ## Scientific domain
 
@@ -56,34 +63,6 @@ opening request. See `AGENTS.md` "Modes".
 
 _unrecorded_
 
-## Science goal
-
-The current project's aim, in the user's words. Examples:
-
-- "Constrain the two-planet model's evidence against the one-planet baseline."
-- "Publishable posterior on the reaction rate constants by autumn."
-
-_unrecorded_
-
-## Likelihood & model code
-
-Where the user's own code lives and how the assistant wraps it. Examples:
-
-- "Likelihood in `my_analysis/likelihood.py::log_like(params, data)`; wrapped in
-  `scripts/analysis.py`."
-- "Pure PyAutoFit built-ins — no external code."
-
-_unrecorded_
-
-## Data inventory
-
-What data exists and where. Examples:
-
-- "One light curve CSV in `dataset/tess/toi-1234.csv`."
-- "No data yet — will simulate via `af_simulate_dataset`."
-
-_unrecorded_
-
 ## HPC access
 
 Constraints on the user's High-Performance-Computing access — **constraints, not
@@ -101,13 +80,6 @@ record secrets here.**
   `assistant-runs`.
 
 _unrecorded_
-
-## Decisions log
-
-Links to the dated `wiki/project/YYYY-MM-DD-<slug>.md` entries that capture concrete
-work done. Newest first.
-
-- _no entries yet_
 
 ## How to update this file
 

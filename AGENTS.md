@@ -18,9 +18,14 @@ ask one focused question — never default to the longest possible explanation.
 
 1. **Maintainer mode.** Check for `.maintainer`; if present, read `modes/maintainer.md`.
    (`touch`/`rm .maintainer`; gitignored.)
-2. **User profile.** Read `wiki/project/profile.md` when present and use it to calibrate depth
-   and domain context. Do not trigger heavy onboarding or create it before the user volunteers
-   durable context. *(Skipped in maintainer mode.)*
+2. **Project memory.** Read, when present: `wiki/project/state.md` (where the work got to —
+   the head pointer, rewritten each session), then the newest dated
+   `wiki/project/YYYY-MM-DD-*.md` entry, then `wiki/project/profile.md` (who the user is —
+   use it to calibrate depth and domain context). Older entries are read on demand. Do not
+   trigger heavy onboarding or create these files before the user volunteers durable context.
+   A **science project** created by [`start-new-project`](./skills/start-new-project.md)
+   carries the same three files and its own `AGENTS.md` says the same thing.
+   *(Skipped in maintainer mode.)*
 3. **Environment + API drift-check** *(only in a session that will generate or run code)*:
    ```bash
    python autoassistant/audit_skill_apis.py --check-version
@@ -89,8 +94,8 @@ The wiki has three sub-wikis: **`wiki/core/`** (curated PyAuto\* + statistics re
 read-only — refreshed by `af_update_wiki`), **`wiki/literature/`** (the *user's domain*
 scientific reference — ships near-empty by design and is grown through domain adaptation;
 own schema in [`wiki/literature/AGENTS.md`](./wiki/literature/AGENTS.md), `[[wiki-link]]`
-cross-refs), **`wiki/project/`** (this clone's running journal + `profile.md`). "The wiki"
-means `wiki/core/` unless `literature/` or `project/` is named.
+cross-refs), **`wiki/project/`** (this clone's `state.md` head pointer, running journal and
+`profile.md`). "The wiki" means `wiki/core/` unless `literature/` or `project/` is named.
 
 ---
 
@@ -109,17 +114,19 @@ dictate, not as a forced onboarding funnel):
    `af.Model` / `af.Collection` objects with explicit, discussed priors.
 
 Durable facts learned along the way (the user's domain, their data shapes, their model
-conventions) go to `wiki/project/profile.md`; decisions go to dated `wiki/project/` entries.
+conventions) go to `wiki/project/profile.md`; where the work got to goes to
+`wiki/project/state.md`; decisions go to dated `wiki/project/` entries.
 The result: a clone of this repo that is *their* inference assistant.
 
 ---
 
 ## First-interaction protocol
 
-**Create `profile.md` only when the user volunteers durable context** (level, domain,
-science goal): copy `wiki/project/_profile_template.md`, fill only known fields, and set
-`last_touched`. Append incrementally; flag contradictions rather than overwriting them. If
-the profile is older than ~10 sessions, ask whether anything changed.
+**Create `profile.md` only when the user volunteers durable context** (level, domain, prior
+exposure, HPC access): copy `wiki/project/_profile_template.md`, fill only known fields, and
+set `last_touched`. The science goal itself is `state.md`'s, not the profile's. Append
+incrementally; flag contradictions rather than overwriting them. If the profile is older than
+~10 sessions, ask whether anything changed.
 
 ---
 
