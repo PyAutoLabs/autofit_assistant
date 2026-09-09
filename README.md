@@ -7,6 +7,21 @@ Describe a model, likelihood function and simply ask it to perform fits with dif
 
 ## Getting Started
 
+### Bring Your Own Likelihood
+
+You do not need to start from a bundled example, or write the integration yourself. **Point the assistant at your existing likelihood function and it takes care of the rest** — wiring your code to a named model, choosing priors with you, setting up a search and organising the results:
+
+> Setup PyAutoFit with my existing science project, an example likelihood
+> function can be found at [point to GitHub link or computer directory].
+> Give me an overview of my project, compose a model and tell me about it and
+> give me your assessment of what non-linear search (MCMC, nested sampler,
+> maximum likelihood estimator) you think would be a good choice. Do not
+> begin inference until we have had a discussion and I give you the go ahead,
+> and once inference is running give me a overview of how results are output
+> to hard-disk and how I can inspect and interpret them with PyAutoFit.
+
+Your validated science code keeps working exactly as it did; PyAutoFit's searches and result tools are what get wrapped around it.
+
 ### Choosing Your AI Tool
 
 There are two kinds of AI tool you could use the assistant with:
@@ -78,11 +93,7 @@ Models are highly customizable: you can ask to fix a parameter,
 link parameters between components, or assert a constraint. For your own 
 science, simply ask the assistant to compose your model for you.
 
-**AI First Design: Internally, **PyAutoFit** composes the model with a name
-(`Gaussian`), named parameters (`centre`, `normalization`, `sigma`) and 
-an expressive naming convention (e.g. `model.gaussian.sigma`) which ensure
-the AI can easily map natural language descriptions of the model to changes in its
-internal representation.**
+**AI First Design.** Internally, PyAutoFit composes the model with a name (`Gaussian`), named parameters (`centre`, `normalization`, `sigma`) and an expressive naming convention (e.g. `model.gaussian.sigma`) which ensure the AI can easily map natural language descriptions of the model to changes in its internal representation.
 
 #### Define the likelihood
 
@@ -102,10 +113,7 @@ For your own project, you can instead ask:
 > it to PyAutoFit and check that it returns the same likelihood values at 
 > the same parameter values.
 
-**AI First Design: PyAutoFit gives the agent a small, testable integration task: connect 
-named model parameters to your existing likelihood and check that its numerical outputs are unchanged. 
-Your validated science code then becomes available to PyAutoFit's searches and result-analysis tools, 
-without the agent having to reimplement it.**
+**AI First Design.** PyAutoFit gives the agent a small, testable integration task: connect named model parameters to your existing likelihood and check that its numerical outputs are unchanged. Your validated science code then becomes available to PyAutoFit's searches and result-analysis tools, without the agent having to reimplement it.
 
 You can also give the assistant papers and descriptions of your data,
 parameters and assumptions. This supplies the scientific context so you can
@@ -128,9 +136,7 @@ The assistant configures the requested search. You can ask it to explain
 the settings or help choose an algorithm for your likelihood and scientific
 goal.
 
-**AI First Design: All **PyAutoFit** searches share a common interface,
-so the agent can switch between them while retaining the model and likelihood,
-making it easy to compare inference across different searches.**
+**AI First Design.** All PyAutoFit searches share a common interface, so the agent can switch between them while retaining the model and likelihood, making it easy to compare inference across different searches.
 
 #### Fit and inspect the result
 
@@ -144,9 +150,7 @@ a plot of the fitted profile. You can then explore the result:
 > Plot the posterior distributions. How well is sigma constrained, and
 > is it correlated with normalization?
 
-**AI First Design: Results preserve the model's named
-parameters (e.g. `result.instance.gaussian.sigma`), so the agent can connect 
-the scientific quantities you specify via language to the numerical results.**
+**AI First Design.** Results preserve the model's named parameters (e.g. `result.instance.gaussian.sigma`), so the agent can connect the scientific quantities you specify via language to the numerical results.
 
 #### Save and revisit the analysis
 
@@ -164,9 +168,7 @@ search, model or result properties. For example:
 > Find the completed Gaussian fits and make a table of the inferred widths
 > and their uncertainties, labelled by dataset and search algorithm.
 
-**AI First Design: Structured, persistent outputs give
-the agent a history of experiments it can reload, query and compare as
-your analysis grows.**
+**AI First Design.** Structured, persistent outputs give the agent a history of experiments it can reload, query and compare as your analysis grows.
 
 #### Extend the workflow
 
@@ -203,7 +205,7 @@ ones successfully find the best-fit reliably.
 The assistant uses saved samples and the original data to reinspect an
 already completed fit.
 
-#### HowToFit
+#### HowToFit / Teacher Mode
 
 For users less familiar with Bayesian inference and scientific analysis you may wish to read through
 the **HowToFits** lectures. These teach you the basic principles of Bayesian inference, with the
@@ -215,17 +217,15 @@ If you're new to statistical inference and are not totally sure what concepts li
 sampling are, you can use **teacher mode** to have the assistant explain concepts in more detail. Simply
 start a prompt with "Teacher mode." and ask questions:
 
-```
-Teacher mode.
-
-I'm new to PyAutoFit and want to learn the basic workflow end-to-end. Fit the
-bundled 1D Gaussian dataset in dataset/gaussian_x1/ and recover its input
-parameters.
-
-Explain what each step is doing and why as we go: composing the model, choosing
-the priors, picking the non-linear search, and how to read the posterior. So I
-come away understanding the workflow, not just the commands.
-```
+> Teacher mode.
+>
+> I'm new to PyAutoFit and want to learn the basic workflow end-to-end. Fit the
+> bundled 1D Gaussian dataset in dataset/gaussian_x1/ and recover its input
+> parameters.
+>
+> Explain what each step is doing and why as we go: composing the model, choosing
+> the priors, picking the non-linear search, and how to read the posterior. So I
+> come away understanding the workflow, not just the commands.
 
 ## Science Project
 
