@@ -16,7 +16,7 @@ There are two kinds of AI tool you could use the assistant with:
 
 **Both kinds are supported, and both currently require a paid plan.** The recommended route is a CLI coding agent: the paid-subscription agents **[Claude Code](docs/setup/claude_code.md)** and **[Codex](docs/setup/codex_cli.md)**, which install **PyAutoFit**, run fits and inspect their results directly on your computer. Conversation assistants work too: **ChatGPT** on a paid plan (Plus/Pro/Team) reads this repository through its [GitHub connector](docs/setup/chatgpt_paid_connector.md), and **Claude** chat on a paid plan (Pro/Max/Team) reads it live through its [GitHub connector](docs/setup/claude_chat_paid.md).
 
-**Free options are being tested** but do not yet have first-class support: the free coding agent **OpenCode** is the most promising (see [Free AI tools](#free-ai-tools) at the bottom of this README), and the free chat routes are listed under [Conversation Assistants](#conversation-assistants).
+**Free options are being tested** but do not yet have first-class support: the free coding agent **OpenCode** is the most promising, and free chat routes work but are limited by their usage ceilings.
 
 ### Using PyAutoFit Assistant
 
