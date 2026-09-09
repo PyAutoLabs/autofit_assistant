@@ -1,11 +1,16 @@
 # PyAutoFit Assistant
 
-**Perform statistical inference with Natural Language.**
-
-The **PyAutoFit Assistant** allows you to **perform scientific inference with Natural Language**. 
-Describe a model, likelihood function and simply ask it to perform fits with different samplers. 
+**Bring your models, data and likelihood code. Perform scientific inference through conversation.**
 
 ## Getting Started
+
+**PyAutoFit** and the **autofit_assistant** allow one to perform scientific inference using purely natural language.
+Simply open your AI coding agent (`codex` or `Claude Code` are recommended) and input the following prompt:
+
+> I want to perform scientific inference with PyAutoFit (https://github.com/PyAutoLabs/PyAutoFit) and the
+> autofit_assistant (https://github.com/PyAutoLabs/autofit_assistant).
+>
+> Begin the "start here" guide for a new user.
 
 ### Bring Your Own Likelihood
 
@@ -38,7 +43,7 @@ There are two kinds of AI tool you could use the assistant with:
 Every step below can be requested in natural language — you do not need to write Python to follow it.
 The workflow is: **model → priors → likelihood → search → results → scientific workflow**.
 
-To begin instantly, install the assistant (above) and ask:
+To try the bundled example, ask:
 
 > Fit the bundled dataset in dataset/gaussian_x1/ with a 1D Gaussian.
 > Explain the model, priors, likelihood, search and results as we go.
