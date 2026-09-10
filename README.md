@@ -7,10 +7,14 @@
 **PyAutoFit** and the **autofit_assistant** allow one to perform scientific inference using purely natural language.
 Simply open your AI coding agent (`codex` or `Claude Code` are recommended) and input the following prompt:
 
-> I want to perform scientific inference with PyAutoFit (https://github.com/PyAutoLabs/PyAutoFit) and the
-> autofit_assistant (https://github.com/PyAutoLabs/autofit_assistant).
->
-> Begin the "start here" guide for a new user.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+I want to perform scientific inference with PyAutoFit (https://github.com/PyAutoLabs/PyAutoFit) and the
+autofit_assistant (https://github.com/PyAutoLabs/autofit_assistant).
+
+Begin the "start here" guide for a new user.
+```
 
 **What happens when you type it.** The assistant starts a guided tour that runs in two tracks. First the **bundled
 1D Gaussian**: six steps — compose a model, define a likelihood, choose a search, fit and read the result, save and
@@ -62,8 +66,12 @@ The workflow is: **model → priors → likelihood → search → results → sc
 
 To try the bundled example, ask:
 
-> Fit the bundled dataset in dataset/gaussian_x1/ with a 1D Gaussian.
-> Explain the model, priors, likelihood, search and results as we go.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Fit the bundled dataset in dataset/gaussian_x1/ with a 1D Gaussian.
+Explain the model, priors, likelihood, search and results as we go.
+```
 
 ### Contents
 
@@ -95,9 +103,13 @@ uncertainties.
 
 ### Compose the model
 
-> Create a 1D Gaussian model with free centre, normalization and sigma.
-> Use uniform priors from 0 to 100 for centre, 0 to 100 for normalization,
-> and 0.1 to 30 for sigma. Show me the model and its priors.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Create a 1D Gaussian model with free centre, normalization and sigma.
+Use uniform priors from 0 to 100 for centre, 0 to 100 for normalization,
+and 0.1 to 30 for sigma. Show me the model and its priors.
+```
 
 This specifies a model with three free parameters:
 
@@ -123,10 +135,14 @@ science, simply ask the assistant to compose your model for you.
 
 ### Define the likelihood
 
-> Load the 1D Gaussian data and noise map, define a likelihood function which uses 
-> independent Gaussian errors to compare the model with the data and for a random 
-> set of parameters calculate the likelihood. Produce an image comparing the fit
-> to the data
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Load the 1D Gaussian data and noise map, define a likelihood function which uses
+independent Gaussian errors to compare the model with the data and for a random
+set of parameters calculate the likelihood. Produce an image comparing the fit
+to the data
+```
 
 The assistant sets up the likelihood function: which in this case evaluates the 
 Gaussian at each data point and compares the predictions with the measurements, 
@@ -135,9 +151,13 @@ the model and data.
 
 For your own project, you can instead ask:
 
-> Use my existing likelihood code for this analysis [point to code]. Connect 
-> it to PyAutoFit and check that it returns the same likelihood values at 
-> the same parameter values.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Use my existing likelihood code for this analysis [point to code]. Connect
+it to PyAutoFit and check that it returns the same likelihood values at
+the same parameter values.
+```
 
 **AI First Design.** PyAutoFit gives the agent a small, testable integration task: connect named model parameters to your existing likelihood and check that its numerical outputs are unchanged. Your validated science code then becomes available to PyAutoFit's searches and result-analysis tools, without the agent having to reimplement it.
 
@@ -151,10 +171,14 @@ use domain-specific natural language while keeping it separate from the inferenc
 
 ### Choose a search
 
-> Show me the available non-linear searches, including those which support
-> gradient based inference using JAX. For this example fit, our likelihood
-> function is not implemented using JAX, so lets use Dynesty nested sampling
-> with 100 live points to estimate the posterior and evidence.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Show me the available non-linear searches, including those which support
+gradient based inference using JAX. For this example fit, our likelihood
+function is not implemented using JAX, so lets use Dynesty nested sampling
+with 100 live points to estimate the posterior and evidence.
+```
 
 PyAutoFit supports several types of inference algorithm:
 
@@ -180,15 +204,23 @@ goal.
 
 ### Fit and inspect the result
 
-> Run the model fit. Show the parameter estimates and uncertainties, and plot
-> the maximum-likelihood Gaussian over the data.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Run the model fit. Show the parameter estimates and uncertainties, and plot
+the maximum-likelihood Gaussian over the data.
+```
 
 The assistant runs the search and presents a summary of the inferred
 centre, normalization and width, together with their uncertainties and
 a plot of the fitted profile. You can then explore the result:
 
-> Plot the posterior distributions. How well is sigma constrained, and
-> is it correlated with normalization?
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Plot the posterior distributions. How well is sigma constrained, and
+is it correlated with normalization?
+```
 
 **AI First Design.** Results preserve the model's named parameters (e.g. `result.instance.gaussian.sigma`), so the agent can connect the scientific quantities you specify via language to the numerical results.
 
@@ -198,9 +230,13 @@ a plot of the fitted profile. You can then explore the result:
 
 ### Save and revisit the analysis
 
-> Save the run to disk, with fit and residual images updated during
-> sampling. Afterwards, reload the saved samples and inspect the fit
-> without rerunning it.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Save the run to disk, with fit and residual images updated during
+sampling. Afterwards, reload the saved samples and inspect the fit
+without rerunning it.
+```
 
 Ask to save results and visualization for before starting the fit and the 
 assistant will ensure all results and output to hard-disk in a way **designed for efficient human inspection**.
@@ -209,8 +245,12 @@ Saved runs retain the model, search settings and sample information, alongside t
 visualization you request. At scale, results can also be collected into a database and queried by dataset metadata,
 search, model or result properties. For example:
 
-> Find the completed Gaussian fits and make a table of the inferred widths
-> and their uncertainties, labelled by dataset and search algorithm.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Find the completed Gaussian fits and make a table of the inferred widths
+and their uncertainties, labelled by dataset and search algorithm.
+```
 
 **AI First Design.** Structured, persistent outputs give the agent a history of experiments it can reload, query and compare as your analysis grows.
 
@@ -224,21 +264,29 @@ The same building blocks support more involved requests:
 
 **Fit three Gaussians**
 
-> Extend the model to three Gaussians and sum their profiles in the
-> likelihood. Assert that their centres are in ascending order, show me
-> the priors, perform inference with Dynesty again and compare the Bayesian 
-> evidence with the single-Gaussian fit.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Extend the model to three Gaussians and sum their profiles in the
+likelihood. Assert that their centres are in ascending order, show me
+the priors, perform inference with Dynesty again and compare the Bayesian
+evidence with the single-Gaussian fit.
+```
 
 The assistant builds a model with three named components and reports
 the Bayesian evidence comparison under the stated priors. 
 
 **Compare inference algorithms**
 
-> Fit the same model using Emcee, Dynesty and an optimiser for maximum
-> likelihood estimation. Keep the likelihood and parameter bounds fixed,
-> and use the same priors for both samplers. Compare runtime, likelihood
-> evaluations and best-fit values. For the samplers, also assess convergence
-> and agreement of posterior constraints.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Fit the same model using Emcee, Dynesty and an optimiser for maximum
+likelihood estimation. Keep the likelihood and parameter bounds fixed,
+and use the same priors for both samplers. Compare runtime, likelihood
+evaluations and best-fit values. For the samplers, also assess convergence
+and agreement of posterior constraints.
+```
 
 This produces a comparison for your likelihood and computing environment,
 making it easy to work out which inference method is fastest and which
@@ -246,9 +294,13 @@ ones successfully find the best-fit reliably.
 
 **Investigate a saved result**
 
-> Load the saved Gaussian fit. Report the median and 68% credible interval
-> for sigma, plot its correlation with normalization, and inspect the
-> residuals for structure the model may have missed.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Load the saved Gaussian fit. Report the median and 68% credible interval
+for sigma, plot its correlation with normalization, and inspect the
+residuals for structure the model may have missed.
+```
 
 The assistant uses saved samples and the original data to reinspect an
 already completed fit.
@@ -276,9 +328,13 @@ complicate the interpretation of a result.
 
 To add a paper, simply ask:
 
-> Ingest this paper into the literature wiki: [arXiv ID, link or local PDF].
-> Summarise its model, likelihood, priors and main conclusions, and explain
-> how it relates to the analysis we are developing.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Ingest this paper into the literature wiki: [arXiv ID, link or local PDF].
+Summarise its model, likelihood, priors and main conclusions, and explain
+how it relates to the analysis we are developing.
+```
 
 The wiki builds a lasting reference for your project, so scientific context is available alongside your code and 
 results. As you add relevant papers, the assistant can draw on them to frame decisions, cite prior work and identify 
@@ -294,18 +350,22 @@ first source of biased inference, so this step is not optional.
 
 Already have a likelihood function for your science problem? **Point the assistant at your existing code and it can set it up with PyAutoFit** — defining the model, choosing priors with you, configuring a search and organising the results:
 
-> Set up PyAutoFit with my existing science project. An example likelihood
-> function can be found at [GitHub link or local directory].
->
-> First, give me an overview of my project and likelihood function. Compose
-> an appropriate model, explain it to me, and recommend a non-linear search
-> (for example MCMC, nested sampling or maximum-likelihood estimation).
->
-> Do not begin inference until we have discussed the setup and I give you
-> the go-ahead.
->
-> Once inference is running, explain how the results are written to disk and
-> show me how to inspect and interpret them with PyAutoFit.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Set up PyAutoFit with my existing science project. An example likelihood
+function can be found at [GitHub link or local directory].
+
+First, give me an overview of my project and likelihood function. Compose
+an appropriate model, explain it to me, and recommend a non-linear search
+(for example MCMC, nested sampling or maximum-likelihood estimation).
+
+Do not begin inference until we have discussed the setup and I give you
+the go-ahead.
+
+Once inference is running, explain how the results are written to disk and
+show me how to inspect and interpret them with PyAutoFit.
+```
 
 Your existing science code remains the source of the likelihood. With PyAutoFit built around it, you can perform inference through natural language while gaining access to features such as flexible priors and model composition, MCMC and nested sampling, automated result handling, model comparison and scalable workflows.
 
@@ -326,10 +386,14 @@ Projects can also connect to configured HPC facilities for bidirectional synchro
 
 To begin, include a request like this in your prompt:
 
-> Start a science project using my likelihood code and dataset at [paths].
-> Set up an initial fit, record the model assumptions and priors, and organise
-> the project so we can compare alternative models and share the results
-> with collaborators.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Start a science project using my likelihood code and dataset at [paths].
+Set up an initial fit, record the model assumptions and priors, and organise
+the project so we can compare alternative models and share the results
+with collaborators.
+```
 
 **P6. Extend.** Model comparison, sampler comparison, chaining searches into a pipeline, hierarchical models over
 many datasets — the PyAutoFit
@@ -354,15 +418,19 @@ If you're new to statistical inference and are not totally sure what concepts li
 sampling are, you can use **teacher mode** to have the assistant explain concepts in more detail. Simply
 start a prompt with "Teacher mode." and ask questions:
 
-> Teacher mode.
->
-> I'm new to PyAutoFit and want to learn the basic workflow end-to-end. Fit the
-> bundled 1D Gaussian dataset in dataset/gaussian_x1/ and recover its input
-> parameters.
->
-> Explain what each step is doing and why as we go: composing the model, choosing
-> the priors, picking the non-linear search, and how to read the posterior. So I
-> come away understanding the workflow, not just the commands.
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Teacher mode.
+
+I'm new to PyAutoFit and want to learn the basic workflow end-to-end. Fit the
+bundled 1D Gaussian dataset in dataset/gaussian_x1/ and recover its input
+parameters.
+
+Explain what each step is doing and why as we go: composing the model, choosing
+the priors, picking the non-linear search, and how to read the posterior. So I
+come away understanding the workflow, not just the commands.
+```
 
 ## License
 
