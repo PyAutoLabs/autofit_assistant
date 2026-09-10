@@ -32,6 +32,8 @@ it isn't already installed.
 You're set up — copy and paste this to start (the 1D Gaussian dataset ships with the
 repository, so it works immediately):
 
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
 ```text
 Fit the bundled dataset in dataset/gaussian_x1/ with a 1D Gaussian.
 Explain the model, priors, likelihood, search and results as we go.
