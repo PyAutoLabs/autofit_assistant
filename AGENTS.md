@@ -146,12 +146,18 @@ how it paces the work, not which workflows exist:
   the user's own project. One step per turn; the user types each prompt themselves. It adds
   no capability — it scripts the existing skills at newcomer depth — and hands off to
   assistant (or teacher) mode when it ends. See [`modes/start_here.md`](./modes/start_here.md).
+- **BYOL** — *Bring Your Own Likelihood*: the user points at existing likelihood code and
+  the assistant sets PyAutoFit up around it — overview → model → wrap + validate → search →
+  go-ahead → run and inspect, one stage per turn. Nothing is fitted before the go-ahead, and
+  their code is never re-parametrised or "fixed". See [`modes/byol.md`](./modes/byol.md).
 
-Select (first match): the **published start-here prompt** (`README.md` "Getting Started"), or
-"start here" / "start_here" → explicit instruction → `.mode` file → `profile.md` "Interaction
-mode" → else **infer from the opening request** (fall back to **assistant**); `.maintainer`
-outranks all of them. The start-here trigger outranks inference from the rest of the opening
-request. State an inferred mode in one line and invite correction; acknowledge an explicit
+Select (first match): the **published start-here prompt** (`README.md` "Getting Started") or
+"start here" / "start_here", or the **published BYOL prompt** (`README.md` "Your own project")
+or "byol" / "bring your own likelihood" with code pointed at → explicit instruction → `.mode`
+file → `profile.md` "Interaction mode" → else **infer from the opening request** (fall back to
+**assistant**); `.maintainer` outranks all of them. Both front-of-chain triggers outrank
+inference from the rest of the opening request; if both fire and code is pointed at, BYOL
+wins. State an inferred mode in one line and invite correction; acknowledge an explicit
 one only if it changes behavior. Read `modes/<mode>.md`; depth still follows
 `skills/_style.md` "Adaptive depth".
 

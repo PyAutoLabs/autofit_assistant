@@ -22,7 +22,9 @@ reload it, then extend the workflow — one step per turn, with **you** typing e
 yourself that the whole workflow is natural language. Then **your own science**: a paper or a plain-language
 description of what you measure, then your model, your likelihood, a search chosen for your problem, the fit, and
 the results. You can stop and ask "what is a prior?" at any step without losing your place, and saying
-**teacher mode** turns on full explanations for the rest of the tour.
+**teacher mode** turns on full explanations for the rest of the tour. If you already have likelihood code, the
+**Bring Your Own Likelihood (BYOL)** prompt under [Your own project](#bring-your-own-likelihood-byol) is the other
+door in — it starts from your function instead of the Gaussian.
 
 The tour is scripted in [`modes/start_here.md`](modes/start_here.md); the sections below are the same six steps,
 written out so you can read ahead or work through them on your own.
@@ -51,7 +53,8 @@ priors, planning an analysis or learning in Teacher Mode all happen inside the s
 
 3. **Submit the starting prompt — the tour begins.** Paste the prompt at the top of this README and the assistant
    opens the guided tour at step 1. (If you already have likelihood code, the "Bring Your Own Likelihood" prompt
-   under [Your own project](#your-own-project) starts the same workflow from your code instead.)
+   under [Your own project](#bring-your-own-likelihood-byol) starts **BYOL mode** instead, running the same
+   workflow from your code.)
 
 **Experimental alternative.** [OpenCode](docs/setup/opencode_cli.md) is an open-source coding agent whose client is
 free; the model you connect it to is a separate choice with its own cost and capability, free offerings are often
@@ -346,28 +349,7 @@ caveats worth investigating.
 **P2. Likelihood.** If you already have likelihood code, it stays yours: the assistant wraps it and checks it
 returns the same numbers, never re-parametrising or "fixing" your science. If you do not, it builds a simple one
 from your description. Either way your real data is plotted and discussed — unmodelled data pathologies are the
-first source of biased inference, so this step is not optional.
-
-Already have a likelihood function for your science problem? **Point the assistant at your existing code and it can set it up with PyAutoFit** — defining the model, choosing priors with you, configuring a search and organising the results:
-
-<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
-
-```text
-Set up PyAutoFit with my existing science project. An example likelihood
-function can be found at [GitHub link or local directory].
-
-First, give me an overview of my project and likelihood function. Compose
-an appropriate model, explain it to me, and recommend a non-linear search
-(for example MCMC, nested sampling or maximum-likelihood estimation).
-
-Do not begin inference until we have discussed the setup and I give you
-the go-ahead.
-
-Once inference is running, explain how the results are written to disk and
-show me how to inspect and interpret them with PyAutoFit.
-```
-
-Your existing science code remains the source of the likelihood. With PyAutoFit built around it, you can perform inference through natural language while gaining access to features such as flexible priors and model composition, MCMC and nested sampling, automated result handling, model comparison and scalable workflows.
+first source of biased inference, so this step is not optional. Already have the code? See [Bring Your Own Likelihood (BYOL)](#bring-your-own-likelihood-byol) below.
 
 **P3. Search.** Runtime budget, whether your likelihood is JAX-differentiable, and whether you need the Bayesian
 evidence pick the sampler between them. You get a recommendation with the reason, not just a name.
@@ -405,6 +387,33 @@ what is available, and you can ask for any of it the same way.
 
 Everything above was natural language. You did not write a line of Python — though the assistant saved you the
 scripts anyway, one per step, so you can read, re-run and modify them yourself.
+
+### Bring Your Own Likelihood (BYOL)
+
+Already have a likelihood function for your science problem? **Point the assistant at your existing code and it can set it up with PyAutoFit** — defining the model, choosing priors with you, configuring a search and organising the results:
+
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Set up PyAutoFit with my existing science project. An example likelihood
+function can be found at [GitHub link or local directory].
+
+First, give me an overview of my project and likelihood function. Compose
+an appropriate model, explain it to me, and recommend a non-linear search
+(for example MCMC, nested sampling or maximum-likelihood estimation).
+
+Do not begin inference until we have discussed the setup and I give you
+the go-ahead.
+
+Once inference is running, explain how the results are written to disk and
+show me how to inspect and interpret them with PyAutoFit.
+```
+
+This prompt launches **BYOL mode** ([`modes/byol.md`](modes/byol.md)) — Bring Your Own
+Likelihood, in the spirit of Bring Your Own Bottle: you bring the likelihood, the assistant
+brings the inference, one stage per turn and nothing fitted until you give the go-ahead.
+
+Your existing science code remains the source of the likelihood. With PyAutoFit built around it, you can perform inference through natural language while gaining access to features such as flexible priors and model composition, MCMC and nested sampling, automated result handling, model comparison and scalable workflows.
 
 ## Teacher mode and HowToFit
 
