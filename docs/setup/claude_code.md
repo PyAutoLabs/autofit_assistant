@@ -38,7 +38,8 @@ Explain the model, priors, likelihood, search and results as we go.
 ```
 
 New to Bayesian inference? Start the prompt with `Teacher mode.` and the assistant explains
-the concepts as it goes. You do not have to let it run anything: ask it to plan the analysis and
-discuss the model and priors before any search is submitted.
+the concepts as it goes — or just ask, the start-here tour takes questions at every step. You do
+not have to let it run anything: ask it to plan the analysis and discuss the model and priors
+before any search is submitted.
 
 Experimental alternative if you cannot use Claude Code or Codex: [OpenCode](opencode_cli.md).
