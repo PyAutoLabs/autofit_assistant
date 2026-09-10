@@ -12,26 +12,18 @@ Simply open your AI coding agent (`codex` or `Claude Code` are recommended) and 
 >
 > Begin the "start here" guide for a new user.
 
-### Bring Your Own Likelihood
+**What happens when you type it.** The assistant starts a guided tour that runs in two tracks. First the **bundled
+1D Gaussian**: six steps — compose a model, define a likelihood, choose a search, fit and read the result, save and
+reload it, then extend the workflow — one step per turn, with **you** typing each prompt, so you find out for
+yourself that the whole workflow is natural language. Then **your own science**: a paper or a plain-language
+description of what you measure, then your model, your likelihood, a search chosen for your problem, the fit, and
+the results. You can stop and ask "what is a prior?" at any step without losing your place, and saying
+**teacher mode** turns on full explanations for the rest of the tour.
 
-Already have a likelihood function for your science problem? **Point the assistant at your existing code and it can set it up with PyAutoFit** — defining the model, choosing priors with you, configuring a search and organising the results:
+The tour is scripted in [`modes/start_here.md`](modes/start_here.md); the sections below are the same six steps,
+written out so you can read ahead or work through them on your own.
 
-> Set up PyAutoFit with my existing science project. An example likelihood
-> function can be found at [GitHub link or local directory].
->
-> First, give me an overview of my project and likelihood function. Compose
-> an appropriate model, explain it to me, and recommend a non-linear search
-> (for example MCMC, nested sampling or maximum-likelihood estimation).
->
-> Do not begin inference until we have discussed the setup and I give you
-> the go-ahead.
->
-> Once inference is running, explain how the results are written to disk and
-> show me how to inspect and interpret them with PyAutoFit.
-
-Your existing science code remains the source of the likelihood. With PyAutoFit built around it, you can perform inference through natural language while gaining access to features such as flexible priors and model composition, MCMC and nested sampling, automated result handling, model comparison and scalable workflows.
-
-### Setting up the assistant
+## Setting up the assistant
 
 The assistant runs inside an **AI coding agent** — a tool that reads this repository, executes Python on your
 computer and inspects the results. That is what lets it install **PyAutoFit**, wrap your likelihood code, run
@@ -53,8 +45,9 @@ priors, planning an analysis or learning in Teacher Mode all happen inside the s
    claude        # or: codex
    ```
 
-3. **Submit the starting prompt** at the top of this README (or the "Bring Your Own Likelihood" prompt if you already
-   have likelihood code).
+3. **Submit the starting prompt — the tour begins.** Paste the prompt at the top of this README and the assistant
+   opens the guided tour at step 1. (If you already have likelihood code, the "Bring Your Own Likelihood" prompt
+   under [Your own project](#your-own-project) starts the same workflow from your code instead.)
 
 **Experimental alternative.** [OpenCode](docs/setup/opencode_cli.md) is an open-source coding agent whose client is
 free; the model you connect it to is a separate choice with its own cost and capability, free offerings are often
@@ -62,7 +55,7 @@ time-limited, and no provider/model configuration has yet been validated against
 compatible, not tested. Browser chats with a GitHub connector are **no longer supported** (retired 2026-09-10; the old
 pages are archived with a notice under [`docs/archive/`](docs/archive/README.md)).
 
-### Using PyAutoFit Assistant
+## The tour, step by step
 
 Every step below can be requested in natural language — you do not need to write Python to follow it.
 The workflow is: **model → priors → likelihood → search → results → scientific workflow**.
@@ -72,7 +65,7 @@ To try the bundled example, ask:
 > Fit the bundled dataset in dataset/gaussian_x1/ with a 1D Gaussian.
 > Explain the model, priors, likelihood, search and results as we go.
 
-#### Contents
+### Contents
 
 - **Compose the Model**: Describe model components and assign priors to named parameters.
 - **Define the Likelihood**: Specify how the model is compared with your data, or supply existing likelihood code.
@@ -81,7 +74,7 @@ To try the bundled example, ask:
 - **Saving and Loading**: Save results and images during fitting, then reload completed runs for further analysis.
 - **Scientific Workflows**: Compose more complex models, compare inference algorithms and investigate saved results.
 
-#### Example
+### Example
 
 We will fit a 1D Gaussian profile to noisy data and infer its centre,
 normalization and width. The data points and their uncertainties are shown
@@ -100,7 +93,7 @@ Here, $x$ is the coordinate, $c$ is the centre, $N$ is the normalization
 is to infer $c$, $N$ and $\sigma$ from the data, together with their
 uncertainties.
 
-#### Compose the model
+### Compose the model
 
 > Create a 1D Gaussian model with free centre, normalization and sigma.
 > Use uniform priors from 0 to 100 for centre, 0 to 100 for normalization,
@@ -113,9 +106,9 @@ Total Free Parameters = 3
 
 model                         Gaussian (N=3)
 
-centre                        UniformPrior [1], lower_limit = 0.0, upper_limit = 100.0
-normalization                 LogUniformPrior [2], lower_limit = 1e-06, upper_limit = 1000000.0
-sigma                         UniformPrior [3], lower_limit = 0.0, upper_limit = 25.0
+centre                        UniformPrior [0], lower_limit = 0.0, upper_limit = 100.0
+normalization                 UniformPrior [1], lower_limit = 0.0, upper_limit = 100.0
+sigma                         UniformPrior [2], lower_limit = 0.1, upper_limit = 30.0
 ```
 
 Models are highly customizable: you can ask to fix a parameter, 
@@ -124,7 +117,11 @@ science, simply ask the assistant to compose your model for you.
 
 **AI First Design.** Internally, PyAutoFit composes the model with a name (`Gaussian`), named parameters (`centre`, `normalization`, `sigma`) and an expressive naming convention (e.g. `model.gaussian.sigma`) which ensure the AI can easily map natural language descriptions of the model to changes in its internal representation.
 
-#### Define the likelihood
+**Try it:** reword it — "make it two Gaussians", "fix sigma to 10", "put a Gaussian prior on centre, mean 50, sigma 10" — and watch `model.info` change.
+
+*Ask anything at this step — "what is a prior?", "why nested sampling?" — or say "teacher mode" for full explanations.*
+
+### Define the likelihood
 
 > Load the 1D Gaussian data and noise map, define a likelihood function which uses 
 > independent Gaussian errors to compare the model with the data and for a random 
@@ -148,7 +145,11 @@ You can also give the assistant papers and descriptions of your data,
 parameters and assumptions. This supplies the scientific context so you can
 use domain-specific natural language while keeping it separate from the inference code.
 
-#### Choose a search
+**Try it:** ask for the likelihood at the true parameters (`centre=50`, `normalization=25`, `sigma=10`) and compare it with the random draw.
+
+*Ask anything at this step — "what is a prior?", "why nested sampling?" — or say "teacher mode" for full explanations.*
+
+### Choose a search
 
 > Show me the available non-linear searches, including those which support
 > gradient based inference using JAX. For this example fit, our likelihood
@@ -173,7 +174,11 @@ goal.
 
 **AI First Design.** All PyAutoFit searches share a common interface, so the agent can switch between them while retaining the model and likelihood, making it easy to compare inference across different searches.
 
-#### Fit and inspect the result
+**Try it:** ask "use Emcee instead" — or "what changes with 50 live points?" — and have the trade-off explained before you commit to it.
+
+*Ask anything at this step — "what is a prior?", "why nested sampling?" — or say "teacher mode" for full explanations.*
+
+### Fit and inspect the result
 
 > Run the model fit. Show the parameter estimates and uncertainties, and plot
 > the maximum-likelihood Gaussian over the data.
@@ -187,7 +192,11 @@ a plot of the fitted profile. You can then explore the result:
 
 **AI First Design.** Results preserve the model's named parameters (e.g. `result.instance.gaussian.sigma`), so the agent can connect the scientific quantities you specify via language to the numerical results.
 
-#### Save and revisit the analysis
+**Try it:** ask "what is the Bayesian evidence, and what is it for?" or "how many likelihood evaluations did that take?".
+
+*Ask anything at this step — "what is a prior?", "why nested sampling?" — or say "teacher mode" for full explanations.*
+
+### Save and revisit the analysis
 
 > Save the run to disk, with fit and residual images updated during
 > sampling. Afterwards, reload the saved samples and inspect the fit
@@ -205,7 +214,11 @@ search, model or result properties. For example:
 
 **AI First Design.** Structured, persistent outputs give the agent a history of experiments it can reload, query and compare as your analysis grows.
 
-#### Extend the workflow
+**Try it:** run the same script again — a completed search reloads instead of re-fitting, which surprises everyone once.
+
+*Ask anything at this step — "what is a prior?", "why nested sampling?" — or say "teacher mode" for full explanations.*
+
+### Extend the workflow
 
 The same building blocks support more involved requests:
 
@@ -240,7 +253,96 @@ ones successfully find the best-fit reliably.
 The assistant uses saved samples and the original data to reinspect an
 already completed fit.
 
-#### HowToFit / Teacher Mode
+**Try it:** pick one of the three prompts above; you do not have to run all of them — and note the three-Gaussian fit is the first that takes real time, so say "use Nautilus instead" if you would rather not wait on Dynesty.
+
+*Ask anything at this step — "what is a prior?", "why nested sampling?" — or say "teacher mode" for full explanations.*
+
+## Your own project
+
+The tour does not stop at the Gaussian. The same six steps run on your science, in this order — ask for any of them
+directly if you would rather skip ahead.
+
+**P0. Science context.** Start from a paper or from a plain-language description of what you measure and what you
+want to infer, plus where your data lives and in what format. The assistant restates your problem in inference terms
+— parameters, data, the shape of the likelihood — for you to correct.
+
+PyAutoFit is domain agnostic: **you bring the scientific context**. The assistant ships with a statistics wiki 
+covering Bayesian inference, priors, searches and model comparison. Its **literature wiki** at `wiki/literature/` 
+is yours to populate with the papers that define your field and analysis.
+
+Adding papers lets the assistant connect your natural language scientific descriptions to its inference: what 
+parameters mean, which assumptions are conventional, how previous studies approached the problem, and what might 
+complicate the interpretation of a result.
+
+To add a paper, simply ask:
+
+> Ingest this paper into the literature wiki: [arXiv ID, link or local PDF].
+> Summarise its model, likelihood, priors and main conclusions, and explain
+> how it relates to the analysis we are developing.
+
+The wiki builds a lasting reference for your project, so scientific context is available alongside your code and 
+results. As you add relevant papers, the assistant can draw on them to frame decisions, cite prior work and identify 
+caveats worth investigating.
+
+**P1. Model.** Your parametrisation, described in words, becomes a PyAutoFit model with explicit priors, and
+`model.info` shows you exactly what will be fitted. Describe it differently and the model changes with it.
+
+**P2. Likelihood.** If you already have likelihood code, it stays yours: the assistant wraps it and checks it
+returns the same numbers, never re-parametrising or "fixing" your science. If you do not, it builds a simple one
+from your description. Either way your real data is plotted and discussed — unmodelled data pathologies are the
+first source of biased inference, so this step is not optional.
+
+Already have a likelihood function for your science problem? **Point the assistant at your existing code and it can set it up with PyAutoFit** — defining the model, choosing priors with you, configuring a search and organising the results:
+
+> Set up PyAutoFit with my existing science project. An example likelihood
+> function can be found at [GitHub link or local directory].
+>
+> First, give me an overview of my project and likelihood function. Compose
+> an appropriate model, explain it to me, and recommend a non-linear search
+> (for example MCMC, nested sampling or maximum-likelihood estimation).
+>
+> Do not begin inference until we have discussed the setup and I give you
+> the go-ahead.
+>
+> Once inference is running, explain how the results are written to disk and
+> show me how to inspect and interpret them with PyAutoFit.
+
+Your existing science code remains the source of the likelihood. With PyAutoFit built around it, you can perform inference through natural language while gaining access to features such as flexible priors and model composition, MCMC and nested sampling, automated result handling, model comparison and scalable workflows.
+
+**P3. Search.** Runtime budget, whether your likelihood is JAX-differentiable, and whether you need the Bayesian
+evidence pick the sampler between them. You get a recommendation with the reason, not just a name.
+
+**P4. Fit and results.** Nothing is fitted until you give the go-ahead. Then the search runs, the output folder is
+toured while it does, and the results are plotted and read back to you. There is no truth to check against on real
+data, so the check becomes the residuals and the shape of the posterior.
+
+**P5. Save and organise.** When the analysis is worth keeping, it can become a **science project** of its own.
+
+When you begin a scientific study, `autofit_assistant` can create a dedicated **science project**: a structured folder linked to a GitHub repository containing your data, model and likelihood code, prior and search configurations, results, plotting scripts, and a record of your work with the assistant.
+
+The assistant documents the analysis scripts, which can be converted into Jupyter notebooks with explanations as Markdown cells and Python as executable code cells. Collaborators can inspect the project, understand the assumptions behind each fit, reproduce results and extend the analysis with their own assistant.
+
+Projects can also connect to configured HPC facilities for bidirectional synchronisation, job submission and monitoring, supporting larger datasets and more demanding inference workflows. If the study leads to a paper, the repository can become its **open-source companion**, bringing together the scientific assumptions, inference workflow and results needed to reproduce and build on the work.
+
+To begin, include a request like this in your prompt:
+
+> Start a science project using my likelihood code and dataset at [paths].
+> Set up an initial fit, record the model assumptions and priors, and organise
+> the project so we can compare alternative models and share the results
+> with collaborators.
+
+**P6. Extend.** Model comparison, sampler comparison, chaining searches into a pipeline, hierarchical models over
+many datasets — the PyAutoFit
+[Scientific Workflow](https://pyautofit.readthedocs.io/en/latest/overview/scientific_workflow.html) and
+[Statistical Methods](https://pyautofit.readthedocs.io/en/latest/overview/statistical_methods.html) pages describe
+what is available, and you can ask for any of it the same way.
+
+*Ask anything at this step — "what is a prior?", "why nested sampling?" — or say "teacher mode" for full explanations.*
+
+Everything above was natural language. You did not write a line of Python — though the assistant saved you the
+scripts anyway, one per step, so you can read, re-run and modify them yourself.
+
+## Teacher mode and HowToFit
 
 For users less familiar with Bayesian inference and scientific analysis you may wish to read through
 the **HowToFits** lectures. These teach you the basic principles of Bayesian inference, with the
@@ -261,41 +363,6 @@ start a prompt with "Teacher mode." and ask questions:
 > Explain what each step is doing and why as we go: composing the model, choosing
 > the priors, picking the non-linear search, and how to read the posterior. So I
 > come away understanding the workflow, not just the commands.
-
-## Science Project
-
-When you begin a scientific study, `autofit_assistant` can create a dedicated **science project**: a structured folder linked to a GitHub repository containing your data, model and likelihood code, prior and search configurations, results, plotting scripts, and a record of your work with the assistant.
-
-The assistant documents the analysis scripts, which can be converted into Jupyter notebooks with explanations as Markdown cells and Python as executable code cells. Collaborators can inspect the project, understand the assumptions behind each fit, reproduce results and extend the analysis with their own assistant.
-
-Projects can also connect to configured HPC facilities for bidirectional synchronisation, job submission and monitoring, supporting larger datasets and more demanding inference workflows. If the study leads to a paper, the repository can become its **open-source companion**, bringing together the scientific assumptions, inference workflow and results needed to reproduce and build on the work.
-
-To begin, include a request like this in your prompt:
-
-> Start a science project using my likelihood code and dataset at [paths].
-> Set up an initial fit, record the model assumptions and priors, and organise
-> the project so we can compare alternative models and share the results
-> with collaborators.
-
-## Scientific Context
-
-PyAutoFit is domain agnostic: **you bring the scientific context**. The assistant ships with a statistics wiki 
-covering Bayesian inference, priors, searches and model comparison. Its **literature wiki** at `wiki/literature/` 
-is yours to populate with the papers that define your field and analysis.
-
-Adding papers lets the assistant connect your natural language scientific descriptions to its inference: what 
-parameters mean, which assumptions are conventional, how previous studies approached the problem, and what might 
-complicate the interpretation of a result.
-
-To add a paper, simply ask:
-
-> Ingest this paper into the literature wiki: [arXiv ID, link or local PDF].
-> Summarise its model, likelihood, priors and main conclusions, and explain
-> how it relates to the analysis we are developing.
-
-The wiki builds a lasting reference for your project, so scientific context is available alongside your code and 
-results. As you add relevant papers, the assistant can draw on them to frame decisions, cite prior work and identify 
-caveats worth investigating.
 
 ## License
 

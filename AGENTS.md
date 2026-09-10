@@ -141,10 +141,17 @@ how it paces the work, not which workflows exist:
   the user asks for a long or multi-session run, scale up: clarify the goal, plan in phases,
   execute with checkpoints — proactive but not silent; state in `wiki/project/`. The dial is
   in [`modes/assistant.md`](./modes/assistant.md) "The autonomy dial".
+- **Start here** — *the guided tour*: the six-step natural-language workflow of the RTD
+  Natural Language Inference page run on the bundled 1D Gaussian, then the same six steps on
+  the user's own project. One step per turn; the user types each prompt themselves. It adds
+  no capability — it scripts the existing skills at newcomer depth — and hands off to
+  assistant (or teacher) mode when it ends. See [`modes/start_here.md`](./modes/start_here.md).
 
-Select (first match): explicit instruction → `.mode` file → `profile.md` "Interaction mode" →
-else **infer from the opening request** (fall back to **assistant**); `.maintainer` outranks
-`.mode`. State an inferred mode in one line and invite correction; acknowledge an explicit
+Select (first match): the **published start-here prompt** (`README.md` "Getting Started"), or
+"start here" / "start_here" → explicit instruction → `.mode` file → `profile.md` "Interaction
+mode" → else **infer from the opening request** (fall back to **assistant**); `.maintainer`
+outranks all of them. The start-here trigger outranks inference from the rest of the opening
+request. State an inferred mode in one line and invite correction; acknowledge an explicit
 one only if it changes behavior. Read `modes/<mode>.md`; depth still follows
 `skills/_style.md` "Adaptive depth".
 
