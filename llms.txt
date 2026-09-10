@@ -1,20 +1,24 @@
 # PyAutoFit Assistant
 
-> The PyAutoFit Assistant is an AI assistant for statistical inference in your own scientific domain — agent instructions, task skills, and a reference wiki in one cloned repo you drive by conversation. This file is the front door: it routes you by intent — start a chat session, see what the assistant can do, read the reference, or jump to runnable examples.
+> The front door of the PyAutoFit Assistant — an AI assistant for statistical inference in your own scientific domain: agent instructions, task skills and a reference wiki in one repository that you drive in natural language from inside an AI coding agent. It routes by intent: set up, see what the assistant can do, read the reference, or jump to runnable examples.
 
-## Using it in chat (start here)
+## How to use it
 
-Point a coding agent or browser chat (ChatGPT, Claude) at this repo and open with:
+The assistant is supported **only inside an AI coding agent** that can read this repository and execute Python: **Claude Code** or **Codex** (recommended and tested), or **OpenCode** as an experimental alternative. Clone the repository and open the agent inside it — `AGENTS.md` (via `CLAUDE.md` for Claude Code) loads automatically:
 
-```text
-I'd like to use the PyAutoFit Assistant for this conversation:
-https://github.com/PyAutoLabs/autofit_assistant
-
-Please familiarize yourself with the project and use its guidance and statistical
-reference material when answering my questions. I'll provide any local files or results you need.
+```bash
+git clone https://github.com/PyAutoLabs/autofit_assistant.git
+cd autofit_assistant
+claude        # or: codex / opencode
 ```
 
-Read order: [AGENTS.md](./AGENTS.md) → [skills/README.md](./skills/README.md) → the relevant skill → [wiki/](./wiki). If the chat can't browse GitHub, paste this file and `AGENTS.md`. The assistant can route to examples, explain Bayesian inference, review pasted scripts/errors/figures, and draft code; it cannot run code, inspect your files, or guarantee drafts against your installed PyAutoFit version. For repeated edits, live execution, or multi-session project state, switch to a local coding agent.
+Then paste the starting prompt from the [README](./README.md) (or its "Bring Your Own Likelihood" prompt). Setup pages: [`docs/setup/claude_code.md`](./docs/setup/claude_code.md) · [`docs/setup/codex_cli.md`](./docs/setup/codex_cli.md) · [`docs/setup/opencode_cli.md`](./docs/setup/opencode_cli.md). Desktop and IDE versions of these agents are fine when they provide the same repository and execution access. Browser chats with a GitHub connector are **no longer supported** (retired 2026-09-10; see [`docs/archive/`](./docs/archive/README.md)).
+
+Agentic does not mean autonomous: you can discuss a model, choose priors, plan an analysis or learn in **Teacher Mode** without running anything — say so in your prompt.
+
+## If you are an agent reading this file
+
+Read order: [AGENTS.md](./AGENTS.md) → [skills/README.md](./skills/README.md) → the relevant skill → [wiki/](./wiki). Never write PyAutoFit from memory: mirror the matching skill's calls and verify symbols against the installed library (`dir()`, or `python autoassistant/audit_skill_apis.py --code "<snippet>"` on a harness without the PreToolUse code gate). Inspect the user's data (plot it, or print a numerical summary) before composing any fit, and never silently alter the user's likelihood code.
 
 ## Agent instructions (canonical)
 

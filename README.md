@@ -31,16 +31,36 @@ Already have a likelihood function for your science problem? **Point the assista
 
 Your existing science code remains the source of the likelihood. With PyAutoFit built around it, you can perform inference through natural language while gaining access to features such as flexible priors and model composition, MCMC and nested sampling, automated result handling, model comparison and scalable workflows.
 
-### Choosing Your AI Tool
+### Setting up the assistant
 
-There are two kinds of AI tool you could use the assistant with:
+The assistant runs inside an **AI coding agent** — a tool that reads this repository, executes Python on your
+computer and inspects the results. That is what lets it install **PyAutoFit**, wrap your likelihood code, run
+searches and look at the plots they produce. You do not have to run anything to use it: discussing a model, choosing
+priors, planning an analysis or learning in Teacher Mode all happen inside the same agent.
 
-* **Conversational AI assistant:** Use a browser-based tool such as **ChatGPT** or **Claude** to ask questions, plan analyses, and generate scripts that you transfer to your computer and run manually.
-* **CLI coding agent:** Use a terminal-based agent such as **Claude Code** or **Codex**. It can work directly on your computer to inspect your data, write and execute scripts, diagnose errors, run model fits, and inspect their results.
+1. **Choose Claude Code or Codex.** These are the two recommended agents and the ones the assistant is developed and
+   tested against — see [Claude Code](docs/setup/claude_code.md) and [Codex](docs/setup/codex_cli.md). For sustained
+   scientific work expect to pay for one of them, but how depends on your situation: a personal subscription, access
+   through your institution or team, or usage-based API billing. Check the provider's current plans rather than
+   assuming a subscription is the only route. Desktop and IDE versions of either agent are fine, provided they can
+   read this repository and execute code.
+2. **Open the assistant workspace.** Clone this repository and start the agent inside it — the instructions load
+   automatically, and the assistant installs PyAutoFit for you if it is missing:
 
-**Both kinds are supported, and both currently require a paid plan.** The recommended route is a CLI coding agent: the paid-subscription agents **[Claude Code](docs/setup/claude_code.md)** and **[Codex](docs/setup/codex_cli.md)**, which install **PyAutoFit**, run fits and inspect their results directly on your computer. Conversation assistants work too: **ChatGPT** on a paid plan (Plus/Pro/Team) reads this repository through its [GitHub connector](docs/setup/chatgpt_paid_connector.md), and **Claude** chat on a paid plan (Pro/Max/Team) reads it live through its [GitHub connector](docs/setup/claude_chat_paid.md).
+   ```bash
+   git clone https://github.com/PyAutoLabs/autofit_assistant.git
+   cd autofit_assistant
+   claude        # or: codex
+   ```
 
-**Free options are being tested** but do not yet have first-class support: the free coding agent **OpenCode** is the most promising, and free chat routes work but are limited by their usage ceilings.
+3. **Submit the starting prompt** at the top of this README (or the "Bring Your Own Likelihood" prompt if you already
+   have likelihood code).
+
+**Experimental alternative.** [OpenCode](docs/setup/opencode_cli.md) is an open-source coding agent whose client is
+free; the model you connect it to is a separate choice with its own cost and capability, free offerings are often
+time-limited, and no provider/model configuration has yet been validated against this assistant — treat it as
+compatible, not tested. Browser chats with a GitHub connector are **no longer supported** (retired 2026-09-10; the old
+pages are archived with a notice under [`docs/archive/`](docs/archive/README.md)).
 
 ### Using PyAutoFit Assistant
 
