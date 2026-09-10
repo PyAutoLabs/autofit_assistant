@@ -1,6 +1,6 @@
 ---
 name: af_inspect_results_mcp
-description: Run and configure the read-only results-inspector MCP server, which lets chat harnesses without code execution (Claude Desktop, Claude Code) inspect PyAutoFit output directories — list fits ranked by evidence, read model and posterior summaries, and view result images inline in chat. Use when the user wants to "browse/inspect my results from chat", asks about the MCP server, or wants Claude Desktop wired to their output folder. Not for loading results in Python (that is `af_load_results`) and not for running fits.
+description: Run and configure the read-only results-inspector MCP server, which lets an MCP client (Claude Desktop, Claude Code) inspect PyAutoFit output directories without running Python — list fits ranked by evidence, read model and posterior summaries, and view result images inline in chat. Use when the user wants to "browse/inspect my results from chat", asks about the MCP server, or wants Claude Desktop wired to their output folder. Not for loading results in Python (that is `af_load_results`) and not for running fits.
 user-invocable: true
 ---
 
