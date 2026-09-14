@@ -16,6 +16,10 @@ Then paste the starting prompt from the [README](./README.md) (or its "Bring You
 
 Agentic does not mean autonomous: you can discuss a model, choose priors, plan an analysis or learn in **Teacher Mode** without running anything — say so in your prompt.
 
+To study the lectures, paste the [HowToFit mode prompt](./README.md#howtofit-mode).
+Choose Jupyter Notebook to run the course code (recommended for that purpose), or Markdown
+to read on GitHub, and ask the assistant questions as you work through each lecture.
+
 ## If you are an agent reading this file
 
 Read order: [AGENTS.md](./AGENTS.md) → [skills/README.md](./skills/README.md) → the relevant skill → [wiki/](./wiki). Never write PyAutoFit from memory: mirror the matching skill's calls and verify symbols against the installed library (`dir()`, or `python autoassistant/audit_skill_apis.py --code "<snippet>"` on a harness without the PreToolUse code gate). Inspect the user's data (plot it, or print a numerical summary) before composing any fit, and never silently alter the user's likelihood code.
