@@ -26,6 +26,9 @@ the results. You can stop and ask "what is a prior?" at any step without losing 
 **Bring Your Own Likelihood (BYOL)** prompt under [Your own project](#bring-your-own-likelihood-byol) is the other
 door in — it starts from your function instead of the Gaussian.
 
+To study Bayesian inference through the lectures, use the [HowToFit mode prompt](#howtofit-mode).
+The assistant helps you work through the course and answers questions as you go.
+
 The tour is scripted in [`modes/start_here.md`](modes/start_here.md); the sections below are the same six steps,
 written out so you can read ahead or work through them on your own.
 
@@ -415,13 +418,35 @@ brings the inference, one stage per turn and nothing fitted until you give the g
 
 Your existing science code remains the source of the likelihood. With PyAutoFit built around it, you can perform inference through natural language while gaining access to features such as flexible priors and model composition, MCMC and nested sampling, automated result handling, model comparison and scalable workflows.
 
-## Teacher mode and HowToFit
+## HowToFit mode
 
-For users less familiar with Bayesian inference and scientific analysis you may wish to read through
-the **HowToFits** lectures. These teach you the basic principles of Bayesian inference, with the
-content pitched at undergraduate level and above.
+The [HowToFit lectures on GitHub](https://github.com/PyAutoLabs/HowToFit) teach the basic principles of
+Bayesian inference, pitched at undergraduate level and above. You can work through them in either format:
 
-The lectures are available in the [standalone HowToFit repository](https://github.com/PyAutoLabs/HowToFit).
+- **[Jupyter notebooks](https://github.com/PyAutoLabs/HowToFit/tree/main/notebooks)** — recommended if you want
+  to run the code. Follow the course's setup instructions, open a lecture in Jupyter Notebook and run its cells
+  as you read. GitHub's notebook preview is for reading; execute the notebook in Jupyter.
+- **[Markdown lectures](https://github.com/PyAutoLabs/HowToFit/tree/main/markdown)** — read directly on GitHub
+  if you want to study the explanations without running code.
+
+Paste this prompt into the assistant to begin:
+
+<sub><b>Example Natural Language Prompt for Claude Code, Codex or other AI coding agent</b></sub>
+
+```text
+Enter HowToFit mode.
+
+I want to work through the HowToFit lectures. Show me where to find them
+and how to use Jupyter Notebook or Markdown, then help me with questions
+as I go.
+```
+
+This starts **HowToFit mode** ([`modes/howtofit.md`](modes/howtofit.md)). Keep the assistant alongside the
+lecture and ask anything: share the lecture link and section, paste an equation or code cell, or show an error.
+It will explain the concepts and code, help interpret results and troubleshoot notebook problems at your pace.
+You choose when to move on to the next section or lecture.
+
+## Teacher mode
 
 If you're new to statistical inference and are not totally sure what concepts like a model, likelihood or
 sampling are, you can use **teacher mode** to have the assistant explain concepts in more detail. Simply

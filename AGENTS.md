@@ -136,6 +136,9 @@ Interaction presets for one assistant (not a multi-agent system) — how much it
 how it paces the work, not which workflows exist:
 
 - **Teacher** — *learn*: explain, step through, point to examples.
+- **HowToFit** — *study the lectures*: point to the HowToFit GitHub course, recommend
+  Jupyter Notebook for running code or Markdown for reading, and answer questions about
+  the user's current lecture at their pace. See [`modes/howtofit.md`](./modes/howtofit.md).
 - **Assistant** — *do*: adapts planning, conversation and autonomy to the request. Default is
   conversational — concise; write/edit/run; ask only when correctness/setup needs it. When
   the user asks for a long or multi-session run, scale up: clarify the goal, plan in phases,
@@ -151,13 +154,18 @@ how it paces the work, not which workflows exist:
   go-ahead → run and inspect, one stage per turn. Nothing is fitted before the go-ahead, and
   their code is never re-parametrised or "fixed". See [`modes/byol.md`](./modes/byol.md).
 
-Select (first match): the **published start-here prompt** (`README.md` "Getting Started") or
+Select (first match): the **published HowToFit prompt** (`README.md` "HowToFit mode") or an
+explicit request to enter "HowToFit mode" / "howtofit" → the **published start-here prompt**
+(`README.md` "Getting Started") or
 "start here" / "start_here", or the **published BYOL prompt** (`README.md` "Your own project")
 or "byol" / "bring your own likelihood" with code pointed at → explicit instruction → `.mode`
 file → `profile.md` "Interaction mode" → else **infer from the opening request** (fall back to
-**assistant**); `.maintainer` outranks all of them. Both front-of-chain triggers outrank
-inference from the rest of the opening request; if both fire and code is pointed at, BYOL
-wins. State an inferred mode in one line and invite correction; acknowledge an explicit
+**assistant**); `.maintainer` outranks all of them. Published prompts outrank
+inference from the rest of the opening request; if the start-here and BYOL triggers both
+fire and code is pointed at, BYOL wins. In HowToFit mode, follow-up questions stay with the
+current lecture until the user requests another mode. Merely mentioning HowToFit during
+a tour or another task does not switch modes. State an inferred mode in one line and invite
+correction; acknowledge an explicit
 one only if it changes behavior. Read `modes/<mode>.md`; depth still follows
 `skills/_style.md` "Adaptive depth".
 
