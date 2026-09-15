@@ -471,8 +471,11 @@ come away understanding the workflow, not just the commands.
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PyAutoLabs/autofit_assistant/blob/main/notebooks/experimental_colab.ipynb)
 
 Two cells in a fresh CPU runtime: one installs the assistant's PyAutoFit stack,
-one prints the context to copy into Colab's Gemini sidebar. After that the
-notebook is your sandbox — write your own cells and work through them with Gemini.
+one prints the context to copy into Colab's Gemini sidebar — the safety
+invariants, teacher and BYOL modes, and the skills for composing a model,
+wrapping a likelihood, running a search, plotting a fit and debugging one that
+fails. After that the notebook is your sandbox: write your own cells, paste your
+own likelihood, and print any other assistant file on demand with `show(...)`.
 
 This is experimental: cloning the assistant does not automatically load its
 instructions into Gemini. Follow the notebook's explicit context step. Gemini
