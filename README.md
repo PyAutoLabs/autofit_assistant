@@ -470,15 +470,16 @@ come away understanding the workflow, not just the commands.
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PyAutoLabs/autofit_assistant/blob/main/notebooks/experimental_colab.ipynb)
 
-Try the assistant's bundled Gaussian fit in a fresh CPU runtime, with context to
-copy into Colab's Gemini sidebar. The notebook installs PyAutoFit, introduces the
-model and likelihood, runs a small fit, and lets you download the results.
+Two cells in a fresh CPU runtime: one installs the assistant's PyAutoFit stack,
+one prints the context to copy into Colab's Gemini sidebar. After that the
+notebook is your sandbox — write your own cells and work through them with Gemini.
 
 This is experimental: cloning the assistant does not automatically load its
 instructions into Gemini. Follow the notebook's explicit context step. Gemini
 availability depends on your Google account and Colab settings. Save a notebook
-copy and download results before the runtime resets; this is a small browser
-experiment, with larger inference projects continuing in the full assistant.
+copy and download anything you want to keep before the runtime resets; this is a
+small browser experiment, with larger inference projects continuing in the full
+assistant.
 
 ## License
 
