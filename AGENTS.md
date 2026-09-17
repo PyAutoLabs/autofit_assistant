@@ -48,10 +48,13 @@ never-rewrite-history.
   data is exempt.
 - **Code gate.** A PreToolUse hook validates PyAuto\* symbols against the installed library
   and blocks ones written from memory. If blocked, don't guess — grep `skills/` or introspect
-  `dir()`, then re-run. The hook fires only on harnesses with hook support (Claude Code);
-  **on any other harness (Codex, OpenCode, Gemini CLI, an IDE agent) self-enforce it**: run
+  `dir()`, then re-run. Claude Code and Codex both register this hook from their
+  project config. In Codex, review and trust the current project-hook hash with `/hooks`;
+  changed or untrusted hooks are skipped. **On any other harness (OpenCode, Gemini CLI,
+  an IDE agent) self-enforce it**: run
   `python autoassistant/audit_skill_apis.py --code "<snippet>"` (or `--file <script.py>`) on
-  generated PyAuto\* code before executing it.
+  generated PyAuto\* code before executing it. Codex registers the PreToolUse safety gates,
+  not the separate Claude remote-session Python bootstrap; use `source activate.sh` normally.
 - **Likelihood code is the user's.** When wrapping user-supplied likelihood or model code
   into an `Analysis` class, never silently alter its numerics — no re-parametrisation,
   no added guards, no "fixes" to their science. If their code looks wrong, say so and let
