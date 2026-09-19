@@ -218,9 +218,11 @@ When **not** in maintainer mode, commit at natural checkpoints (a script + its
 - **One checkpoint = one commit.** **Stage explicitly by filename** — never `git add -A`.
 - **Never push** (always an explicit user action). **Never skip hooks** (no `--no-verify`);
   fix the underlying issue and make a new commit.
-- **Co-author trailer.** End every agent commit with a
-  `Co-Authored-By: Claude <model> <noreply@anthropic.com>` trailer naming the current
-  session's model — this marks the commit as agent-authored.
+- **Agent attribution.** Name the actual harness and model in the commit body
+  when known (for example, `Agent: Codex; model: <actual model>`). Use a
+  `Co-Authored-By` trailer only when the active harness supplies a valid identity;
+  never invent a provider email, model name, or Claude attribution. If the model
+  is unavailable, record the known harness and say the model is unavailable.
 - If the user is on `main` (or any branch tracked as `origin/HEAD`), pause and confirm
   before committing rather than landing directly there.
 

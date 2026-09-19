@@ -39,12 +39,12 @@ computer and inspects the results. That is what lets it install **PyAutoFit**, w
 searches and look at the plots they produce. You do not have to run anything to use it: discussing a model, choosing
 priors, planning an analysis or learning in Teacher Mode all happen inside the same agent.
 
-1. **Choose Claude Code or Codex.** These are the two recommended agents and the ones the assistant is developed and
-   tested against — see [Claude Code](docs/setup/claude_code.md) and [Codex](docs/setup/codex_cli.md). For sustained
+1. **Choose Claude Code or Codex.** These are the two recommended agents. Codex discovery and safety adapters have
+   focused validation; full science fits depend on the local environment — see [Claude Code](docs/setup/claude_code.md) and [Codex](docs/setup/codex_cli.md). For sustained
    scientific work expect to pay for one of them, but how depends on your situation: a personal subscription, access
    through your institution or team, or usage-based API billing. Check the provider's current plans rather than
-   assuming a subscription is the only route. Desktop and IDE versions of either agent are fine, provided they can
-   read this repository and execute code.
+   assuming a subscription is the only route. The setup below uses the CLI; the linked smoke record describes
+   its tested coverage.
 2. **Open the assistant workspace.** Clone this repository and start the agent inside it — the instructions load
    automatically, and the assistant installs PyAutoFit for you if it is missing:
 
