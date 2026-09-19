@@ -1,0 +1,1 @@
+../../skills/af_update_wiki.md
