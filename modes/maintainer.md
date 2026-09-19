@@ -75,11 +75,13 @@ names is reported `unclassified` and blocks a birth until the boundary is fixed 
   report from empty runs).
 - **Mixed** — copied then adapted (named substitutions, then domain tuning): `config/*`,
   `llms.txt` / `llms-full.txt`, and `benchmarks/README.md` (generic protocol, domain
-  table). Generated `.codex/skills/*/SKILL.md` wrappers also belong here: their
-  format is generic, but their namespace and targets belong to this assistant.
-  Regenerate them from the newborn's adapted skill inventory with Brain's
-  project-discovery installer. Claude command links for `af_*` and generic
-  framework skills share their canonical skills' generic classification.
+  table).
+
+Generated `.codex/skills/*/SKILL.md` wrappers are **domain** for cloning: their
+namespace and targets belong to this assistant, so they must never be copied
+blind. Regenerate them from the newborn's adapted skill inventory with Brain's
+project-discovery installer. Claude command links for `af_*` and generic
+framework skills share their canonical skills' generic classification.
 
 The contrast with `autolens_assistant` (above) is the point: there `al_*` skills and a
 lensing-API `wiki/core/` are *domain*; here `af_*` skills and a statistics `wiki/core/`
