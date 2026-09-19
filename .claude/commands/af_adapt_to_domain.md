@@ -1,0 +1,1 @@
+../../skills/af_adapt_to_domain.md
