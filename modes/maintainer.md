@@ -57,16 +57,16 @@ autofit_assistant`) and copies the generic set verbatim while regenerating the
 domain set for the newborn's field. Keep the three sets complete: a tracked file no set
 names is reported `unclassified` and blocks a birth until the boundary is fixed here.
 
-- **Generic assistant infrastructure** — copied verbatim (name substitutions only): the
-  constitution skeleton (`AGENTS.md`, `AI_POLICY.md`, `CLAUDE.md`, `Makefile`,
-  `activate.sh`, `version.txt`), `modes/`, the skills framework (`skills/_*`,
-  `skills/README.md`, `skills/start-new-project*`, `skills/contribute-upstream*`) **and
-  the `af_*` generic inference skills**, the `autoassistant/` tooling (API gate, wiki-currency, benchmark
 The portable `skills/feedback.md` workflow and its Claude adapters are generic.
 Generate it from Brain with `python3 PyAutoBrain/bin/sync_feedback.py autofit_assistant`,
 then use clone sync for siblings and regenerate their discovery wrappers.
 The embedded report template/invitation remain owned by Brain.
 
+- **Generic assistant infrastructure** — copied verbatim (name substitutions only): the
+  constitution skeleton (`AGENTS.md`, `AI_POLICY.md`, `CLAUDE.md`, `Makefile`,
+  `activate.sh`, `version.txt`), `modes/`, the skills framework (`skills/_*`,
+  `skills/README.md`, `skills/start-new-project*`, `skills/contribute-upstream*`) **and
+  the `af_*` generic inference skills**, the `autoassistant/` tooling (API gate, wiki-currency, benchmark
   runner), `sources.yaml`, `.github/` workflows, the harness mirrors (`.claude/`,
   `.gemini/`), `wiki/README.md`, `wiki/project/*`, **`wiki/core/`** — because here
   `wiki/core/` teaches *statistics and inference*, not a specific science, so it is
