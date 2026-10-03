@@ -57,6 +57,11 @@ autofit_assistant`) and copies the generic set verbatim while regenerating the
 domain set for the newborn's field. Keep the three sets complete: a tracked file no set
 names is reported `unclassified` and blocks a birth until the boundary is fixed here.
 
+The portable `skills/feedback.md` workflow and its Claude adapters are generic.
+Generate it from Brain with `python3 PyAutoBrain/bin/sync_feedback.py autofit_assistant`,
+then use clone sync for siblings and regenerate their discovery wrappers.
+The embedded report template/invitation remain owned by Brain.
+
 - **Generic assistant infrastructure** — copied verbatim (name substitutions only): the
   constitution skeleton (`AGENTS.md`, `AI_POLICY.md`, `CLAUDE.md`, `Makefile`,
   `activate.sh`, `version.txt`), `modes/`, the skills framework (`skills/_*`,
@@ -70,6 +75,8 @@ names is reported `unclassified` and blocks a birth until the boundary is fixed 
   every domain assistant starts from (a domain *reference* like `autolens_assistant`
   instead ships a filled corpus here, so there it is domain — the seam differs).
 - **Domain-specific content** — regenerated or stubbed per clone, never copied blind:
+  the bundled Gaussian examples in `scripts/start_here/*` and the paired
+  `scripts/experimental_colab.py` / `notebooks/experimental_colab.ipynb` experiment;
   `dataset/*` (the example datasets), `README.md` (science framing + example prompts),
   `hpc/*` (the example batch recipes), and `benchmarks/prompts/*` + `benchmarks/runs/*`
   + `benchmarks/RESULTS.md` (each domain writes its own prompt cards and regenerates the
