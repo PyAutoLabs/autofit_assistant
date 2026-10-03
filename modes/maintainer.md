@@ -75,6 +75,8 @@ The embedded report template/invitation remain owned by Brain.
   every domain assistant starts from (a domain *reference* like `autolens_assistant`
   instead ships a filled corpus here, so there it is domain — the seam differs).
 - **Domain-specific content** — regenerated or stubbed per clone, never copied blind:
+  the bundled Gaussian examples in `scripts/start_here/*` and the paired
+  `scripts/experimental_colab.py` / `notebooks/experimental_colab.ipynb` experiment;
   `dataset/*` (the example datasets), `README.md` (science framing + example prompts),
   `hpc/*` (the example batch recipes), and `benchmarks/prompts/*` + `benchmarks/runs/*`
   + `benchmarks/RESULTS.md` (each domain writes its own prompt cards and regenerates the
