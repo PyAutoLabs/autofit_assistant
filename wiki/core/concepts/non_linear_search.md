@@ -6,7 +6,7 @@ sources:
       - autofit/non_linear/search/
     pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
 last_updated: 2026-07-10
-content_sha256: b6e938919e7b4ce44ca05f18908290d0653ca37a296a579fdd109b07dc446ed7
+content_sha256: 7d5ab270e029c8b829bac65f8918a8e397ba867c30f50723add04ef52314e0ca
 ---
 
 # Non-linear searches
@@ -53,9 +53,9 @@ local consumer refines — [[initialization_and_chaining]].
 
 Every search takes `name` / `path_prefix` / `unique_tag` (output identity — a
 completed search **reloads instead of re-running**), `number_of_cores`
-(parallelisation), and an `initializer` where the family supports it. Per-sampler
-defaults live in `config/non_linear/*.yaml`, so a project can retune once rather than
-in every script. Execution: `search.fit(model=model, analysis=analysis)` → `Result`
+(parallelisation), and an `initializer` where the family supports it. Each search's
+defaults are the keyword defaults of its class — there are no per-search YAML files, so
+a non-default setting is passed as a kwarg. Execution: `search.fit(model=model, analysis=analysis)` → `Result`
 (`PyAutoFit:autofit/non_linear/search/abstract_search.py`).
 
 ## See also
