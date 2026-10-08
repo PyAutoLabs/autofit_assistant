@@ -1,6 +1,6 @@
 ---
 name: af_configure_search
-description: Choose and configure a PyAutoFit non-linear search — nested samplers (Nautilus, DynestyStatic/Dynamic), MCMC (Emcee, Zeus, BlackJAXNUTS), and MLE optimizers (LBFGS, Drawer) — including output paths, cores, initializers and per-sampler settings. Use when the user asks "which sampler should I use", "configure the search", or wants to tune convergence/runtime. Not for actually executing the fit (that is `af_run_search`) or for composing the model (that is `af_compose_model`).
+description: Choose and configure a PyAutoFit non-linear search — nested samplers (Nautilus, DynestyStatic/Dynamic, NSS), MCMC (Emcee, Zeus, BlackJAXNUTS, SMC), and MLE optimizers (LBFGS, BFGS, MultiStartAdam/ADABelief/Lion/Prodigy, Drawer) — including output paths, cores, initializers and per-sampler settings. Use when the user asks "which sampler should I use", "configure the search", or wants to tune convergence/runtime. Not for actually executing the fit (that is `af_run_search`) or for composing the model (that is `af_compose_model`).
 user-invocable: true
 ---
 
@@ -18,12 +18,14 @@ distribution.
 Every search class shares the same construction pattern: a `name`/`path_prefix` that
 decides where output lands, `number_of_cores` for parallelisation, and per-sampler
 settings (`PyAutoFit:autofit/non_linear/search/`). The installed roster (verify with
-`dir(af)` — never from memory): `Nautilus`, `DynestyStatic`, `DynestyDynamic` (nested);
-`Emcee`, `Zeus`, `BlackJAXNUTS` (MCMC); `LBFGS`, `Drawer` (MLE).
+`dir(af)` — never from memory): `Nautilus`, `DynestyStatic`, `DynestyDynamic`, `NSS`
+(nested); `Emcee`, `Zeus`, `BlackJAXNUTS`, `SMC` (MCMC); `LBFGS`, `BFGS`,
+`MultiStartAdam`, `MultiStartADABelief`, `MultiStartLion`, `MultiStartProdigy`, `Drawer`
+(MLE). `NSS`, `BlackJAXNUTS`, `SMC` and the `MultiStart*` searches are JAX-native and
+need an analysis built with `use_jax=True`.
 
-Read `wiki/core/concepts/non_linear_search.md` for the decision guide (until the core
-wiki lands, the canonical references are `autofit_workspace:scripts/searches/nest.py`,
-`mcmc.py`, `mle.py`).
+Read `wiki/core/concepts/non_linear_search.md` for the decision guide; the worked
+examples are `autofit_workspace:scripts/searches/nest.py`, `mcmc.py`, `mle.py`.
 
 ## Ask
 
@@ -55,7 +57,9 @@ search = af.Nautilus(
 ```
 
 `af.DynestyStatic(nlive=50, ...)` / `af.DynestyDynamic(...)` are the alternative nested
-samplers — long-standing, well-understood defaults with extensive literature.
+samplers — long-standing, well-understood defaults with extensive literature. `af.NSS`
+(nested slice sampling via BlackJAX) runs the whole sampler inside `jax.jit` and needs a
+JAX-traceable likelihood.
 
 ## Branch — MCMC (posterior only)
 
@@ -76,7 +80,9 @@ search = af.Emcee(
 ```
 
 `af.Zeus` (slice-sampling ensemble) often mixes faster on correlated posteriors;
-`af.BlackJAXNUTS` is the gradient-based option when the likelihood is JAX-differentiable.
+`af.BlackJAXNUTS` is the gradient-based option when the likelihood is JAX-differentiable;
+`af.SMC` (BlackJAX adaptive tempered SMC with a gradient kernel) also returns the log
+evidence.
 Convergence is governed by auto-correlation settings (`af.AutoCorrelationsSettings`) —
 see `autofit_workspace:scripts/searches/mcmc.py`.
 
@@ -93,6 +99,11 @@ answer of a Bayesian analysis (`PyAutoFit:autofit/non_linear/search/mle/`).
 search = af.LBFGS(name="gaussian_fit_lbfgs")
 ```
 
+`af.BFGS` is the full-memory scipy variant. `af.MultiStartAdam` / `MultiStartADABelief` /
+`MultiStartLion` / `MultiStartProdigy` run many starts in parallel with JAX gradients
+(`use_jax=True` required) and return the best basin — the better choice when the
+likelihood is multi-modal or a single start gets stuck.
+
 ## Output discipline
 
 `path_prefix` + `name` (+ `unique_tag`) map to `output/<path_prefix>/<name>/<tag>/…`.
@@ -100,9 +111,10 @@ Keep them stable across re-runs of the same fit — PyAutoFit resumes a complete
 from its output rather than re-running it, which is exactly what you want and worth
 telling the user before they wonder why a second run finishes instantly.
 
-Per-sampler defaults live in `config/non_linear/` — a project can retune a sampler
-globally there instead of repeating kwargs in every script
-(`PyAutoNerves:autonerves/conf.py`).
+A search's defaults are the keyword defaults of its class
+(`PyAutoFit:autofit/non_linear/search/`); there are no per-search YAML files, so a
+non-default setting is passed as a kwarg. `config/non_linear/` holds only
+`GridSearch.yaml`.
 
 ## Combine
 
@@ -114,7 +126,8 @@ globally there instead of repeating kwargs in every script
 
 ## Further reading
 
-- **Student / new to inference** — HowToFit chapter 2: what a non-linear search is.
+- **Student / new to inference** — `HowToFit:scripts/chapter_1_introduction/tutorial_3_non_linear_search.py`:
+  what a non-linear search is.
 - **General reference** — [RTD: search cookbook](https://pyautofit.readthedocs.io/en/latest/cookbooks/search.html).
 - **Experienced PyAutoFit user** — `autofit_workspace:scripts/searches/` (`nest.py`,
   `mcmc.py`, `mle.py`, `start_point.py`).
