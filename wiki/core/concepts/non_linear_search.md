@@ -4,9 +4,9 @@ sources:
   - project: PyAutoFit
     paths:
       - autofit/non_linear/search/
-    pinned_commit: 4592990b14cacab243cde9c17789d463ff4a674f
-last_updated: 2026-07-10
-content_sha256: 7d5ab270e029c8b829bac65f8918a8e397ba867c30f50723add04ef52314e0ca
+    pinned_commit: 3f4699b959e387b2eddca4508585c7812dc557be
+last_updated: 2026-10-15
+content_sha256: c56214e3dcb1c67d566bcf47d2cbec8bdef83890e8b4a434f8e1cd355073263b
 ---
 
 # Non-linear searches
@@ -22,18 +22,45 @@ model/analysis code is identical whichever engine runs
 
 ## The installed roster
 
-Verify against the installed stack (`dir(af)`), never from memory. At the pinned
-version:
+Verify against the installed stack (`dir(af)`), never from memory. The table is generated
+from the installed release's search manifest (`python -m autofit search-manifest --json`;
+regenerate with PyAutoHands `autohands regenerate_search_roster --root .`, never by hand) —
+one row per search, with the capabilities the search declares:
 
-| Family | Search | One-line character |
-|---|---|---|
-| Nested | `af.Nautilus` | neural-network-boosted region sampler; recommended default — [[nested_sampling]] |
-| Nested | `af.DynestyStatic` / `af.DynestyDynamic` | the long-standing pure-Python nested samplers |
-| MCMC | `af.Emcee` | affine-invariant ensemble; dependable default MCMC — [[mcmc_and_hmc]] |
-| MCMC | `af.Zeus` | ensemble slice sampling; often mixes faster on correlated posteriors |
-| MCMC | `af.BlackJAXNUTS` | gradient-based NUTS; needs a JAX-differentiable likelihood |
-| MLE | `af.LBFGS` | quasi-Newton maximum-likelihood — [[mle_and_optimizers]] |
-| MLE | `af.Drawer` | draws from the priors; a sanity-check baseline |
+<!-- search-roster:begin style=table -->
+<!-- search-manifest@1 autofit 2026.10.12.1 -->
+| Search | Family | Status | JAX | Gradient | Evidence | Posterior | Example |
+|---|---|---|---|---|---|---|---|
+| `af.Emcee` | mcmc | stable | none | none | no | chain | `autofit_workspace:scripts/searches/mcmc.py` |
+| `af.Zeus` | mcmc | stable | none | none | no | chain | `autofit_workspace:scripts/searches/mcmc.py` |
+| `af.BlackJAXNUTS` | mcmc | stable | required | uses | no | chain | `autofit_workspace:scripts/searches/mcmc.py` |
+| `af.SMC` | mcmc | experimental | required | uses | yes | weighted | — |
+| `af.DynestyStatic` | nest | stable | optional | none | yes | weighted | `autofit_workspace:scripts/searches/nest.py` |
+| `af.DynestyDynamic` | nest | stable | optional | none | yes | weighted | `autofit_workspace:scripts/searches/nest.py` |
+| `af.Nautilus` | nest | stable | optional | none | yes | weighted | `autofit_workspace:scripts/searches/nest.py` |
+| `af.NSS` | nest | experimental | required | none | yes | weighted | — |
+| `af.Drawer` | mle | stable | none | none | no | point | `autofit_workspace:scripts/searches/mle.py` |
+| `af.BFGS` | mle | stable | optional | none | no | point | — |
+| `af.LBFGS` | mle | stable | optional | none | no | point | `autofit_workspace:scripts/searches/mle.py` |
+| `af.MultiStartAdam` | mle | stable | required | uses | no | point | `autofit_workspace:scripts/searches/mle.py` |
+| `af.MultiStartADABelief` | mle | experimental | required | uses | no | point | — |
+| `af.MultiStartLion` | mle | experimental | required | uses | no | point | — |
+| `af.MultiStartProdigy` | mle | stable | required | uses | no | point | — |
+<!-- search-roster:end -->
+
+`JAX: required` searches need an analysis built with `use_jax=True`; `experimental` ones
+are new enough that their defaults may still move. The full capability matrix is
+https://pyautofit.readthedocs.io/en/latest/searches/index.html.
+
+Character, hand-written:
+
+- `af.Nautilus` — neural-network-boosted region sampler; recommended default — [[nested_sampling]]
+- `af.DynestyStatic` / `af.DynestyDynamic` — the long-standing pure-Python nested samplers
+- `af.Emcee` — affine-invariant ensemble; dependable default MCMC — [[mcmc_and_hmc]]
+- `af.Zeus` — ensemble slice sampling; often mixes faster on correlated posteriors
+- `af.BlackJAXNUTS` — gradient-based NUTS; needs a JAX-differentiable likelihood
+- `af.LBFGS` — quasi-Newton maximum-likelihood — [[mle_and_optimizers]]
+- `af.Drawer` — draws from the priors; a sanity-check baseline
 
 ## Choosing
 

@@ -17,12 +17,23 @@ distribution.
 
 Every search class shares the same construction pattern: a `name`/`path_prefix` that
 decides where output lands, `number_of_cores` for parallelisation, and per-sampler
-settings (`PyAutoFit:autofit/non_linear/search/`). The installed roster (verify with
-`dir(af)` — never from memory): `Nautilus`, `DynestyStatic`, `DynestyDynamic`, `NSS`
-(nested); `Emcee`, `Zeus`, `BlackJAXNUTS`, `SMC` (MCMC); `LBFGS`, `BFGS`,
-`MultiStartAdam`, `MultiStartADABelief`, `MultiStartLion`, `MultiStartProdigy`, `Drawer`
-(MLE). `NSS`, `BlackJAXNUTS`, `SMC` and the `MultiStart*` searches are JAX-native and
-need an analysis built with `use_jax=True`.
+settings (`PyAutoFit:autofit/non_linear/search/`). The roster below is generated from the
+installed release's search manifest (`python -m autofit search-manifest --json`) — regenerate
+it with PyAutoHands `autohands regenerate_search_roster --root .`, never by hand, and still
+verify against the installed stack with `dir(af)`, never from memory:
+
+<!-- search-roster:begin style=list -->
+<!-- search-manifest@1 autofit 2026.10.12.1 -->
+- **Markov chain Monte Carlo** (`mcmc`): `af.Emcee`, `af.Zeus`, `af.BlackJAXNUTS`, `af.SMC` (experimental) — example: `autofit_workspace:scripts/searches/mcmc.py`
+- **Nested sampling** (`nest`): `af.DynestyStatic`, `af.DynestyDynamic`, `af.Nautilus`, `af.NSS` (experimental) — example: `autofit_workspace:scripts/searches/nest.py`
+- **Maximum likelihood / maximum a posteriori** (`mle`): `af.Drawer`, `af.BFGS`, `af.LBFGS`, `af.MultiStartAdam`, `af.MultiStartADABelief` (experimental), `af.MultiStartLion` (experimental), `af.MultiStartProdigy` — example: `autofit_workspace:scripts/searches/mle.py`
+<!-- search-roster:end -->
+
+`NSS`, `BlackJAXNUTS`, `SMC` and the `MultiStart*` searches are JAX-native and need an
+analysis built with `use_jax=True`. Measured per-task behaviour on the toy-likelihood
+benchmark is `autofit_inference:catalogue/search_catalogue.json` at commit
+`3463aa19014b6bd83563018568f0fb4a2376f8eb` (protocol `gaussian_x3@1`): its wave 1 ranks
+nothing, so read it as coverage and failure modes per task, never as a leaderboard.
 
 Read `wiki/core/concepts/non_linear_search.md` for the decision guide; the worked
 examples are `autofit_workspace:scripts/searches/nest.py`, `mcmc.py`, `mle.py`.
