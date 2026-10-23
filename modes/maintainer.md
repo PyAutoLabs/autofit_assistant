@@ -68,15 +68,14 @@ The embedded report template/invitation remain owned by Brain.
   `skills/README.md`, `skills/start-new-project*`, `skills/contribute-upstream*`) **and
   the `af_*` generic inference skills**, the `autoassistant/` tooling (API gate, wiki-currency, benchmark
   runner), `sources.yaml`, `.github/` workflows, the harness mirrors (`.claude/`,
-  `.gemini/`), `wiki/README.md`, `wiki/project/*`, **`wiki/core/`** — because here
+  `.codex/hooks.json`), `wiki/README.md`, `wiki/project/*`, **`wiki/core/`** — because here
   `wiki/core/` teaches *statistics and inference*, not a specific science, so it is
   generic reference every domain keeps — **and `wiki/literature/`**, which ships
   near-empty *by design*: its schema files and empty index are the generic scaffold
   every domain assistant starts from (a domain *reference* like `autolens_assistant`
   instead ships a filled corpus here, so there it is domain — the seam differs).
 - **Domain-specific content** — regenerated or stubbed per clone, never copied blind:
-  the bundled Gaussian examples in `scripts/start_here/*` and the paired
-  `scripts/experimental_colab.py` / `notebooks/experimental_colab.ipynb` experiment;
+  the bundled Gaussian examples in `scripts/start_here/*`;
   `dataset/*` (the example datasets), `README.md` (science framing + example prompts),
   `hpc/*` (the example batch recipes), and `benchmarks/prompts/*` + `benchmarks/runs/*`
   + `benchmarks/RESULTS.md` (each domain writes its own prompt cards and regenerates the

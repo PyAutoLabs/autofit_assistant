@@ -34,36 +34,26 @@ written out so you can read ahead or work through them on your own.
 
 ## Setting up the assistant
 
-The assistant runs inside an **AI coding agent** — a tool that reads this repository, executes Python on your
-computer and inspects the results. That is what lets it install **PyAutoFit**, wrap your likelihood code, run
-searches and look at the plots they produce. You do not have to run anything to use it: discussing a model, choosing
-priors, planning an analysis or learning in Teacher Mode all happen inside the same agent.
+The assistant runs inside an **AI coding agent**: a tool that reads this repository, runs Python on your computer and
+inspects the results. That is what lets it install **PyAutoFit**, wrap your likelihood code, run searches and look at
+the plots they produce. You do not have to run anything to use it: discussing a model, choosing priors, planning an
+analysis or learning in Teacher Mode all happen inside the same agent.
 
-1. **Choose Claude Code or Codex.** These are the two recommended agents. Codex discovery and safety adapters have
-   focused validation; full science fits depend on the local environment — see [Claude Code](docs/setup/claude_code.md) and [Codex](docs/setup/codex_cli.md). For sustained
-   scientific work expect to pay for one of them, but how depends on your situation: a personal subscription, access
-   through your institution or team, or usage-based API billing. Check the provider's current plans rather than
-   assuming a subscription is the only route. The setup below uses the CLI; the linked smoke record describes
-   its tested coverage.
-2. **Open the assistant workspace.** Clone this repository and start the agent inside it — the instructions load
-   automatically, and the assistant installs PyAutoFit for you if it is missing:
+Claude Code and Codex are recommended. Free options and chat use are on the
+[PyAutoLabs AI options page](https://github.com/PyAutoLabs/PyAutoScientist/blob/main/AI_OPTIONS.md).
 
-   ```bash
-   git clone https://github.com/PyAutoLabs/autofit_assistant.git
-   cd autofit_assistant
-   claude        # or: codex
-   ```
+Clone this repository and start the agent inside it. The instructions load automatically, and the assistant installs
+PyAutoFit for you if it is missing:
 
-3. **Submit the starting prompt — the tour begins.** Paste the prompt at the top of this README and the assistant
-   opens the guided tour at step 1. (If you already have likelihood code, the "Bring Your Own Likelihood" prompt
-   under [Your own project](#bring-your-own-likelihood-byol) starts **BYOL mode** instead, running the same
-   workflow from your code.)
+```bash
+git clone https://github.com/PyAutoLabs/autofit_assistant.git
+cd autofit_assistant
+claude        # or: codex
+```
 
-**Experimental alternative.** [OpenCode](docs/setup/opencode_cli.md) is an open-source coding agent whose client is
-free; the model you connect it to is a separate choice with its own cost and capability, free offerings are often
-time-limited, and no provider/model configuration has yet been validated against this assistant — treat it as
-compatible, not tested. Browser chats with a GitHub connector are **no longer supported** (retired 2026-09-10; the old
-pages are archived with a notice under [`docs/archive/`](docs/archive/README.md)).
+Then paste the prompt at the top of this README and the assistant opens the guided tour at step 1. (If you already
+have likelihood code, the "Bring Your Own Likelihood" prompt under [Your own project](#bring-your-own-likelihood-byol)
+starts **BYOL mode** instead, running the same workflow from your code.)
 
 ## The tour, step by step
 
@@ -465,24 +455,6 @@ Explain what each step is doing and why as we go: composing the model, choosing
 the priors, picking the non-linear search, and how to read the posterior. So I
 come away understanding the workflow, not just the commands.
 ```
-
-## Experimental: Google Colab + Gemini
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PyAutoLabs/autofit_assistant/blob/main/notebooks/experimental_colab.ipynb)
-
-Two cells in a fresh CPU runtime: one installs the assistant's PyAutoFit stack,
-one prints the context to copy into Colab's Gemini sidebar — the safety
-invariants, teacher and BYOL modes, and the skills for composing a model,
-wrapping a likelihood, running a search, plotting a fit and debugging one that
-fails. After that the notebook is your sandbox: write your own cells, paste your
-own likelihood, and print any other assistant file on demand with `show(...)`.
-
-This is experimental: cloning the assistant does not automatically load its
-instructions into Gemini. Follow the notebook's explicit context step. Gemini
-availability depends on your Google account and Colab settings. Save a notebook
-copy and download anything you want to keep before the runtime resets; this is a
-small browser experiment, with larger inference projects continuing in the full
-assistant.
 
 ## License
 
