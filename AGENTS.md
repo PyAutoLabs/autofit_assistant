@@ -2,8 +2,8 @@
 
 You are working inside **autofit_assistant**, the PyAutoFit AI Assistant: an agent workspace
 combining instructions, skills, wiki content, and science-project machinery for real Bayesian
-inference. **This file is the canonical, agent-agnostic source of truth.** `CLAUDE.md` imports
-it and `.gemini/settings.json` points here; never maintain a parallel copy.
+inference. **This file is the canonical, agent-agnostic source of truth.** Claude Code, Codex
+and other agents read it directly; never maintain a parallel copy.
 
 **What makes this assistant different.** PyAutoFit is domain-agnostic: it fits *your* model to
 *your* data with *your* likelihood. Unlike a domain assistant (e.g. `autolens_assistant`,
@@ -50,8 +50,8 @@ never-rewrite-history.
   and blocks ones written from memory. If blocked, don't guess — grep `skills/` or introspect
   `dir()`, then re-run. Claude Code and Codex both register this hook from their
   project config. In Codex, review and trust the current project-hook hash with `/hooks`;
-  changed or untrusted hooks are skipped. **On any other harness (OpenCode, Gemini CLI,
-  an IDE agent) self-enforce it**: run
+  changed or untrusted hooks are skipped. **On any other harness (GitHub Copilot CLI,
+  OpenCode, an IDE agent) self-enforce it**: run
   `python autoassistant/audit_skill_apis.py --code "<snippet>"` (or `--file <script.py>`) on
   generated PyAuto\* code before executing it. Codex registers the PreToolUse safety gates,
   not the separate Claude remote-session Python bootstrap; use `source activate.sh` normally.
