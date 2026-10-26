@@ -81,8 +81,9 @@ The embedded report template/invitation remain owned by Brain.
   + `benchmarks/RESULTS.md` (each domain writes its own prompt cards and regenerates the
   report from empty runs).
 - **Mixed** — copied then adapted (named substitutions, then domain tuning): `config/*`,
-  `llms.txt` / `llms-full.txt`, and `benchmarks/README.md` (generic protocol, domain
-  table).
+  `llms.txt` / `llms-full.txt`, `benchmarks/README.md` (generic protocol, domain
+  table), and `colab/contexts.yaml` (preface and rules shape generic, skill mapping
+  domain; a newborn remaps it to its own skills and workspace).
 
 Generated `.codex/skills/*/SKILL.md` wrappers are **domain** for cloning: their
 namespace and targets belong to this assistant, so they must never be copied
