@@ -1,0 +1,169 @@
+# Colab Gemini instructions — which assistant skills travel with which notebook.
+#
+# Colab's Gemini sidebar cannot read this repository, but it honours per-notebook
+# instructions stored in the notebook's metadata (`metadata.colab.aiContexts` +
+# `selectedAiContext`). At release time PyAutoHands (`autohands/build_util.py`,
+# `inject_gemini_instructions`) writes one such instruction into every generated
+# autofit_workspace and HowToFit notebook, assembled from this file:
+#
+#     preface  +  rules (with {notebook} and {repo} filled in)  +  each mapped skill's text
+#
+# The skills stay here (single source); notebooks carry a release-time snapshot only.
+#
+# Matching
+#   Each notebook is named "<repo>/<path relative to the repo root>", e.g.
+#   "autofit_workspace/notebooks/cookbooks/model.ipynb" or
+#   "HowToFit/notebooks/chapter_1_introduction/tutorial_1_models.ipynb".
+#   `match` is an fnmatch glob over that name (`*` also crosses `/`).
+#   The FIRST entry in `contexts` whose glob matches wins, so entries are written
+#   most specific first. A notebook no entry matches gets `default`.
+#
+# Limits
+#   Every assembled context must stay within 20,000 characters. Generation fails,
+#   naming the entry, rather than truncating; `python -m autoassistant.colab_contexts
+#   check` (CI: .github/workflows/colab-contexts.yml) checks every entry here first.
+#   Skills listed under `never_map` (maintainer and agent-infrastructure skills that
+#   only make sense with the repository checked out) may not be mapped.
+#
+# Upkeep: when a skill is added or renamed, or the workspace gains a folder, update
+# the entries here and rerun the check; `autohands gemini_context report` lists the
+# notebooks that only reach `default`.
+
+name: PyAutoFit assistant
+
+# The project key this assistant's own notebooks would be stamped with. It sets the
+# instruction's id, so it matches the id PyAutoHands gives autofit_workspace.
+project: autofit
+
+preface: |
+  These instructions were prepared by the PyAutoFit assistant
+  (https://github.com/PyAutoLabs/autofit_assistant). The reference material at the
+  end was written for a coding agent working inside a checkout of that repository.
+  Here in Google Colab there is no checkout: ignore any step about repository files,
+  hooks, `scripts/` or `wiki/` paths, saving scripts, or terminal tools, and use the
+  PyAutoFit knowledge in that material to help with this notebook.
+
+rules: |
+  You are helping someone work through a PyAutoFit notebook ({notebook} in {repo}).
+  Explain what it does and help them adapt it to their own model and data.
+
+  Core rules:
+  1. Stay with this notebook's API. Only use PyAutoFit calls that appear in the
+     notebook or in the reference material below. Never invent class names, functions
+     or arguments. If you are unsure whether something exists, say so and suggest
+     checking with `dir()` or the PyAutoFit docs (https://pyautofit.readthedocs.io).
+  2. Real data needs a look first. Before helping fit the user's real data, ask them to
+     plot it (or print a numerical summary when it cannot be plotted) and ask one
+     question about known artefacts, outliers or selection effects: unmodelled data
+     problems are the most common source of biased inference. Simulated data from the
+     workspace is exempt.
+  3. Their likelihood code is theirs. When wrapping the user's likelihood or model code
+     in an `Analysis` class, never silently change its numerics (no re-parametrisation,
+     added guards or "fixes"). If it looks wrong, say so and let them decide.
+  4. Never claim a fit or a cell ran, or what it returned. Only the user's own outputs
+     tell you that; ask them to share what they see.
+  5. When the answer depends on something you do not know (their data, their goal, what
+     a cell printed), ask one focused question rather than guessing.
+  6. For multi-step projects (their own model and data, a sample of datasets, a paper's
+     analysis), point them to the PyAutoFit assistant
+     https://github.com/PyAutoLabs/autofit_assistant, which runs in Claude Code or Codex
+     with its full skills and safety checks.
+
+never_map:
+  - _bootstrap_skill
+  - _style
+  - af_audit_skill_apis
+  - af_ingest_paper
+  - af_inspect_results_mcp
+  - af_refresh_api_docs
+  - af_setup_environment
+  - af_to_notebook
+  - af_update_wiki
+  - contribute-upstream
+  - feedback
+  - start-new-project
+
+default:
+  skills: [af_wrap_likelihood, af_compose_model]
+
+contexts:
+
+  # --- autofit_workspace: cookbooks ----------------------------------------------
+  - match: autofit_workspace/notebooks/cookbooks/analysis*
+    skills: [af_wrap_likelihood, af_custom_analysis]
+  - match: autofit_workspace/notebooks/cookbooks/configs*
+    skills: [af_configure_search, af_run_search]
+  - match: autofit_workspace/notebooks/cookbooks/latent_variables*
+    skills: [af_custom_analysis, af_load_results]
+  - match: autofit_workspace/notebooks/cookbooks/multi_level_model*
+    skills: [af_compose_model, af_custom_analysis]
+  - match: autofit_workspace/notebooks/cookbooks/multiple_datasets*
+    skills: [af_custom_analysis, af_wrap_likelihood]
+  - match: autofit_workspace/notebooks/cookbooks/model*
+    skills: [af_compose_model, af_wrap_likelihood]
+  - match: autofit_workspace/notebooks/cookbooks/result*
+    skills: [af_load_results, af_plot_fit]
+  - match: autofit_workspace/notebooks/cookbooks/samples*
+    skills: [af_load_results, af_plot_fit]
+  - match: autofit_workspace/notebooks/cookbooks/search*
+    skills: [af_configure_search, af_run_search]
+
+  # --- autofit_workspace: features -----------------------------------------------
+  - match: autofit_workspace/notebooks/features/search_chaining*
+    skills: [af_chain_searches, af_run_search]
+  - match: autofit_workspace/notebooks/features/expectation_propagation*
+    skills: [af_compose_model, af_custom_analysis, af_chain_searches]
+  - match: autofit_workspace/notebooks/features/graphical_models*
+    skills: [af_compose_model, af_custom_analysis, af_chain_searches]
+  - match: autofit_workspace/notebooks/features/model_comparison*
+    skills: [af_load_results, af_configure_search]
+  - match: autofit_workspace/notebooks/features/search_grid_search*
+    skills: [af_configure_search, af_simulate_dataset]
+  - match: autofit_workspace/notebooks/features/sensitivity_mapping*
+    skills: [af_simulate_dataset, af_configure_search]
+  - match: autofit_workspace/notebooks/features/interpolate*
+    skills: [af_load_results, af_chain_searches]
+  - match: autofit_workspace/notebooks/features/shared_analysis_state*
+    skills: [af_custom_analysis, af_wrap_likelihood]
+
+  # --- autofit_workspace: overview, plotting, searches, simulators, projects ------
+  - match: autofit_workspace/notebooks/overview/overview_2_scientific_workflow*
+    skills: [af_adapt_to_domain, af_wrap_likelihood]
+  - match: autofit_workspace/notebooks/overview/overview_3_statistical_methods*
+    skills: [af_configure_search, af_chain_searches]
+  - match: autofit_workspace/notebooks/overview/*
+    skills: [af_wrap_likelihood, af_compose_model]
+  - match: autofit_workspace/notebooks/plot/*
+    skills: [af_plot_fit, af_load_results]
+  - match: autofit_workspace/notebooks/searches/start_point*
+    skills: [af_configure_search, af_chain_searches]
+  - match: autofit_workspace/notebooks/searches/*
+    skills: [af_configure_search, af_run_search]
+  - match: autofit_workspace/notebooks/simulators/*
+    skills: [af_simulate_dataset, af_compose_model]
+  - match: autofit_workspace/projects/*
+    skills: [af_wrap_likelihood, af_compose_model]
+
+  # --- HowToFit ------------------------------------------------------------------
+  - match: HowToFit/start_here.ipynb
+    skills: [af_wrap_likelihood, af_compose_model]
+  - match: HowToFit/notebooks/chapter_1_introduction/tutorial_1_models*
+    skills: [af_compose_model, af_simulate_dataset]
+  - match: HowToFit/notebooks/chapter_1_introduction/tutorial_2_fitting_data*
+    skills: [af_wrap_likelihood, af_compose_model]
+  - match: HowToFit/notebooks/chapter_1_introduction/tutorial_3_non_linear_search*
+    skills: [af_configure_search, af_run_search]
+  - match: HowToFit/notebooks/chapter_1_introduction/tutorial_4_why_modeling_is_hard*
+    skills: [af_debug_fit_failure, af_configure_search]
+  - match: HowToFit/notebooks/chapter_1_introduction/tutorial_5_results_and_samples*
+    skills: [af_load_results, af_plot_fit]
+  - match: HowToFit/notebooks/chapter_1_introduction/tutorial_6_gradients*
+    skills: [af_configure_search, af_run_search]
+  - match: HowToFit/notebooks/chapter_1_introduction/tutorial_8_scientific_workflow*
+    skills: [af_adapt_to_domain, af_wrap_likelihood]
+  - match: HowToFit/notebooks/chapter_1_introduction/*
+    skills: [af_wrap_likelihood, af_compose_model]
+  - match: HowToFit/notebooks/chapter_advanced/*
+    skills: [af_compose_model, af_custom_analysis, af_chain_searches]
+  - match: HowToFit/notebooks/simulators/*
+    skills: [af_simulate_dataset, af_compose_model]
