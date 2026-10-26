@@ -27,7 +27,8 @@
 #
 # Upkeep: when a skill is added or renamed, or the workspace gains a folder, update
 # the entries here and rerun the check; `autohands gemini_context report` lists the
-# notebooks that only reach `default`.
+# notebooks that only reach `default`. The maintainer skill
+# skills/af_refresh_colab_contexts.md walks the whole refresh.
 
 name: PyAutoFit assistant
 
@@ -76,6 +77,7 @@ never_map:
   - af_ingest_paper
   - af_inspect_results_mcp
   - af_refresh_api_docs
+  - af_refresh_colab_contexts
   - af_setup_environment
   - af_to_notebook
   - af_update_wiki
@@ -141,8 +143,6 @@ contexts:
     skills: [af_configure_search, af_run_search]
   - match: autofit_workspace/notebooks/simulators/*
     skills: [af_simulate_dataset, af_compose_model]
-  - match: autofit_workspace/projects/*
-    skills: [af_wrap_likelihood, af_compose_model]
 
   # --- HowToFit ------------------------------------------------------------------
   - match: HowToFit/start_here.ipynb

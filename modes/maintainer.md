@@ -31,6 +31,7 @@ Use the existing skills, not new docs:
 - Authoring or evolving a skill → [`skills/_bootstrap_skill.md`](../skills/_bootstrap_skill.md).
 - Regenerating `wiki/core/` against pinned sources → `af_update_wiki`.
 - API gate / version baseline → [`skills/af_audit_skill_apis.md`](../skills/af_audit_skill_apis.md).
+- Colab Gemini skill map (`colab/contexts.yaml`) → [`skills/af_refresh_colab_contexts.md`](../skills/af_refresh_colab_contexts.md).
 
 ## Relationship to autolens_assistant (the reference implementation)
 
