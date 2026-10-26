@@ -64,6 +64,9 @@ Brain checkout and registered workspace body map.
   provenance and citation-path checks.
 - [`af_refresh_api_docs.md`](./af_refresh_api_docs.md) — the maintenance umbrella:
   symbol audit + wiki refresh + skill-recipe sweep in one pass.
+- [`af_refresh_colab_contexts.md`](./af_refresh_colab_contexts.md) — refresh
+  `colab/contexts.yaml`, the map of which skills travel with which `autofit_workspace` /
+  HowToFit Colab notebook: run the coverage report, scan its gaps, open a PR.
 - [`af_update_wiki.md`](./af_update_wiki.md) — refresh `wiki/core/` pages whose pinned
   source commits moved.
 
