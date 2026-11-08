@@ -20,6 +20,7 @@ grows over weeks is the normal case, not a failure.
 | What is learned | Where it lives | Written by |
 |---|---|---|
 | The field, data shapes, conventions, goals | `wiki/project/profile.md` (led by its **Scientific domain** section) | this skill, incrementally |
+| Column meanings, units, selection cuts | `profile.md` "Data shapes" + a dated `wiki/project/` entry | `af_load_data`, per dataset |
 | The field's literature | `wiki/literature/` (concepts, entities, sources, BibTeX) | `af_ingest_paper`, per paper |
 | The likelihood connection | an `Analysis` wrapper + `profile.md` "Likelihood & model code" | `af_wrap_likelihood` |
 | The standard model + priors | a composed model (script/JSON) + optionally `config/priors/` defaults | `af_compose_model` |
@@ -35,7 +36,9 @@ Open with the smallest set that unlocks work; volunteer-first, never interrogate
 1. **The field, in their words** — and the two or three analyses they run most.
 2. **The data** — formats, units, sizes, where it lives, known pathologies (the
    data-inspection gate will ask about these per-dataset anyway; here it's the general
-   shape).
+   shape). When a real file is in hand, [`af_load_data`](./af_load_data.md) owns the
+   detail: column meanings and units, every selection cut with its justification, and
+   the profile's "Data shapes" record.
 3. **The starting material** — papers (PDFs/arXiv IDs)? Existing likelihood code? A
    standard parametrisation? Whichever exists picks the first channel below.
 4. **The goal** — learning the workflow (→ teacher-mode pacing) or production analysis?
