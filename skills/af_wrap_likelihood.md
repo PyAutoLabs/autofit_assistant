@@ -35,6 +35,9 @@ Four things decide the wrapper's shape — get them before writing code:
    order? Named arguments? An object? What does it return — log likelihood, chi-squared
    (→ `-0.5 * chi2` plus the noise term, see below), or something else?
 2. **The data.** What arrays/objects does it need at call time, and how are they loaded?
+   If loading isn't settled yet — column meanings, units, which rows are kept — run
+   [`af_load_data`](./af_load_data.md) first: every selection cut is a scientific
+   decision it states back and records, and the data-inspection gate follows it.
 3. **Log or not, and complete or not.** Is the returned quantity already a *log*
    likelihood, and does it include the noise normalisation term? (For model comparison
    the constant terms matter — [[../wiki/core/concepts/evidence_and_model_comparison]].)

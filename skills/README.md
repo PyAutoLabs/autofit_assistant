@@ -98,6 +98,9 @@ Brain checkout and registered workspace body map.
 
 - [`af_adapt_to_domain.md`](./af_adapt_to_domain.md) — the orchestrator: interview,
   drive the three adaptation channels, record everything durable in the profile.
+- [`af_load_data.md`](./af_load_data.md) — load the user's data (CSV / FITS / HDF5 /
+  npy / JSON) into arrays, name columns and units, and surface and record every
+  selection cut with its justification before the data-inspection gate.
 - [`af_ingest_paper.md`](./af_ingest_paper.md) — add a verified paper from the user's
   field to the literature record (project-local or this clone's wiki).
 - [`af_wrap_likelihood.md`](./af_wrap_likelihood.md) — wrap the user's existing

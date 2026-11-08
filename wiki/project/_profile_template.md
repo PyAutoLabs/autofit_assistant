@@ -34,6 +34,18 @@ assistant should respect. Examples:
 
 _unrecorded_
 
+## Data shapes
+
+The kinds of data the user brings: format (CSV / FITS / HDF5 / npy / JSON), what each
+column means and its units, and the uncertainty convention (σ, variance or covariance).
+Written by `af_load_data`; per-dataset selection cuts go in dated `wiki/project/`
+entries, not here. Example:
+
+- "Pantheon+ CSV: `z_hd` (dimensionless), `mu` (mag), `mu_err_diag` (1σ mag, diagonal);
+  `is_calibrator` flag."
+
+_unrecorded_
+
 ## Statistics background
 
 One or two sentences on the user's prior exposure to Bayesian inference. Examples:

@@ -364,9 +364,10 @@ names and units — precisely why step 1 used a plain Python class rather than a
 and want to infer, plus where their data lives and in what format. Run the `af_adapt_to_domain`
 interview lightly; write `wiki/project/profile.md` and `state.md` per `AGENTS.md`. **Restate their
 problem in inference terms in one paragraph** — parameters, data, the shape of the likelihood — and
-ask them to correct it; that paragraph is the contract for everything below. Any selection cut made
-while loading their data (a redshift floor, a quality flag) is a scientific decision: state it back
-and record it.
+ask them to correct it; that paragraph is the contract for everything below. Loading their data goes
+through [`af_load_data`](../skills/af_load_data.md): column meanings and units confirmed, and any
+selection cut (a redshift floor, a quality flag) stated back with its justification and recorded in
+`wiki/project/` — before the data-inspection gate fires.
 
 **P1 — Model.** Their parametrisation, in words, becomes `af.Model` / `af.Collection` via
 `af_compose_model`; show `model.info` and check the parameter count is what they expected. Then step
