@@ -1,14 +1,14 @@
 {
   "_comment": "API baseline for autofit_assistant - see autoassistant/audit_skill_apis.py and skills/af_audit_skill_apis.md. Regenerate with --write-baseline.",
-  "generated": "2026-11-07",
+  "generated": "2026-11-09",
   "versions": {
-    "autonerves": "2026.11.7.1",
-    "autofit": "2026.11.7.1"
+    "autonerves": "2026.11.9.1",
+    "autofit": "2026.11.9.1"
   },
   "api_surface": {
     "autonerves": {
-      "hash": "7bd5c3b0830f6a87158e90563cd2b65d3484482df75c125376506c160ce1074e",
-      "n_symbols": 32
+      "hash": "5e79852fa8819365f84cb28ccce91b5b042b41a5c2bc75b39062cba53e60c349",
+      "n_symbols": 33
     },
     "autofit": {
       "hash": "a08f9be107fcf906794137f3599edd575f9d5226719305e8a5ce0b9e616c4f61",
